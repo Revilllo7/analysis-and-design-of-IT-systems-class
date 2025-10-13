@@ -53,6 +53,10 @@ public class LogoutService implements LogoutHandler {
             return;
         }
         Optional<User> userOptional;
+        if (refreshToken == null) {
+            response.setStatus(400);
+            return;
+        }
         userOptional = userRepository.findByRefreshToken(refreshToken.getValue());
         if (userOptional.isEmpty()) {
             String username = jwtService.extractUsername(authHeader.substring(7));

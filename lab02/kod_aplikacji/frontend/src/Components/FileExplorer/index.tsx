@@ -214,6 +214,16 @@ const CustomTreeItem = React.forwardRef(function CustomTreeItem(
 ) {
     const {id, itemId, label, disabled, children, ...other} = props;
 
+    // const {
+    //     getRootProps,
+    //     getContentProps,
+    //     getIconContainerProps,
+    //     getLabelProps,
+    //     getGroupTransitionProps,
+    //     status,
+    //     publicAPI,
+    // } = useTreeItem2({id, itemId, children, label, disabled, rootRef: ref});
+
     const {
         getRootProps,
         getContentProps,
@@ -222,14 +232,22 @@ const CustomTreeItem = React.forwardRef(function CustomTreeItem(
         getGroupTransitionProps,
         status,
         publicAPI,
-    } = useTreeItem2({id, itemId, children, label, disabled, rootRef: ref});
+    } = useTreeItem2({id, itemId, children, label, disabled, rootRef: ref}) as unknown as {
+        getRootProps: (...args: any[]) => any;
+        getContentProps: (...args: any[]) => any;
+        getIconContainerProps: (...args: any[]) => any;
+        getLabelProps: (...args: any[]) => any;
+        getGroupTransitionProps: (...args: any[]) => any;
+        status: any;
+        publicAPI: { getItem: (id: string) => TreeViewBaseItem<ExtendedTreeItemProps> | null | undefined };
+    };
 
     const item = publicAPI.getItem(itemId);
     const expandable = isExpandable(children);
     let icon;
     if (expandable) {
         icon = FolderRounded;
-    } else if (item.fileType) {
+    } else if (item && item.fileType) {
         icon = getIconFromFileType(item.fileType);
     } else if (!expandable) {
         icon = FolderOpenRounded;

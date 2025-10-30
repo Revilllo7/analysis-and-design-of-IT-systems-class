@@ -1,6 +1,8 @@
 ## Zadanie 2: Przykład z pracy dyplomowej (czytelnia)
-1. Wymagania
-2. Struktura diagramu
+> 1. Wymagania
+> 2. Struktura diagramu
+
+<br><br>
 
 # Wymagania funkcjonalne:
 Określenie wymagań funkcjonalnych to bardzo ważny etap podczas powstawania różnego rodzaju oprogramowania. Definiują one w jaki sposób będzie działał tworzony system i jak będzie się on zachowywał. Przedstawia cechy i funkcje, które powinna posiadać aplikacja, tak aby potrzeby i oczekiwania użytkownika zostały spełnione w jak największym stopniu. W uproszczeniu można przyjąć, że są to cechy produktu, które są wykrywane przez jego użytkownika. Przykładowo, może to być przycisk na stronie pełniący konkretną, określoną funkcję. System taki nie będzie mógł działać, jeśli nie będą spełnione wszystkie określone wcześniej wymagania funkcjonalne.

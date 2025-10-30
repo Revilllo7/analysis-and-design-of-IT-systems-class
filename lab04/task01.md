@@ -2,6 +2,8 @@
 > 1. Wymagania
 > 2. Struktura diagramu
 
+<br>
+
 ![Przykład diagramu od prowadzącego](resources/teacher_example.png)
 
 <br><br>
@@ -62,6 +64,8 @@ Może wykonać następujące czynności:
 | `<<include>>` (zawiera) | Jeden przypadek użycia zawsze wywołuje inny, bo jest jego częścią. | „Złóż zlecenie” → „Kontroluj poprawność zlecenia” |
 | `<<extend>>` (rozszerza) | Przypadek użycia czasami wywołuje inny (opcjonalnie, np. zależnie od sytuacji). | „Złóż zlecenie” → „Kalkuluj stopę zwrotu” |
 | `Dependency` (zależność) | Pokazuje wpływ jednego elementu na inny, często między systemami. | „System GPW” ↔ „Modyfikuj zlecenie” |
+
+<br><br>
 
 # Podsumowanie
 Diagram przypadków użycia przedstawia kompleksowy obraz interakcji między użytkownikami a systemem obsługi zleceń inwestycyjnych. Pokazuje, jakie funkcje są dostępne dla różnych aktorów oraz jak te funkcje są ze sobą powiązane poprzez różne typy relacji. Dzięki temu można lepiej zrozumieć wymagania systemu oraz sposób jego działania. Diagram ten może służyć jako podstawa do dalszego projektowania systemu, implementacji oraz testowania jego funkcjonalności lub jako dokumentacja dla zespołu deweloperskiego.

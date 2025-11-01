@@ -1,0 +1,277 @@
+\documentclass[12pt,a4paper]{article}
+
+% ------------------ Pakiety ------------------
+
+\usepackage{multicol}
+\usepackage[polish]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{polski}
+\usepackage{lmodern}
+\usepackage{setspace}
+\usepackage{titlesec}
+\usepackage{array}
+\usepackage[utf8]{inputenc}
+\usepackage{polski}
+\usepackage{lmodern}
+\usepackage{float}
+
+
+% ------------------ Ustawienia ------------------
+
+\geometry{margin=2.5cm}
+\setstretch{1.3}
+\titleformat{\section}{\large\bfseries}{\thesection.}{1em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection.}{1em}{}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    urlcolor=blue,
+    pdftitle={Diagram przypadków użycia — modelowanie w UML}
+}
+
+% ------------------ Dane ------------------
+
+\title{Uniwersytet Gdański
+Wydział Matematyki, Fizyki i Informatyki
+Instytut Informatyki}
+\author{Oliver Gruba, Maciej Nasiadka}
+
+\begin{document}
+\maketitle
+\begin{table}
+    \centering
+    \begin{tabular}{|>{\raggedright\arraybackslash}p{0.5\linewidth}|>{\raggedright\arraybackslash}p{0.4\linewidth}|}\hline
+         Imię i Nazwisko (nr indeksu)& Oliver Gruba (292583) \\
+         & Maciej Nasiadka (292574)\\\hline
+         Nazwa uczelni& Uniwersytet Gdański\\\hline
+         Kierunek& Informatyka (profil praktyczny)\\\hline
+         Prowadzący& dr inż. Stanisław Witkowski\\\hline
+         Specjalność& —\\\hline
+         Nazwa ćwiczenia& Diagram przypadków użycia — modelowanie w UML
+UML\\\hline
+         Numer sprawozdania& 2\\\hline
+         Data zajęć& 23.10.2025\\\hline
+         Data oddania& 05.11.2025\\\hline
+         Miejscę na ocenę& \\ \hline
+    \end{tabular}
+\end{table}
+
+\clearpage
+
+% ------------------ Dokument ------------------
+
+\tableofcontents
+\newpage
+
+\section{Zadanie 1: Przykład prowadzącego}
+
+\subsection{Opis systemu}
+Diagram przedstawia relacje między użytkownikami (aktorami) a funkcjonalnościami systemu (przypadkami użycia). W tym przypadku dotyczy to systemu obsługi zleceń w GPW (Giełdzie Papierów Wartościowych) lub podobnego systemu finansowego, gdzie użytkownik może składać i modyfikować zlecenia inwestycyjne, przeglądać ich stan oraz wyniki sesji.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{resources/teacher_example.png}
+    \caption{Przykład diagramu od prowadzącego}
+\end{figure}
+
+\subsection{Wymagania}
+System ma umożliwić użytkownikom przeglądanie, składanie i ewentualne modyfikowanie zleceń inwestycyjnych na Giełdzie Papierów Wartiościowych.\\
+System powinien automatycznie kontrolować poprawność składanych zleceń oraz komunikować się z systemem Giełdy Papierów Wartościowych w celu realizacji zleceń lub ich ewentualnej modyfikacji.\\
+Użytkownik powinien mieć dostęp do podglądu własnych wyników sesji, podglądu własnych zleceń złożonych, podglądu własnego stanu rachunku oraz wyliczenia stopy procentowej zwrotu.\\
+Pracownik DM powinien mieć możliwość zarządzania kontami klientów oraz możliwość generowania raportów.
+
+\subsection{Struktura diagramu}
+Diagram przypadków użycia przedstawia strukturę interakcji pomiędzy trzema różnymi aktorami: Użytkownikiem, Pracownikiem Domu Maklerskiego oraz Systemem Giełdy Papierów Wartościowych. Aktorzy korzystają z różnych przypadków użycia reprezentujących funkcjonalności systemu. Relacje typu \textit{include} oznaczają, że dana czynność zawsze obejmuje inną (np. \enquote{modyfikuj zlecenie} zawsze obejmuje \enquote{kontroluj poprawność zlecenia}). Relacje typu \textit{extend} wskazują na możliwość rozszerzenia głównego przypadku o dodatkowe działania (np. \enquote{modyfikuj zlecenie} może być rozszerzone o \enquote{pokaż zlecenia oczekujące}). Diagram odzwierciedla logiczną strukturę funkcji systemu oraz pokazuje, które elementy są współdzielone lub zależne między aktorami.
+
+\subsection{Opis elementów diagramu}
+\subsubsection*{Aktorzy}
+\begin{itemize}
+    \item \textbf{Użytkownik}: podstawowy aktor korzystający z systemu do składania i zarządzania zleceniami inwestycyjnymi (np. inwestor indywidualny). Może wykonać następujące czynności:
+    \begin{itemize}
+        \item Przeglądać zlecenia
+        \item Składać zlecenia
+        \item Modyfikować zlecenia
+        \item Przeglądać wyniki sesji
+        \item Przeglądać stan rachunku
+        \item Wyliczać stopę procentową zwrotu
+    \end{itemize}
+    \item \textbf{Pracownik Domu Maklerskiego}: aktor odpowiedzialny za zarządzanie kontami klientów oraz generowanie raportów. Może wykonać następujące czynności:
+    \begin{itemize}
+        \item Zarządzać kontami klientów
+        \item Generować raporty
+    \end{itemize}
+    \item \textbf{System Giełdy Papierów Wartościowych}: zewnętrzny system, z którym komunikuje się nasz system w celu realizacji lub modyfikacji zleceń. Jest powiązany z przypadkiem użycia \enquote{Modyfikuj zlecenie}.
+\end{itemize}
+
+\subsection{Przypadki użycia (Use Cases)}
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{0.35\linewidth}|p{0.55\linewidth}|}\hline
+        \textbf{Przypadek użycia} & \textbf{Znaczenie} \\ \hline
+        Złóż zlecenie & Użytkownik wprowadza nowe zlecenie do systemu. \\ \hline
+        Kontroluj poprawność zlecenia (\texttt{<<include>>}) & System automatycznie sprawdza, czy zlecenie jest poprawne (np. dane, format, limity). \\ \hline
+        Kalkuluj stopę zwrotu (\texttt{<<extend>>}) & Użytkownik może wyliczyć zwrot z inwestycji jako rozszerzenie procesu składania zlecenia. \\ \hline
+        Przeglądaj wyniki sesji & Użytkownik analizuje rezultaty notowań. \\ \hline
+        Pokaż stan rachunku & Wyświetlenie aktualnego salda i wartości portfela. \\ \hline
+        Pokaż zlecenia złożone / oczekujące & Użytkownik ma wgląd w swoje aktywne i historyczne zlecenia. \\ \hline
+        Modyfikuj zlecenie & Użytkownik (lub system) może zmienić parametry złożonego zlecenia. \\ \hline
+        Zarządzaj kontem klienta & Pracownik DM ma dostęp administracyjny do kont klientów. \\ \hline
+        Generuj raport & Tworzenie raportów z działania systemu lub kont klientów. \\ \hline
+    \end{tabular}
+\end{table}
+
+\subsection{Typy relacji na diagramie}
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{0.18\linewidth}|p{0.45\linewidth}|p{0.3\linewidth}|}\hline
+        \textbf{typ relacji} & \textbf{opis} & \textbf{Przykład} \\ \hline
+        Association (asocjacja) & Linia łącząca aktora z przypadkiem użycia – pokazuje, kto korzysta z danej funkcji. & \enquote{Użytkownik} $\rightarrow$ \enquote{Złóż zlecenie} \\ \hline
+        \texttt{<<include>>} (zawiera) & Jeden przypadek użycia zawsze wywołuje inny, bo jest jego częścią. & \enquote{Złóż zlecenie} $\rightarrow$ \enquote{Kontroluj poprawność zlecenia} \\ \hline
+        \texttt{<<extend>>} (rozszerza) & Przypadek użycia czasami wywołuje inny (opcjonalnie, np. zależnie od sytuacji). & \enquote{Złóż zlecenie} $\rightarrow$ \enquote{Kalkuluj stopę zwrotu} \\ \hline
+        Dependency (zależność) & Pokazuje wpływ jednego elementu na inny, często między systemami. & \enquote{System GPW} $\leftrightarrow$ \enquote{Modyfikuj zlecenie} \\ \hline
+    \end{tabular}
+\end{table}
+
+\subsection{Podsumowanie}
+Diagram przypadków użycia przedstawia kompleksowy obraz interakcji między użytkownikami a systemem obsługi zleceń inwestycyjnych. Pokazuje, jakie funkcje są dostępne dla różnych aktorów oraz jak te funkcje są ze sobą powiązane poprzez różne typy relacji. Dzięki temu można lepiej zrozumieć wymagania systemu oraz sposób jego działania. Diagram ten może służyć jako podstawa do dalszego projektowania systemu, implementacji oraz testowania jego funkcjonalności lub jako dokumentacja dla zespołu deweloperskiego.
+
+\section{Zadanie 2: Przykład z pracy dyplomowej (czytelnia)}
+
+\subsection{Wymagania funkcjonalne}
+Określenie wymagań funkcjonalnych to bardzo ważny etap podczas powstawania różnego rodzaju oprogramowania. Definiują one w jaki sposób będzie działał tworzony system i jak będzie się on zachowywał. Przedstawia cechy i funkcje, które powinna posiadać aplikacja, tak aby potrzeby i oczekiwania użytkownika zostały spełnione w jak największym stopniu. W uproszczeniu można przyjąć, że są to cechy produktu, które są wykrywane przez jego użytkownika. Przykładowo, może to być przycisk na stronie pełniący konkretną, określoną funkcję. System taki nie będzie mógł działać, jeśli nie będą spełnione wszystkie określone wcześniej wymagania funkcjonalne.
+
+Na podstawie analizy istniejących rozwiązań bibliotecznych wybrano najważniejsze cechy, które powinna posiadać tworzona aplikacja. Cechy te zostały podzielone ze względu na stan zalogowania użytkownika oraz jego rolę w systemie.
+
+\subsubsection*{Dla użytkownika niezalogowanego system umożliwia}
+\begin{itemize}
+    \item zarejestrowanie się i stworzenie konta podając imię, nazwisko, unikalny adres e-mail oraz hasło spełniające wymogi bezpieczeństwa
+    \item zalogowanie się do systemu za pomocą adresu e-mail oraz hasła podanego przy rejestracji.
+\end{itemize}
+
+\subsubsection*{Dla użytkownika zalogowanego system umożliwia}
+\begin{itemize}
+    \item przeglądanie materiałów bibliotecznych (książki, czasopisma, prace dyplomowe) w formie papierowej udostępnione do wypożyczenia.
+    \item przeglądanie materiałów bibliotecznych w formie cyfrowej udostępnione do pobrania.
+    \item przeglądanie materiałów bibliotecznych w formie papierowej aktualnie niedostępnych (wypożyczonych przez innych użytkowników).
+    \item filtrowanie katalogu stosując kryteria: autor, tytuł, wydawca lub kategoria. Kryteria filtrowania powinny móc być zastosowane osobno lub kilka jednocześnie.
+    \item zarezerwowanie materiałów bibliotecznych dostępnych do wypożyczenia.
+    \item prolongowanie aktualnie trwającego wypożyczenia.
+    \item pobranie materiału bibliotecznego w formie cyfrowej dostępnego do pobrania.
+    \item dodanie za pomocą formularza nowych rekordów do katalogu (bazy danych) materiałów bibliotecznych wymagających zaakceptowania przez administratora.
+    \item dodanie autora do bazy danych za pomocą formularza.
+    \item dodanie wydawnictwa do bazy danych za pomocą formularza.
+    \item otrzymywanie powiadomień o wydarzeniach związanych z wypożyczeniami lub materiałami bibliotecznymi (zaakceptowanie lub odrzucenie dodanego materiału bibliotecznego, zaakceptowanie lub odrzucenie wypożyczenia, przypomnienie o zbliżającym się terminie zwrotu materiału, przypomnienie o upływie terminie zwrotu materiału).
+    \item oznaczanie powiadomień jako odczytane.
+    \item przeglądanie trwających, oczekujących, zakończonych oraz odrzuconych wypożyczeń.
+    \item wylogowanie się z systemu.
+\end{itemize}
+
+\subsubsection*{Dla użytkownika administratora system umożliwia}
+\begin{itemize}
+    \item przeglądanie materiałów bibliotecznych oczekujących na zatwierdzenie.
+    \item zaakceptowanie lub odrzucenie oczekującego materiału bibliotecznego.
+    \item przeglądanie trwających lub zakończonych wypożyczeń materiałów bibliotecznych wszystkich użytkowników.
+    \item filtrowanie wypożyczeń użytkowników według ich imienia i nazwiska.
+    \item wysyłanie powiadomień przypominających o terminie zwrotu materiału bibliotecznego.
+    \item oznaczanie wypożyczeń jako zakończone.
+    \item przeglądanie wypożyczeń oczekujących na zaakceptowanie.
+    \item zatwierdzanie lub odrzucanie oczekujących wypożyczeń.
+    \item edytowanie informacji o materiałach bibliotecznych w bazie danych.
+    \item usuwanie materiałów bibliotecznych z bazy danych.
+    \item dodanie za pomocą formularza nowych rekordów do katalogu (bazy danych) materiałów bibliotecznych bez potrzeby zatwierdzania.
+\end{itemize}
+
+Projekt zakłada, że niektóre funkcje użytkownika zalogowanego i administratora są zbieżne. Dotyczą one przeglądania katalogu dostępnych materiałów bibliotecznych czy dodawania autorów i wydawnictw do bazy danych podczas uzupełniania formularza do dodawania nowego rekordu bibliotecznego.
+
+\subsection{Struktura diagramu}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{resources/library_diagram.png}
+    \caption{Struktura diagramu przypadków użycia dla czytelni}
+\end{figure}
+
+\section{Zadanie 3: Realizacja pracy zespołowej}
+
+\subsection{Temat pracy zespołowej}
+\textbf{Kairo Habit App}\\
+Aplikacja mobilna do monitorowania i utrwalania nawyków z elementami grywalizacji i społeczności.
+
+\subsection{Cele pracy}
+Celem pracy jest stworzenie funkcjonalnej aplikacji mobilnej umożliwiającej użytkownikom monitorowanie własnych nawyków oraz obserwowanie postępów znajomych. Projekt ma angażować użytkowników poprzez gamifikacje: system punktów, osiągnięć i rankingów. Dążymy do promowania zdrowych i produktywnych zachowań oraz budowania społeczności motywujących się nawzajem. Ostatecznym celem jest dostarczenie estetycznej, intuicyjnej i wydajnej aplikacji dostępnej dla systemów Android i iOS.
+
+\subsection{Założenia pracy}
+\begin{itemize}
+    \item System ma być aplikacją mobilną (Android/iOS), wykonaną z użyciem frameworka wieloplatformowego -- React Native
+    \item Użytkownicy tworzą konta i definiują swoje nawyki (np. czytanie, ćwiczenia, nauka).
+    \item Aplikacja śledzi postępy użytkownika, generuje statystyki (streak, wykresy, oś czasu).
+    \item System wspiera funkcje społecznościowe: dodawanie znajomych, przeglądanie ich aktywności, wysyłanie powiadomień (\enquote{pingów}).
+    \item Backend oparty na \texttt{REST API} + baza danych -- PHP
+\end{itemize}
+
+\subsection{Wymagania funkcjonalne i niefunkcjonalne}
+\subsubsection*{Wymagania funkcjonalne}
+\begin{itemize}
+    \item Rejestracja i logowanie użytkownika.
+    \item Dodawanie, edycja i usuwanie nawyków (CRUD).
+    \item Przegląd własnych postępów (streak, wykresy, oś czasu).
+    \item Dodawanie znajomych i podgląd ich aktywności.
+    \item System osiągnięć i powiadomień.
+    \item Tryb skupienia i możliwość \enquote{zamrożenia} streaka.
+    \item Możliwość pingowania znajomych.
+    \item Dodawanie powiadomień do kalendarza.
+    \item Personalizacja motywu aplikacji.
+\end{itemize}
+
+\subsubsection*{Wymagania niefunkcjonalne}
+\begin{itemize}
+    \item Intuicyjny i estetyczny interfejs użytkownika (UI/UX).
+    \item Wysoka dostępność i stabilność aplikacji.
+    \item Bezpieczeństwo danych (szyfrowanie, uwierzytelnianie).
+    \item Responsywność (działanie na różnych rozdzielczościach ekranów)
+    \item Skalowalność backendu.
+    \item Czas reakcji interfejsu $< 1$ sekunda.
+    \item Zgodność z wytycznymi platform Android i iOS.
+\end{itemize}
+
+\subsection{Dokumentowanie przypadków użycia}
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|p{0.18\linewidth}|c|p{0.24\linewidth}|p{0.16\linewidth}|p{0.18\linewidth}|}\hline
+        \textbf{ID} & \textbf{Nazwa przypadku użycia} & \textbf{Aktor} & \textbf{Opis} & \textbf{Warunek początkowy} & \textbf{Wynik końcowy} \\ \hline
+        UC1 & Rejestracja użytkownika & Użytkownik & Użytkownik wypełnia formularz rejestracji i zakłada konto. & Brak konta & Konto utworzone i zapisane w bazie. \\ \hline
+        UC2 & Dodanie nowego nawyku & Użytkownik & Użytkownik dodaje nowy nawyk do śledzenia. & Użytkownik zalogowany & Nawyk zapisany w systemie. \\ \hline
+        UC3 & Przegląd postępów & Użytkownik & Użytkownik przegląda wykres i streak swoich aktywności. & Użytkownik posiada zapisane dane & Wyświetlenie statystyk. \\ \hline
+        UC4 & Dodanie znajomego & Użytkownik & Użytkownik wysyła zaproszenie do znajomego. & Obaj użytkownicy posiadają konta & Znajomość zapisana w systemie. \\ \hline
+        UC5 & Pingowanie znajomego & Użytkownik & Użytkownik motywuje znajomego do działania. & Obaj użytkownicy są znajomymi & Znajomy otrzymuje powiadomienie. \\ \hline
+    \end{tabular}
+\end{table}
+
+\subsection{Przypisanie aktorów i nadanie im działań i powiązań}
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|p{0.28\linewidth}|p{0.45\linewidth}|}\hline
+        \textbf{Aktor} & \textbf{Opis roli} & \textbf{Powiązane przypadki użycia} \\ \hline
+        Użytkownik & Główny aktor systemu. Rejestruje się, zarządza nawykami, przegląda statystyki. & UC1, UC2, UC3, UC4, UC5 \\ \hline
+        System & Przechowuje dane, generuje statystyki, obsługuje powiadomienia. & UC2, UC3, UC4 \\ \hline
+        Znajomy & Interaktywny element społeczny -- odbiera powiadomienia i motywuje użytkownika. & UC4, UC5 \\ \hline
+        Administrator (opcjonalny) & Zarządza kontami i monitoruje poprawność działania aplikacji. & UC1--UC5 \\ \hline
+    \end{tabular}
+\end{table}
+
+\subsection{Budowa diagramu}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{resources/kairo_diagram.png}
+    \caption{Diagram przypadków użycia aplikacji mobilnej do śledzenia nawyków użytkownika}
+\end{figure}
+
+\subsection{Omówienie założeń diagramu}
+placeholder
+
+\end{document}

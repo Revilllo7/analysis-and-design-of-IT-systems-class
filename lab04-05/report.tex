@@ -131,7 +131,7 @@ Diagram przypadków użycia przedstawia strukturę interakcji pomiędzy trzema r
     \centering
     \begin{tabular}{|p{0.18\linewidth}|p{0.45\linewidth}|p{0.3\linewidth}|}\hline
         \textbf{typ relacji} & \textbf{opis} & \textbf{Przykład} \\ \hline
-        Association (asocjacja) & Linia łącząca aktora z przypadkiem użycia – pokazuje, kto korzysta z danej funkcji. & \enquote{Użytkownik} $\rightarrow$ \enquote{Złóż zlecenie} \\ \hline
+        Association (asocjacja) & Linia łącząca aktora z przypadkiem użycia - pokazuje, kto korzysta z danej funkcji. & \enquote{Użytkownik} $\rightarrow$ \enquote{Złóż zlecenie} \\ \hline
         \texttt{<<include>>} (zawiera) & Jeden przypadek użycia zawsze wywołuje inny, bo jest jego częścią. & \enquote{Złóż zlecenie} $\rightarrow$ \enquote{Kontroluj poprawność zlecenia} \\ \hline
         \texttt{<<extend>>} (rozszerza) & Przypadek użycia czasami wywołuje inny (opcjonalnie, np. zależnie od sytuacji). & \enquote{Złóż zlecenie} $\rightarrow$ \enquote{Kalkuluj stopę zwrotu} \\ \hline
         Dependency (zależność) & Pokazuje wpływ jednego elementu na inny, często między systemami. & \enquote{System GPW} $\leftrightarrow$ \enquote{Modyfikuj zlecenie} \\ \hline
@@ -271,7 +271,65 @@ Celem pracy jest stworzenie funkcjonalnej aplikacji mobilnej umożliwiającej u�
     \caption{Diagram przypadków użycia aplikacji mobilnej do śledzenia nawyków użytkownika}
 \end{figure}
 
-\subsection{Omówienie założeń diagramu}
-placeholder
+\subsection{Omówienie założeń diagramu przypadków użycia}
+
+Diagram przypadków użycia przedstawia główne interakcje pomiędzy użytkownikami systemu a jego funkcjonalnościami. System ten służy do wspierania użytkowników w zarządzaniu nawykami, śledzeniu postępów oraz utrzymywaniu motywacji poprzez powiadomienia i elementy społecznościowe. Na diagramie wyróżniono trzech aktorów: \textit{Niezalogowany użytkownik}, \textit{Użytkownik} oraz \textit{System}. 
+
+\paragraph{Niezalogowany użytkownik}
+Aktor ten ma dostęp wyłącznie do podstawowych funkcjonalności, umożliwiających rozpoczęcie pracy z aplikacją:
+\begin{itemize}
+    \item \textbf{Zaloguj się} - umożliwia autoryzację i uzyskanie dostępu do pełnej funkcjonalności systemu.
+    \item \textbf{Zarejestruj się} - pozwala na utworzenie nowego konta użytkownika.
+\end{itemize}
+Po wykonaniu jednej z tych czynności użytkownik staje się aktorem \textit{Użytkownik} i może korzystać z pozostałych przypadków użycia.
+
+\paragraph{Użytkownik}
+Zalogowany użytkownik posiada pełny dostęp do możliwości aplikacji. Może on:
+\begin{itemize}
+    \item \textbf{Przeglądać nawyki} - uzyskać wgląd w listę swoich nawyków oraz ich aktualny stan.
+    \item \textbf{Zarządzać nawykami} - dodawać, edytować lub usuwać nawyki.
+    \item \textbf{Przeglądać postępy} - analizować swoje osiągnięcia i wyniki. Ten przypadek użycia jest rozszerzany (\textit{extend}) o:
+    \begin{itemize}
+        \item \textbf{Analizowanie wykresów} - wizualizacja postępów w formie graficznej.
+        \item \textbf{Analizowanie osi czasu} - śledzenie zmian w kontekście czasowym.
+        \item \textbf{Przeglądanie streaków} - obserwacja ciągłości realizacji nawyków.
+        \item \textbf{Przeglądanie osiągnięć} - prezentacja zdobytych rezultatów i odznak.
+    \end{itemize}
+    \item \textbf{Zarządzać aplikacją} - dostosować ustawienia systemu do własnych preferencji, w tym:
+    \begin{itemize}
+        \item \textbf{Zarządzać powiadomieniami} - konfigurować przypomnienia i alerty.
+        \item \textbf{Personalizować motyw aplikacji} - zmieniać wygląd interfejsu użytkownika.
+    \end{itemize}
+    \item \textbf{Zarządzać znajomymi} - dodawać i usuwać znajomych oraz utrzymywać z nimi interakcję.
+    \item \textbf{Pingować znajomego} - wysyłać krótkie przypomnienia lub motywacyjne wiadomości.
+    \item \textbf{Ustawiać przypomnienia} - tworzyć i planować automatyczne alerty.
+    \item \textbf{Otrzymywać powiadomienia} - odbierać informacje o nadchodzących zadaniach, aktywnościach lub wiadomościach od znajomych.
+\end{itemize}
+
+Przypadki użycia \textit{Pinguj znajomego}, \textit{Ustaw przypomnienia} oraz \textit{Otrzymaj powiadomienie} zawierają (\textit{include}) przypadek \textit{Wyślij powiadomienie}, realizowany przez system.
+
+\paragraph{System}
+\textit{System} jest aktorem automatycznym, odpowiedzialnym za wykonywanie działań w tle, w szczególności za:
+\begin{itemize}
+    \item \textbf{Wysyłanie powiadomień} - informowanie użytkowników o zaplanowanych przypomnieniach, aktywnościach znajomych lub osiągnięciach.
+\end{itemize}
+
+\paragraph{Relacje między przypadkami użycia}
+Na diagramie występują dwa typy relacji:
+\begin{itemize}
+    \item \textbf{Relacja \textit{include}} - oznacza obowiązkowe włączenie jednego przypadku do innego (np. wysyłanie powiadomienia jako część przypomnienia).
+    \item \textbf{Relacja \textit{extend}} - wskazuje na opcjonalne rozszerzenie funkcjonalności, np. przeglądanie postępów może być rozszerzone o analizę wykresów lub osi czasu.
+\end{itemize}
+
+\paragraph{Założenia ogólne systemu}
+System został zaprojektowany z myślą o wspieraniu użytkowników w budowaniu pozytywnych nawyków i utrzymywaniu motywacji. Zakłada się:
+\begin{itemize}
+    \item integrację funkcji społecznościowych (współpraca i rywalizacja ze znajomymi),
+    \item automatyzację przypomnień i powiadomień,
+    \item wykorzystanie wizualizacji danych do motywowania użytkownika,
+    \item możliwość personalizacji interfejsu i ustawień aplikacji.
+\end{itemize}
+Diagram ukazuje kompleksową strukturę interakcji między użytkownikami a systemem, wskazując główne obszary funkcjonalne aplikacji oraz zależności między nimi.
+
 
 \end{document}

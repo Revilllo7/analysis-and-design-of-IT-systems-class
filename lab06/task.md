@@ -55,6 +55,6 @@ Na diagramie UML dziedziczenie przedstawia się za pomocą strzałki z pustym tr
 
 ## Przykład 3. projekt zespołowy
 
-## Weiele diagramów klas w złożonych projektach - przykładowa struktura
+## Wiele diagramów klas w złożonych projektach - przykładowa struktura
 
 ## Wnioski (zalety, zastosowania, implementacje, itd)

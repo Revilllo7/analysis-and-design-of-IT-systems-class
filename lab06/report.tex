@@ -20,7 +20,9 @@
 \usepackage{polski}
 \usepackage{lmodern}
 \usepackage{float}
-
+\usepackage{listings}
+\usepackage{color}
+\usepackage{verbatim}
 
 % ------------------ Ustawienia ------------------
 
@@ -28,12 +30,58 @@
 \setstretch{1.3}
 \titleformat{\section}{\large\bfseries}{\thesection.}{1em}{}
 \titleformat{\subsection}{\normalsize\bfseries}{\thesubsection.}{1em}{}
+\definecolor{lightgray}{rgb}{.9,.9,.9}
+\definecolor{darkgray}{rgb}{.4,.4,.4}
+\definecolor{purple}{rgb}{0.65, 0.12, 0.82}
+
+\lstdefinelanguage{JavaScript}{
+  keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
+  keywordstyle=\color{blue}\bfseries,
+  ndkeywords={class, export, boolean, throw, implements, import, this},
+  ndkeywordstyle=\color{darkgray}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  morestring=[b]',
+  morestring=[b]''
+}
+
+\lstset{
+   language=JavaScript,
+   backgroundcolor=\color{lightgray},
+   extendedchars=true,
+   basicstyle=\footnotesize\ttfamily,
+   showstringspaces=false,
+   showspaces=false,
+   numbers=left,
+   numberstyle=\footnotesize,
+   numbersep=9pt,
+   tabsize=2,
+   breaklines=true,
+   showtabs=false,
+   captionpos=b
+}
+
+\DeclareUnicodeCharacter{25CF}{$\bullet$}
+\DeclareUnicodeCharacter{251C}{\mbox{\kern.23em
+  \vrule height2.2exdepth1exwidth.4pt\vrule height2.2ptdepth-1.8ptwidth.23em}}
+\DeclareUnicodeCharacter{2500}{\mbox{\vrule height2.2ptdepth-1.8ptwidth.5em}}
+\DeclareUnicodeCharacter{2514}{\mbox{\kern.23em
+  \vrule height2.2exdepth-1.8ptwidth.4pt\vrule height2.2ptdepth-1.8ptwidth.23em}}
+
 \hypersetup{
     colorlinks=true,
     linkcolor=black,
     urlcolor=blue,
-    pdftitle={Diagram przypadków użycia — modelowanie w UML}
+    pdftitle={Statyczna struktura systemu
+informatycznego poprzez tworzenia
+diagramu}
 }
+
+
 
 % ------------------ Dane ------------------
 
@@ -52,7 +100,7 @@ Instytut Informatyki}
          Nazwa uczelni& Uniwersytet Gdański\\\hline
          Kierunek& Informatyka (profil praktyczny)\\\hline
          Prowadzący& dr inż. Stanisław Witkowski\\\hline
-         Specjalność& —\\\hline
+         Specjalność& -\\\hline
          Nazwa ćwiczenia& Statyczna struktura systemu informatycznego poprzez tworzenia diagramu\\\hline
          Numer sprawozdania& 3\\\hline
          Data zajęć& 06.11.2025\\\hline
@@ -70,22 +118,373 @@ Instytut Informatyki}
 
 \section{Diagram klas - notacja i semantyka}
 
+Diagram klas w języku UML służy do opisu struktury systemu poprzez przedstawienie jego klas, atrybutów, operacji oraz powiązań między nimi.
+Każda klasa jest reprezentowana w postaci prostokąta podzielonego na trzy części:
+
+\begin{itemize}
+    \item \textbf{Nazwa klasy} - identyfikator klasy, zwykle pisany wielką literą.
+    \item \textbf{Atrybuty} - cechy lub dane opisujące stan obiektu danej klasy.
+    \item \textbf{Operacje (metody)} - działania, które klasa może wykonywać.
+\end{itemize}
+
+Diagram klas pozwala na zrozumienie, jakie obiekty występują w systemie i w jaki sposób są one ze sobą powiązane.
+
+
 \section{Atrybuty diagramu klas}
 
+Atrybut to właściwość klasy, która opisuje dane przechowywane przez jej obiekty. Każdy atrybut ma określony typ danych, zakres dostępu (np. publiczny, prywatny, chroniony) oraz opcjonalnie wartość domyślną.
+
+Przykład notacji atrybutu:
+\begin{lstlisting}
+-nazwaAtrybutu: TypDanych = wartoscDomyslna  
+\end{lstlisting}
+
+gdzie:
+\begin{itemize}
+    \item \textbf{-} oznacza dostęp prywatny,
+    \item \textbf{+} oznacza dostęp publiczny,
+    \item \textbf{\#} oznacza dostęp chroniony.
+\end{itemize}
+
+
+
 \section{Podstawowe relacje stosowane w diagramie klas}
+Diagram klas przedstawia różne rodzaje relacji pomiędzy klasami. Do najczęściej stosowanych należą:
+
+\begin{itemize}
+    \item \textbf{Asocjacja} - ogólne powiązanie między dwiema klasami.
+    \item \textbf{Agregacja} - związek typu ''całość-część'', w którym obiekt części może istnieć niezależnie od całości.
+    \item \textbf{Kompozycja} - silniejsza forma agregacji, w której część nie może istnieć bez całości.
+    \item \textbf{Zależność (dependency)} - wskazuje, że jedna klasa korzysta z innej.
+\end{itemize}
+
+Każda relacja może być opatrzona dodatkowymi informacjami, takimi jak krotność (np. 1..*, 0..1) określająca liczbę wystąpień obiektów w danej relacji.
+
 
 \section{Dziedziczenie}
 
+Dziedziczenie jest mechanizmem pozwalającym na tworzenie nowych klas w oparciu o już istniejące. Klasa pochodna (podklasa) dziedziczy cechy i zachowania klasy bazowej (nadklasy), co umożliwia ponowne wykorzystanie kodu i ułatwia jego utrzymanie.
+
+Na diagramie UML dziedziczenie przedstawia się za pomocą strzałki z pustym trójkątem skierowanym \ref{fig:inheritance} w stronę klasy bazowej.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.25\linewidth]{resources/inheritance.jpg}
+    \caption{Przykład wyglądu notacji dziedziczenia (klasa B dziedziczy cechy klasy A)}
+    \label{fig:inheritance}
+\end{figure}
+
+
 \section{Przykład 1. (Własny np. materiały)}
-todo: update ^
+todo
 
 \section{Przykład 2. czytelnia}
+todo
 
-\section{Przykład 3. projekt zespołowy}
+\section{Przykład 3. projekt zespołowy - KairoHabit}
+\label{fig:example3}
+System odpowiedzialny za możliwość logowania się i ''trackowania'' swoich nawyków jako użytkownik, mieszając elementy pożyczteczne dla zdrowia osby z gamifikacją poprzez elementy społeczne inspirowane podobnymi aplikacjami (pod względem socjalnym) jak międzyinnymi Duolingo.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{resources/kairo_diagram.png}
+    \caption{Diagram przypadków użycia aplikacji KairoHabit}
+    \label{fig:Kairo_use_case}
+\end{figure}
+
+\subsection{Aktorzy}
+
+\begin{enumerate}
+    \item Niezalogowany użytkownik
+    \begin{itemize}
+        \item Reprezentuje osobę nieposiadającą sesji w systemie (gość).
+        \item Dostępne przypadki: Zaloguj się, Zarejestruj się.
+    \end{itemize}
+    Rola: wejściowy punkt systemu - umożliwia przejście do konta.
+
+    \item Użytkownik
+    \begin{itemize}
+        \item Zarejestrowany i zalogowany użytkownik aplikacji.
+        \item Główne przypadki: przeglądanie i zarządzanie nawykami, przeglądanie postępów, konfiguracja powiadomień, zarządzanie znajomymi, personalizacja aplikacji.
+    \end{itemize}
+    Rola: podstawowy aktor realizujący większość funkcjonalności. 
+    \item System
+    \begin{itemize}
+        \item Reprezantacja strony serwera / mechanizmu powiadomień.
+        \item Realizuje automatyczne akcje: Wyślij powiadomienie
+    \end{itemize}
+    Rola: wykonawca zadań bez interakcji bezpośrednio inicjowanych przez człowieka (automatyzacja).
+\end{enumerate}
+
+\subsection{Główne przypadki użycia}
+
+\begin{enumerate}
+    \item Zaloguj się
+    \begin{itemize}
+        \item Cel: umożliwić niezalogowanemu użytkownikowi autoryzację i uzyskanie dostępu do funkcji zalogowanego użytkownika.
+
+        \item Prewarunek: konto użytkownika istnieje (użytkownik podaje poprawne dane) (login/hasło).
+
+        \item Scenariusz główny: użytkownik wypełnia formularz -> system weryfikuje dane -> sesja jest tworzona -> użytkownik zostaje przekierowany do pulpitu.
+
+        \item Postcondition: użytkownik z uprawnieniami ''Użytkownik''.
+
+        \item Alternatywy/wyjątki: błędne hasło (komunikat o błędzie), konto zablokowane, wymuszona zmiana hasła.
+    \end{itemize}
+    \item Zarejestruj się
+    \begin{itemize}
+        \item Cel: utworzyć nowe konto użytkownika.
+
+        \item Prewarunek: brak konta z tym samym identyfikatorem (email)
+
+        \item Scenariusz główny: formularz rejestracji -> walidacja (email, hasło, captcha) -> zapis w bazie -> opcjonalne wysłanie maila aktywacyjnego.
+
+        \item Postcondition: utworzone konto (użytkownik może się zalogować)
+
+        \item Wyjątki: e-mail już istnieje, walidacja nie przeszła.
+    \end{itemize}
+
+    \item Przeglądanie nawyków
+    \begin{itemize}
+        \item Cel: użytkownik może zobaczyć listę swoich nawyków, ich statusy i skrócone statystyki.
+
+        \item Prewarunek: użytkownik zalogowany.
+
+        \item Scenariusz: użytkownik przechodzi do ekranu ''Nawyki'' -> system odczytuje listę nawyków -> wyświetla karty/wiersze z informacją o ostatnim wykonaniu, streakach itp.
+
+        \item Postcondition: widok z danymi; użytkownik może podjąć akcję (edytuj/usuń/oznacz jako zrobione).
+
+    \end{itemize}
+
+    \item Zarządzanie nawykami
+    \begin{itemize}
+        \item Cel: tworzenie/edycja/usuwanie nawyków.
+
+        \item Prewarunek: użytkownik zalogowany.
+
+        \item Scenariusz: użytkownik tworzy nowy nawyk (nazwa, częstotliwość, przypomnienia) -> system zapisuje obiekt Nawyk.
+
+        \item Postcondition: zaktualizowana lista nawyków - ewentualne powiadomienia ustawione.
+    \end{itemize}
+
+        \item Przeglądanie postępów
+    \begin{itemize}
+        \item Cel: przeglądanie szczegółowych statystyk i historii wykonania nawyków.
+
+        \item Prewarunek: użytkownik zalogowany (istnieją dane wykonania)
+
+        % z jakiegoś powodu format tutaj glitchuje?   
+        % FIX: USE '' INSTEAD OF "
+        \item Scenariusz: użytkownik otwiera ekran ''Postępy'' --> system agreguje dane (czas, liczba wykonania, streak) -> wyświetla opcjonalne analizy (wykresy, oś czasu, osiągnięcia).
+
+        \item Postcondition: użytkownik widzi wskaźniki i może przejść do szczegółowych analiz.
+
+        \item Relacje diagramu: Przeglądanie postępów rozszerza (<<extend>>) Przeglądanie nawyków - oznacza, że postępy nie są konieczne przy każdorazowym przeglądaniu nawyków, ale są logicznie powiązane (rozwinięcie).
+    \end{itemize}
+
+        \item Analiza
+    \begin{itemize}
+        \item Cel: różne sposoby analizy postępów.
+
+        \item Opis: te przypadki są przedstawione jako rozszerzenia do Przeglądania postępów. Użytkownik może żądać konkretnej analizy:
+
+        \begin{itemize}
+            \item Analizowanie wykresów - wykresy liniowe/słupkowe trendów.
+
+            \item Analizowanie osi czasu - przegląd aktywności w osi chronologicznej.
+
+            \item Przeglądanie streak - analiza serii kolejnych dni spełnienia nawyku.
+
+            \item Przeglądaj osiągnięcia - lista badge’ów/osiągnięć zdobytych za regularność.
+        \end{itemize}
+        
+        \item Prewarunek: istnieją dane historyczne.
+        
+    \end{itemize}
+
+        \item ustaw przypomnienia
+    \begin{itemize}
+        \item Ustaw przypomnienia - użytkownik konfiguruje powiadomienia dla nawyku (czas, powtarzalność).
+
+        \item Pinguj znajomego - użytkownik może wywołać akcję powiadamiającą znajomego (np. poprosić o motywację). Z diagramu widać, że Pinguj znajomego include -> Otrzymaj powiadomienie (tj. ping initjuje powiadomienie).
+
+        \item Otrzymaj powiadomienie - przypadek odebrania powiadomienia po stronie użytkownika (może być wynik działania Wyślij powiadomienie).
+
+        \item Wyślij powiadomienie - wykonywane przez aktora System (automatyczne lub poprzez akcję innego użytkownika). Na diagramie Ustaw przypomnienia oraz Pinguj znajomego include -> Wyślij powiadomienie / Otrzymaj powiadomienie (strzałki i etykiety <<include>>).
+    \end{itemize}
+
+    \item Zarządzaj aplikacją
+    \begin{itemize}
+        \item Zarządzaj aplikacją - ustawienia konta/ustawienia globalne. Z diagramu widzimy powiązania (może prowadzić do zarządzania powiadomieniami i personalizacji).
+
+        \item Zarządzaj powiadomieniami - ustawienia typu push, e-mail, dźwięki.
+
+        \item Personalizuj motyw aplikacji - UI theme: ciemny/jasny itp.
+
+        \item Zarządzaj znajomymi - dodawanie/usuwanie znajomych, zaproszenia, lista kontaktów.
+    \end{itemize}
+\end{enumerate}
+
+\subsection{Relacje diagramu między przypadkami (semantyka diagramu)}
+\begin{itemize}
+    \item <<include>> (w diagramie widoczne między ''Ustaw przypomnienia'', ''Pinguj znajomego'', ''Otrzymaj powiadomienie'' a ''Wyślij powiadomienie'') - oznacza wspólne, powtarzalne zachowanie. Użyj w opisie: ''Funkcja A korzysta zawsze z funkcji B (B jest wymagane).''
+
+    \item <<extend>> (między ''Przeglądanie nawyków'' a ''Przeglądanie postępów'', oraz między ''Przeglądanie postępów'' a poszczególnymi analizami) - oznacza, że rozszerzenia są opcjonalne i uruchamiane w warunkach określonych przez podstawowy przypadek. Użyj: ''Przypadek B rozszerza A - B jest wykonywane tylko w określonych sytuacjach (np. użytkownik wybierze opcję analizy).''
+
+    \item Strzałki kierunkowe do / od aktorów - wskazują, kto inicjuje przypadek (aktor -> przypadek) lub kto reaguje (system -> przypadek).
+\end{itemize}
+
+\subsection{Mapowanie na statyczną strukturę}
+\subsubsection{Klasy, atrybuty i metody}
+Aplikacja jest ciągle rozwijana, więc niektóre dane tutaj są tylko sugestią, lub mogą zostać zmienione wraz z oficjalnym wydaniem aplikacji.
+
+\begin{enumerate}
+    \item Użytkownik
+    \begin{itemize}
+        \item Atrybuty: userId: UUID, email: String, passwordHash: String, displayName: String, settings: Settings
+
+        \item Metody: login(), logout(), register(), updateProfile()
+    \end{itemize}
+    \item Nawyk
+    \begin{itemize}
+        \item Atrybuty: habitId, title, description, frequency, createdAt
+
+        \item Metody: markDone(date), edit(), delete(), getProgress()
+    \end{itemize}
+    \item Wykonanie nawyku
+    \begin{itemize}
+        \item Atrybuty: habitId, date, status
+
+        \item Metody: markDone(date), edit(), delete(), getProgress()
+    \end{itemize}
+    \item Powiadomienie
+    \begin{itemize}
+        \item Atrybuty: notifId, recipientId, type, payload, sentAt, status
+
+        \item Metody: send(), schedule(), cancel()
+    \end{itemize}
+    \item Przypomnienie
+    \begin{itemize}
+        \item Atrybuty: reminderId, habitId, time, repeatRule
+
+        \item Metody: activate(), deactivate() - mapuje ''Ustaw przypomnienia''.
+    \end{itemize}
+    \item Znajomy
+    \begin{itemize}
+        \item Atrybuty: userId, friendId, status
+
+        \item Metody: invite(), accept(), pingFriend()
+    \end{itemize}
+    \item Raport
+    \begin{itemize}
+        \item Atrybuty: brak
+
+        \item klasa usługowa: generateChart(habitId, range), calculateStreak(habitId)
+    \end{itemize}
+    \item Ustawienia aplikacji
+    \begin{itemize}
+        \item Atrybuty: theme, notificationsEnabled, language
+
+        \item Metody: updateSettings()
+    \end{itemize}
+\end{enumerate}
+
+\subsubsection{Relacje}
+\begin{itemize}
+\item User 1..* - 0..* Habit (użytkownik może mieć wiele nawyków) - asocjacja.
+
+\item Habit 1 - * HabitExecution (kompozycja: wykonania należą do nawyku).
+
+\item User 1..* - * User (znajomi) - związek wieloma do wielu przez Friendship.
+
+\item Habit 1 - * Reminder (agregacja/kompozycja w zależności od modelu: przypomnienie zazwyczaj nie istnieje poza nawykiem -> kompozycja).
+
+\item Notification powiązane z User (recipient) i ewentualnie Habit.
+\end{itemize}
+
+\subsubsection{Podsumowanie Przykład 3. projekt zespołowy - KairoHabit}
+
+KairoHabit - system śledzenia nawyków (model funkcjonalny)
+Prezentowany diagram przypadków użycia ilustruje funkcjonalności aplikacji typu ''habit tracker'' oraz relacje między trzema aktorami: Niezalogowany użytkownik, Użytkownik oraz System.
+\newline
+
+Aktor Niezalogowany użytkownik posiada dostęp do działań umożliwiających przejście do konta: ''Zaloguj się'' i ''Zarejestruj się''. Po zalogowaniu aktorem staje się Użytkownik, który ma dostęp do głównych funkcji systemu: ''Przeglądanie nawyków'', ''Zarządzanie nawykami'', ''Przeglądanie postępów'', ''Zarządzaj znajomymi'', ''Zarządzaj aplikacją'' (w tym ''Zarządzaj powiadomieniami'' i ''Personalizuj motyw aplikacji'').
+\newline
+
+Sekcja ''Powiadomienia obejmuje przypadki ''Ustaw przypomnienia'', ''Pinguj znajomego'', ''Otrzymaj powiadomienie'' oraz mechanizm ''Wyślij powiadomienie'', który jest wykonywany po stronie Systemu. Relacje typu <<include>> wskazują, że niektóre czynności zawsze wywołują fragmenty zachowania (np. ''Pinguj znajomego'' obejmuje wysłanie powiadomienia), natomiast relacje <<extend>> wskazują opcjonalne rozszerzenia funkcjonalności (np. ''Przeglądanie postępów'' rozszerza ''Przeglądanie nawyków''; do postępów dołączone są analizy szczegółowe: wykresy, oś czasu, streaki oraz osiągnięcia).
+\newline
+
+Z punktu widzenia projektowania systemu diagram ten pełni rolę wymagań funkcjonalnych, które można odwzorować w modelu klasowym. Przykładowe klasy wynikające z diagramu to: User, Habit, HabitExecution, Notification, Reminder, Friendship oraz Analytics. Relacje między tymi klasami (kompozycja Habit -> HabitExecution, agregacja/kompozycja Habit -> Reminder, asocjacja User <-> Friendship) pozwalają zaprojektować strukturę bazy danych oraz API serwera obsługującego powyższe przypadki użycia.
+\newline
+
+Diagram jasno oddziela interakcje inicjowane przez użytkownika od działań automatycznych wykonywanych przez system (np. wysyłka przypomnień), co ułatwia podział pracy w zespole: frontend implementuje interfejsy przypadków użycia, backend realizuje mechanizmy wysyłki powiadomień i agregacji statystyk, natomiast warstwa analityczna generuje wykresy i oblicza metryki.
 
 \section{Wiele diagramów klas w złożonych projektach - przykładowa struktura}
 
-\section{Wnioski (zalety, zastosowania, implementacje, itd)}
+W przypadku rozbudowanych systemów informatycznych pojedynczy diagram klas nie jest w stanie przejrzyście przedstawić wszystkich elementów i zależności występujących w projekcie. 
+W takich sytuacjach stosuje się podział systemu na logiczne moduły lub pakiety, dla których tworzy się osobne diagramy klas. 
+Każdy z diagramów opisuje wybrany fragment struktury systemu, natomiast pełny obraz powstaje dopiero po połączeniu ich w jedną, spójną całość.
 
+\subsection{Powody stosowania wielu diagramów}
+\begin{itemize}
+    \item \textbf{Złożoność projektu} – duża liczba klas, powiązań i relacji powoduje, że pojedynczy diagram staje się nieczytelny i trudny w utrzymaniu.
+    \item \textbf{Podział funkcjonalny systemu} – poszczególne moduły (np. autoryzacja, zarządzanie użytkownikami, obsługa powiadomień) mogą być rozwijane niezależnie, dlatego logiczne jest tworzenie osobnych diagramów dla każdej z tych części.
+    \item \textbf{Ułatwienie pracy zespołowej} – w projektach zespołowych różni członkowie zespołu mogą odpowiadać za inne obszary systemu, więc rozdzielenie diagramów pozwala im skupić się na swoim zakresie odpowiedzialności.
+    \item \textbf{Łatwiejsze utrzymanie i rozszerzanie systemu} – zmiany w jednym module nie wymagają edycji całego diagramu, co poprawia skalowalność projektu.
+\end{itemize}
+
+\subsection{Przykładowa struktura podziału diagramów}
+Dla aplikacji zespołowej przedstawionej w Przykładzie 3 (referencja \ref{fig:example3}) można wyróżnić kilka kluczowych modułów, z których każdy może mieć własny diagram klas:
+
+\begin{enumerate}
+    \item \textbf{Moduł autoryzacji użytkowników} – zawiera klasy odpowiadające za logowanie, rejestrację, weryfikację danych oraz obsługę sesji użytkownika.
+    \item \textbf{Moduł zarządzania nawykami} – klasy reprezentujące nawyki, przypomnienia, historię aktywności oraz mechanizmy śledzenia postępów.
+    \item \textbf{Moduł powiadomień i komunikacji} – klasy odpowiedzialne za wysyłanie, odbieranie i przechowywanie powiadomień, w tym komunikację między użytkownikami (np. „ping znajomego”).
+    \item \textbf{Moduł personalizacji interfejsu} – klasy związane z ustawieniami motywu aplikacji, preferencjami użytkownika i przechowywaniem danych konfiguracyjnych.
+    \item \textbf{Moduł analizy postępów} – klasy realizujące przetwarzanie danych, generowanie wykresów, analizę osi czasu oraz prezentację wyników użytkownika.
+\end{enumerate}
+
+Każdy z tych modułów może zostać przedstawiony jako osobny diagram klas, zawierający:
+\begin{itemize}
+    \item zestaw klas powiązanych funkcjonalnie,
+    \item atrybuty i metody istotne tylko dla danej części systemu,
+    \item relacje z innymi modułami poprzez wyraźnie zdefiniowane interfejsy (np. klasa \texttt{User} jako centralny punkt powiązania między modułami).
+\end{itemize}
+
+\subsection{Przykładowy sposób organizacji}
+Praktycznym rozwiązaniem jest tworzenie hierarchicznej struktury pakietów, poniżej znajduje się przykład:
+\begin{verbatim}
+system
+ ├── auth
+ |   ├── User
+ |   ├── LoginManager
+ |   └── Session
+ ├── habits
+ |   ├── Habit
+ |   ├── Reminder
+ |   └── ProgressTracker
+ ├── notifications
+ |   ├── Notification
+ |   ├── NotificationManager
+ |   └── Ping
+ └── analytics
+     ├── Graph
+     ├── TimeAxis
+     └── Statistics
+\end{verbatim}
+
+Taki podział ułatwia zarówno implementację, jak i wizualizację systemu na poziomie UML. 
+Zachowanie spójności między poszczególnymi diagramami (np. wspólne klasy bazowe, interfejsy) pozwala utrzymać jednolitą architekturę projektu i umożliwia jego dalszy rozwój w sposób uporządkowany.
+
+\section{Wnioski}
+
+\subsection{Zalety}
+Diagram klas pozwala na wczesne zrozumienie struktury systemu przed jego implementacją. Ułatwia komunikację między członkami zespołu oraz dokumentuje zależności pomiędzy komponentami. Dzięki graficznej reprezentacji relacji można łatwiej wykryć błędy projektowe i uniknąć powielania kodu.
+
+\subsection{Zastosowania}
+Diagramy klas są stosowane na etapie analizy i projektowania systemu informatycznego, zwłaszcza w metodach obiektowych. Wykorzystywane są w modelowaniu systemów biznesowych, aplikacji webowych oraz systemów bazodanowych. Służą również jako dokumentacja techniczna ułatwiająca utrzymanie i rozwój oprogramowania.
+
+\subsection{Implementacje}
+Na podstawie diagramu klas można generować szkielet kodu w językach obiektowych (np. Java, Python, C++). Diagram może stanowić punkt wyjścia dla dalszego modelowania zachowań systemu poprzez diagramy sekwencji, przypadków użycia czy stanów.
 
 \end{document}

@@ -76,24 +76,11 @@ Elementy te łączy się za pomocą przepływów sterowania (\textit{Control Flo
 
 \section{Przykład 2 – System czytelni}
 
-\textbf{Opis:} Diagram przedstawia proces wypożyczania książki w systemie czytelni.
-
-\begin{enumerate}
-    \item Użytkownik loguje się do systemu czytelni.
-    \item System weryfikuje dane logowania.
-    \item Po poprawnym logowaniu użytkownik wyszukuje książkę.
-    \item Decyzja: \textit{Czy książka jest dostępna?}
-    \begin{itemize}
-        \item Jeśli tak – system rezerwuje książkę.
-        \item Jeśli nie – użytkownik może dodać książkę do listy oczekujących.
-    \end{itemize}
-    \item System zapisuje rezerwację i wysyła potwierdzenie.
-    \item Węzeł końcowy – \textit{Rezerwacja zakończona}.
-\end{enumerate}
+\textbf{Opis:} Diagram przedstawia czynności w systemie czytelni.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{czytelnia.png}
+    \includegraphics[width=0.8\textwidth]{resources/diagram_czynnosci_biblioteka.png}
     \caption{Diagram czynności – proces wypożyczania książki w czytelni}
 \end{figure}
 

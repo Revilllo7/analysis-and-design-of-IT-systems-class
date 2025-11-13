@@ -39,24 +39,24 @@ Diagramy czynności stanowią doskonałe narzędzie do opisu scenariuszy przypad
 Na diagramach czynności stosuje się zestaw standardowych elementów UML, które pozwalają odwzorować logikę przepływu sterowania i danych:
 
 \begin{itemize}
-    \item \textbf{Węzeł początkowy (Initial Node)} – punkt rozpoczęcia aktywności.
-    \item \textbf{Czynność (Action)} – pojedynczy krok lub operacja wykonywana w procesie.
-    \item \textbf{Węzeł decyzyjny (Decision Node)} – element rozgałęziający przepływ w zależności od warunków logicznych.
-    \item \textbf{Węzeł rozwidlenia (Fork Node)} – rozpoczęcie wykonywania czynności równoległych.
-    \item \textbf{Węzeł scalenia (Join Node)} – synchronizacja równoległych przepływów.
-    \item \textbf{Węzeł końcowy przepływu (Flow Final Node)} – zakończenie części przepływu.
-    \item \textbf{Węzeł końcowy (Activity Final Node)} – zakończenie całej aktywności.
-    \item \textbf{Partycje aktywności (Swimlanes)} – wydzielenie czynności realizowanych przez różne role lub systemy.
+    \item \textbf{Węzeł początkowy (Initial Node)} - punkt rozpoczęcia aktywności.
+    \item \textbf{Czynność (Action)} - pojedynczy krok lub operacja wykonywana w procesie.
+    \item \textbf{Węzeł decyzyjny (Decision Node)} - element rozgałęziający przepływ w zależności od warunków logicznych.
+    \item \textbf{Węzeł rozwidlenia (Fork Node)} - rozpoczęcie wykonywania czynności równoległych.
+    \item \textbf{Węzeł scalenia (Join Node)} - synchronizacja równoległych przepływów.
+    \item \textbf{Węzeł końcowy przepływu (Flow Final Node)} - zakończenie części przepływu.
+    \item \textbf{Węzeł końcowy (Activity Final Node)} - zakończenie całej aktywności.
+    \item \textbf{Partycje aktywności (Swimlanes)} - wydzielenie czynności realizowanych przez różne role lub systemy.
 \end{itemize}
 
 Elementy te łączy się za pomocą przepływów sterowania (\textit{Control Flow}), które określają kolejność wykonywania czynności.
 
-\section{Przykład 1 – Proces tworzenia materiałów}
+\section{Przykład 1 - Proces tworzenia materiałów}
 
 \textbf{Opis:} Proces przedstawia przygotowanie i publikację materiałów dydaktycznych przez wykładowcę w systemie e-learningowym.
 
 \begin{itemize}
-    \item Węzeł początkowy – \textit{Rozpoczęcie przygotowania materiałów}.
+    \item Węzeł początkowy - \textit{Rozpoczęcie przygotowania materiałów}.
     \item Czynność: \textit{Opracowanie treści wykładu}.
     \item Czynność: \textit{Przygotowanie prezentacji}.
     \item Decyzja: \textit{Czy materiał jest kompletny?}
@@ -65,51 +65,51 @@ Elementy te łączy się za pomocą przepływów sterowania (\textit{Control Flo
         \item Jeśli \textbf{nie}: \textit{Poprawa i uzupełnienie treści}.
     \end{itemize}
     \item Po publikacji materiał zostaje udostępniony studentom.
-    \item Węzeł końcowy – \textit{Materiał opublikowany}.
+    \item Węzeł końcowy - \textit{Materiał opublikowany}.
 \end{itemize}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{zmaterialy.png}
-    \caption{Diagram czynności – proces tworzenia materiałów dydaktycznych}
+    \caption{Diagram czynności - proces tworzenia materiałów dydaktycznych}
 \end{figure}
 
-\section{Przykład 2 – System czytelni}
+\section{Przykład 2 - System czytelni}
 
 \textbf{Opis:} Diagram przedstawia czynności w systemie czytelni.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{resources/diagram_czynnosci_biblioteka.png}
-    \caption{Diagram czynności – proces wypożyczania książki w czytelni}
+    \caption{Diagram czynności - proces wypożyczania książki w czytelni}
 \end{figure}
 
-\section{Przykład 3 – Zadanie zespołowe}
+\section{Przykład 3 - Zadanie zespołowe}
 
 \textbf{Opis:} Diagram ilustruje współpracę zespołu nad realizacją projektu informatycznego.
 
 \begin{itemize}
     \item Czynność 1: \textit{Podział zadań w zespole}.
-    \item Rozwidlenie – równoległa praca członków zespołu:
+    \item Rozwidlenie - równoległa praca członków zespołu:
     \begin{itemize}
-        \item Programista – \textit{Implementacja modułów}.
-        \item Tester – \textit{Testowanie funkcjonalności}.
-        \item Dokumentalista – \textit{Tworzenie dokumentacji}.
+        \item Programista - \textit{Implementacja modułów}.
+        \item Tester - \textit{Testowanie funkcjonalności}.
+        \item Dokumentalista - \textit{Tworzenie dokumentacji}.
     \end{itemize}
     \item Scalenie wyników pracy.
     \item Czynność: \textit{Integracja projektu}.
     \item Decyzja: \textit{Czy testy końcowe zakończone sukcesem?}
     \begin{itemize}
-        \item Jeśli tak – \textit{Publikacja projektu}.
-        \item Jeśli nie – \textit{Poprawa błędów}.
+        \item Jeśli tak - \textit{Publikacja projektu}.
+        \item Jeśli nie - \textit{Poprawa błędów}.
     \end{itemize}
-    \item Węzeł końcowy – \textit{Projekt zakończony}.
+    \item Węzeł końcowy - \textit{Projekt zakończony}.
 \end{itemize}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{zespol.png}
-    \caption{Diagram czynności – realizacja zadania zespołowego}
+    \caption{Diagram czynności - realizacja zadania zespołowego}
 \end{figure}
 
 \section{Zastosowania diagramów czynności}

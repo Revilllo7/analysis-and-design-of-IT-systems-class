@@ -1,8 +1,0 @@
-\babel@toc {polish}{}\relax 
-\contentsline {section}{\numberline {1}Cel diagramów czynności}{2}{section.1}%
-\contentsline {section}{\numberline {2}Notacja i semantyka}{2}{section.2}%
-\contentsline {section}{\numberline {3}Przykład 1 – Proces tworzenia materiałów}{3}{section.3}%
-\contentsline {section}{\numberline {4}Przykład 2 – System czytelni}{4}{section.4}%
-\contentsline {section}{\numberline {5}Przykład 3 – Zadanie zespołowe}{4}{section.5}%
-\contentsline {section}{\numberline {6}Zastosowania diagramów czynności}{5}{section.6}%
-\contentsline {section}{\numberline {7}Wnioski}{6}{section.7}%

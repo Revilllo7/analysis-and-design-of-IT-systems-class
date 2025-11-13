@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2026/dev/Arch Linux) (preloaded format=pdflatex 2025.11.12)  13 NOV 2025 15:34
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2026/dev/Arch Linux) (preloaded format=pdflatex 2025.11.12)  13 NOV 2025 15:38
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -774,16 +774,6 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.89 ...proces wypożyczania książki w czytelni}
-                                                  
-? 
-
-! LaTeX Error: Command \k unavailable in encoding OT1.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
 l.94 Diagramy czynności znajdują
                                    szerokie zastosowanie w analizie i projek...
 
@@ -929,7 +919,7 @@ Here is how much of TeX's memory you used:
 xmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-dist/fonts/
 type1/public/amsfonts/cm/cmti12.pfb></usr/share/texmf-dist/fonts/type1/public/a
 msfonts/cm/cmtt12.pfb>
-Output written on raport.pdf (5 pages, 130769 bytes).
+Output written on raport.pdf (5 pages, 130744 bytes).
 PDF statistics:
  99 PDF objects out of 1000 (max. 8388607)
  80 compressed objects within 1 object stream

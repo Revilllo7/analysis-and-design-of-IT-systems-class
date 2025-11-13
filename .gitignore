@@ -1,6 +1,6 @@
-report.aux
-report.out
-report.log
-report.synctex.gz
-report.toc
-report.dvi
+*.aux
+*.out
+*.log
+*.synctex.gz
+*.toc
+*.dvi

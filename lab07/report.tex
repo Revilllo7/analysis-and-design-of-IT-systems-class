@@ -100,7 +100,6 @@ Instytut Informatyki}
          Nazwa uczelni& Uniwersytet Gdański\\\hline
          Kierunek& Informatyka (profil praktyczny)\\\hline
          Prowadzący& dr inż. Stanisław Witkowski\\\hline
-         Specjalność& -\\\hline
          Nazwa ćwiczenia& Dynamiczny aspekt systemu informatycznego poprzez tworzenie behawioralnego diagramu czynności\\\hline
          Numer sprawozdania& 4\\\hline
          Data zajęć& 13.11.2025\\\hline
@@ -118,39 +117,121 @@ Instytut Informatyki}
 
 \section{Cel diagramów czynności}
 
-Diagram czynności (ang. \textit{Activity Diagram}) jest jednym z podstawowych diagramów behawioralnych UML, służącym do modelowania dynamicznych aspektów systemu. Jego głównym celem jest przedstawienie przepływu sterowania i danych w procesach biznesowych lub operacjach systemowych.
+Diagram czynności (ang. \textit{Activity Diagram}) jest jednym z podstawowych diagramów behawioralnych UML, służącym do modelowania dynamicznych aspektów systemu. Jego celem jest przedstawienie:
 
-Diagram ten umożliwia:
 \begin{itemize}
-    \item analizę procesów biznesowych i logiki algorytmów,
-    \item wizualizację sekwencji czynności wykonywanych w ramach przypadków użycia,
-    \item identyfikację punktów decyzyjnych, rozgałęzień i współbieżności,
-    \item ułatwienie komunikacji pomiędzy analitykami, projektantami i użytkownikami.
+    \item przepływu działań wykonywanych w systemie,
+
+    \item kolejności operacji,
+
+    \item warunków decyzyjnych,
+
+    \item równoległego wykonywania czynności,
+
+    \item przepływu informacji oraz sterowania,
+
+    \item interakcji użytkownika z systemem na poziomie procesów,
+
+    \item reakcji systemu na zdarzenia wewnętrzne i zewnętrzne (np. zadziałanie przypomnień, wysłanie powiadomień).
 \end{itemize}
 
-Diagramy czynności stanowią doskonałe narzędzie do opisu scenariuszy przypadków użycia oraz projektowania przepływów pracy (ang. \textit{workflow}) w systemach informatycznych.
+Diagramy czynności stanowią doskonałe narzędzie do opisu scenariuszy przypadków użycia oraz projektowania przepływów pracy (ang. \textit{workflow}) w systemach informatycznych. Pozwalają nie tylko opisać zachowanie systemu, ale też je przeanalizować pod względami jak:
+
+\begin{itemize}
+    \item logiki biznesowej,
+
+    \item przebiegu scenariuszy użytkownika (use cases),
+
+    \item punktów optymalizacji procesów,
+
+    \item potencjalnych błędów sekwencji lub niejednożnaczności funkcjonalnych,
+
+    \item miejsc wymagajacych synchronizacji lub dodatkowej walidacji.
+\end{itemize}
+
+W projektach zespołowych diagramy czynności pełnią również rolę komunikacyjną, międzyinnymi pozwalając członkom zespołu szybko zrozumieć procesy, nawet jeśli nie są sztywno odpowiedzialni za ich implementację.
 
 \section{Notacja i semantyka}
 
 Na diagramach czynności stosuje się zestaw standardowych elementów UML, które pozwalają odwzorować logikę przepływu sterowania i danych:
 
+\subsection{Elementy podstawowe}
+
 \begin{itemize}
-    \item \textbf{Węzeł początkowy (Initial Node)} - punkt rozpoczęcia aktywności.
-    \item \textbf{Czynność (Action)} - pojedynczy krok lub operacja wykonywana w procesie.
-    \item \textbf{Węzeł decyzyjny (Decision Node)} - element rozgałęziający przepływ w zależności od warunków logicznych.
-    \item \textbf{Węzeł rozwidlenia (Fork Node)} - rozpoczęcie wykonywania czynności równoległych.
-    \item \textbf{Węzeł scalenia (Join Node)} - synchronizacja równoległych przepływów.
-    \item \textbf{Węzeł końcowy przepływu (Flow Final Node)} - zakończenie części przepływu.
-    \item \textbf{Węzeł końcowy (Activity Final Node)} - zakończenie całej aktywności.
-    \item \textbf{Partycje aktywności (Swimlanes)} - wydzielenie czynności realizowanych przez różne role lub systemy.
+    \item Początek (Initial Node) — symbol wznowienia działania, zwykle jako czarne koło.
+
+    \item Czynność (Action Node) — pojedynczy krok, operacja wykonywana przez system lub użytkownika.
+
+    \item Przejście (Transition) — strzałka określająca przepływ sterowania między czynnościami.
+
+    \item Zakończenie (Activity Final Node) — punkt kończący cały proces.
+
+    \item Flow Final — punkt kończący tylko jedną z gałęzi przepływu.
 \end{itemize}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{Activity-Diagram-Notations.jpg}
-    \caption{Schemat przedstawienia graficznych elementów diagramu czynności}
-    \label{fig:activity_notations}
+    \includegraphics[width=0.75\linewidth]{resources/activity_diagram/Podstawowe elementy diagramu.png}
+    \caption{Graficzne przedstawienie podstawowych elementów diagramu: Initial node, Action node, Transition, Activity final node i Flow final}
+    \label{fig:elementy_podstawowe}
 \end{figure}
+
+\subsection{Elementy kontrolne}
+
+\begin{itemize}
+    \item Węzeł decyzyjny (Decision Node) — wybór jednej z możliwych ścieżek na podstawie warunku.
+
+    \item Węzeł łączenia (Merge Node) — ponowne scalenie alternatywnych ścieżek.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{resources/activity_diagram/Elementy kontrolne diagramu.png}
+    \caption{Graficzne przedstawienie elementów kontrolnych diagramu: Decision node i Merge node}
+    \label{fig:elementy_kontrolne}
+\end{figure}
+
+\subsection{Równoległość}
+
+\begin{itemize}
+    \item Fork Node — rozdzielenie jednego przepływu na wiele równoległych.
+
+    \item Join Node — synchronizacja kilku równoległych ścieżek w jedną.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{resources/activity_diagram/Równoległości diagramu.png}
+    \caption{Graficzne przedstawienie podstawowych elementów diagramu: Fork node i Join node}
+    \label{fig:równoległości_diagramu}
+\end{figure}
+
+\subsection{Obiekty i dane}
+
+\begin{itemize}
+    \item Object Node — reprezentuje obiekt, dokument lub dane przechodzące między czynnościami.
+
+    \item Swimlane (tor aktywności) — podział diagramu na obszary reprezentujące odpowiedzialność uczestników (np. Użytkownik, System, Moduł Powiadomień).
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{resources/activity_diagram/Obiekty i dane diagramu.png}
+    \caption{Graficzne przedstawienie podstawowych elementów diagramu: Object node i Swimlane}
+    \label{fig:obiekty_i_dane_diagramu}
+\end{figure}
+
+\subsection{Semantyka}
+
+\begin{itemize}
+    \item Przepływ odbywa się sekwencyjnie lub równolegle w zależności od struktury.
+
+    \item Czynność wykonuje się w atomicznie (w całości).
+
+    \item Warunki decyzyjne muszą być wzajemnie rozłączne, chyba że diagram zakłada inaczej.
+
+    \item Równoległość wymaga jawnej synchronizacji Join Node, aby uniknąć niespójności.
+\end{itemize}
 
 Elementy te łączy się za pomocą przepływów sterowania (\textit{Control Flow}), które określają kolejność wykonywania czynności.
 
@@ -163,20 +244,72 @@ Elementy te łączy się za pomocą przepływów sterowania (\textit{Control Flo
     \label{fig:activity_rent_car}
 \end{figure}
 
-Proces przedstawia ---.
+Proces przedstawia system zamawiania pojazdów samochodowych przez użytkownika.
 
 \begin{itemize}
-    \item Węzeł początkowy - \textit{---}.
-    \item Czynność: \textit{---}.
-    \item Czynność: \textit{---}.
-    \item Decyzja: \textit{---}
+    \item Initial node - \textit{''Użytkownik na stronie''}.
+    \item Action node: \textit{''Uruchomienie koszyka''}.
+    \item Action node: \textit{''Wyświetlenie koszyka''}.
+    \item Merge node:
     \begin{itemize}
-        \item Jeśli \textbf{tak}: przejście do \textit{---}.
-        \item Jeśli \textbf{nie}: \textit{---}.
+        \item \textit{''Wyświetlenie koszyka''}: przejście do \textit{Decision Node ''Czy zmiany w koszyku?''}.
+        \item \textit{''Aktualizacja danych w koszyku''}: przejście do \textit{Decision Node ''Czy zmiany w koszyku?''}.
     \end{itemize}
-    \item ---.
-    \item Węzeł końcowy - \textit{---}.
+    
+    \item Decision node: \textit{Czy zmiany w koszyku?}:
+    \begin{itemize}
+        \item Jeśli \textbf{tak}: przejście do \textit{Action node: ''Zamiana produktów w koszyku''}.
+        \begin{itemize}
+            \item Action node: \textit{''Aktualizacja danych w koszyku'' przejście do Merge node}
+
+            \item Jeśli \textbf{nie}: przejście do \textit{Action node: ''Zatwierdzenie koszyka''}.
+        \end{itemize}
+    \end{itemize}
+    
+    \item Decision node: \textit{''Czy suma zamówienia > 0?''}
+    \begin{itemize}
+        \item Jeśli \textbf{tak}: przejście do \textit{Action node: ''Wyświetlenie formularza z danymi klienta''}.
+        
+        \item Jeśli \textbf{nie}: przejście do \textit{Action node: ''Wyświetlenie skróconego formularza''}.
+    \end{itemize}
+    
+    \item Merge node:
+    \begin{itemize}
+        \item \textit{''Wyświetlenie formularza z danymi klienta''}: przejście do \textit{Decision Node ''Wypełnianie formularza''}.
+        
+        \item \textit{''Wyświetlanie skróconego formularza''}: przejście do \textit{Decision Node ''Wypełnianie formularza''}.
+        
+        \item \textit{''Wyświetlanie listy pól do poprawy''}: przejście do \textit{Decision Node ''Wypełnianie formularza''}.
+        
+    \end{itemize}
+    \item Action node: \textit{''Wypełnianie formularza'}
+
+    \item Action node: \textit{''Walidacja danych''}
+
+    \item Decision node: \textit{''Dane poprawne?''}
+    \begin{itemize}
+        \item Jeśli \textbf{tak}: przejście do \textit{Action node: ''Zapisanie formularza''}.
+        
+        \item Jeśli \textbf{nie}: przejście do \textit{Action node: ''Wyświetlanie listy pól do poprawy''}.
+    \end{itemize}
+
+    \item Action node: \textit{''Zapisanie formularza''}
+
+    \item Fork node: \textit{Action node: ''Zapisanie formularza'' przechodzi do}:
+    \begin{itemize}
+        \item Action node: \textit{''Utworzenie konta użytkownika''}.
+        
+        \item Action node: \textit{''Rezerwacja pojazdu''}.
+    \end{itemize}
+
+    \item Join node: \textit{Action nodes ''Utworzenie konta użytkownika'' i ''Rezerwacja pojazdu''}  łączą się do:
+    \begin{itemize}
+        \item Activity final node: \textit{''Utworzone konto''}.
+    \end{itemize}
+    
+    \item Węzeł końcowy - \textit{''Utworzone konto''}.
 \end{itemize}
+
 
 
 \section{Przykład 2 - System czytelni}
@@ -185,35 +318,84 @@ Proces przedstawia ---.
 
 
 \section{Przykład 3 - Zadanie zespołowe}
+\label{kairo_diagram}
 
 \textbf{Opis:} Diagram ilustruje czynności w projekcie Kairo Habit App.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{resources/diagram_czynnosci_biblioteka.png}
+    \includegraphics[width=0.8\textwidth]{resources/library/diagram_czynnosci_biblioteka.png}
     \caption{Diagram czynności Kairo Habit App}
 \end{figure}
+
+Dla tego systemu przykład diagramu czynności pokazuje scenariusz użytkownika ustawiającego nowy nawyk z przypomnieniem.
+Taki przypadek użycia łączy interakcję człowieka z automatycznymi procesami wewnątrz systemu.
 
 \section{Zastosowania diagramów czynności}
 
 Diagramy czynności znajdują szerokie zastosowanie w analizie i projektowaniu systemów informatycznych, w szczególności do:
+
+\subsection{Analiza i modelowanie wymagań}
+
 \begin{itemize}
-    \item modelowania procesów biznesowych,
-    \item dokumentowania przypadków użycia,
-    \item analizy logiki programów i algorytmów,
-    \item projektowania przepływów danych i sterowania w systemach,
-    \item symulacji współbieżnych działań użytkowników i systemów.
+    \item Pozwalają dokładnie opisać scenariusze użytkownika.
+
+    \item Umożliwiają wychwycenie brakujących kroków lub warunków.
+\end{itemize}
+
+\subsection{Projektowanie logiki biznesowej}
+
+\begin{itemize}
+    \item Wizualizują przepływy danych i operacji.
+
+    \item Pomagają projektantom określić odpowiedzialności modułów.
+\end{itemize}
+
+\subsection{Komunikacja w zespole}
+
+\begin{itemize}
+    \item Ułatwiają współpracę między analitykami, projektantami i programistami.
+
+    \item Eliminują nieporozumienia wynikające z interpretacji słownego opisu.
+\end{itemize}
+
+\subsection{Testowanie}
+
+\begin{itemize}
+    \item Służą jako podstawa do tworzenia przypadków testowych.
+
+    \item Pozwalają odwzorować ścieżki alternatywne i sytuacje wyjątkowe.
+\end{itemize}
+
+\subsection{Optymalizacja procesów}
+\begin{itemize}
+    \item Pokazują miejsca, gdzie można wprowadzić asynchroniczność, skrócić proces, lub dodać walidację.
 \end{itemize}
 
 \section{Wnioski}
 
 Diagramy czynności stanowią ważny element procesu analizy systemów informatycznych. Pozwalają na:
 \begin{itemize}
-    \item lepsze zrozumienie przepływu informacji i decyzji w systemie,
-    \item identyfikację miejsc potencjalnych błędów lub nieefektywności,
-    \item ułatwienie komunikacji pomiędzy zespołami projektowymi i biznesowymi.
+    \item pokazanie, jak system zachowuje się w odpowiedzi na działania użytkownika,
+
+    \item wskazanie zależności czasowych i logicznych między operacjami,
+
+    \item uchwycenie procesów współbieżnych,
+
+    \item weryfikacja poprawności zaprojektowanych funkcji jeszcze przed implementacją.
 \end{itemize}
 
-W kontekście systemów informatycznych diagramy te wspierają planowanie wdrożeń, definiowanie procesów roboczych oraz zapewniają czytelne odwzorowanie dynamiki systemu przed implementacją. Stanowią nieodzowne narzędzie analityka i projektanta oprogramowania.
+W kontekście projektów zespołowych, takich jak opisywana aplikacja do nawyków (referencja: \ref{kairo_diagram}):
+\begin{itemize}
+    \item diagramy czynności porządkują i formalizują pracę nad modułami,
+
+    \item zwiększają spójność projektową,
+
+    \item redukują ryzyko błędnych interpretacji,
+
+    \item wspierają testowanie i wdrożenie.
+\end{itemize}
+
+Ostatecznie, w dobrze zaprojektowanym systemie informatycznym diagramy czynności pozwalają na klarowne odwzorowanie procesów biznesowych oraz zapewniają, że implementacja odpowiada rzeczywistym potrzebom użytkownika i założeniom funkcjonalnym.
 
 \end{document}

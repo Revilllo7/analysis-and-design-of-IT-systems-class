@@ -437,27 +437,33 @@ Proces przedstawia system zamawiania pojazdów samochodowych przez użytkownika.
     \item Action node: 
     \textit{''Przeglądanie strony głównej''}.
 
-    \item Decision node: \textit{''Który ekran chcesz?''}
+    
+        \item Action node: 
+        \textit{''Przeglądanie nawyków''}.
+
+        \item Action node: 
+        \textit{''Zarządzanie nawykami''}.
+
         \begin{itemize}
-            \item Jeśli \textbf{nawyki}: przejście do \textit{Przeglądanie nawyków''}.
+            \item Action node: 
+            \textit{''Zapisz nawyki''}.
 
-            \item Jeśli \textbf{zarządzanie}: przejście do \textit{Action node: ''Zarządzanie nawykami''}.
+            \item Action node: 
+            \textit{''Edytuj nawyki''}.
 
-            \item Decision node: \textit{''Która opcja?''}
-            \begin{itemize}
-                \item Jeśli \textbf{zapisz}: przejście do \textit{Zapisz nawyki''}.
+            \item Action node: 
+            \textit{''Usuń nawyki''}.
 
-                \item Jeśli \textbf{edytuj}: przejście do \textit{Edytuj nawyki''}.
-
-                \item Jeśli \textbf{usuń}: przejście do \textit{Usuń nawyki''}.
-
-            \end{itemize}
-            \item Jeśli \textbf{powiadomienia}: przejście do \textit{Action node: ''Zarządzanie powiadomioeniami''}.
-
-            \item Jeśli \textbf{znajomi}: przejście do \textit{Action node: ''Pinguj znajomego''}.
-
-            \item Jeśli \textbf{aplikacja}: przejście do \textit{Action node: ''Zarządzanie aplikacją''}.
         \end{itemize}
+        
+        \item Action node: 
+        \textit{''Zarządzaj powiadomieniami''}.
+
+        \item Action node: 
+        \textit{''Pinguj znajomego''}.
+
+        \item Action node: 
+        \textit{''Zarządzaj aplikacją''}.
 
         \item Action node: 
         \textit{''Zapisz ustawienia''}.

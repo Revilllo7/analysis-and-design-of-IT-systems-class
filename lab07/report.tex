@@ -315,7 +315,86 @@ Proces przedstawia system zamawiania pojazdów samochodowych przez użytkownika.
 \section{Przykład 2 - System czytelni}
 
 \textbf{Opis:} Diagram przedstawia czynności w systemie czytelni.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{resources/library/diagram_czynnosci_biblioteka.png}
+    \caption{Diagram czynności systemu bibliotecznego}
+\end{figure}
 
+\begin{itemize}
+    \item Initial node - \textit{''Otwórz stronę logowania/rejestracji''}.
+    
+    \item Action node: \textit{''Wypełnij formularz''}.
+    
+    \item Action node: \textit{''Walidacja danych''}.
+
+    \item Decision node: \textit{''Pola poprawnie wypełnione?''}
+    \begin{itemize}
+        \item Jeśli \textbf{tak}: przejście do \textit{Action node: ''Pokaż listę książęk''}.
+        
+        \item Jeśli \textbf{nie}: przejście do \textit{Action node: ''Wypełnij formularz''}.
+    \end{itemize}
+
+    \item Action node: \textit{''Pokaż listę książek''}.
+
+    \item Action node: \textit{''Filtruj''}.
+
+    \item Action node: \textit{''Zmień sposób wyświetlania''}.
+
+    \item Action node: \textit{''Wybierz książkę''}.
+    \begin{itemize}
+        \item Action node: \textit{''Przejdź do szczegółów''}.
+        \begin{itemize}
+            \item Action node: \textit{''Wypożycz książkę''}.
+
+            \begin{itemize}
+                \item Action node: \textit{''Zapisz oczekujące wypożyczenie''}.
+
+                \item Action node: \textit{''Powiadom administratora''}.
+                
+            \end{itemize}
+
+            \item Action node: \textit{''Przedłuż wypożyczenie''}.
+
+            \item Action node: \textit{''Zapisz stan użytkownika''}.
+
+            \item Action node: \textit{''Powiadom użytkownika''}.
+            
+        \end{itemize}
+        
+        
+    \end{itemize}
+
+    \item Action node: \textit{''Dodaj nową książkę''}.
+
+    \begin{itemize}
+        \item Action node: \textit{''Otwórz formularz oddawania książek''}.
+
+        \item Action node: \textit{''Wypełnij wszystkie pola''}.
+
+        \item Decision node: \textit{''Pola poprawnie wypełnione?''}
+        \begin{itemize}
+            \item Jeśli \textbf{tak}: przejście do \textit{Action node: ''Zapisz rekord jako czekujący''}.
+
+            \item Action node: \textit{''Powiadom administratora''}.
+        
+            \item Jeśli \textbf{nie}: przejście do \textit{Action node: ''Wypełnij wszystkie pola''}.
+        \end{itemize}
+
+    \item Action node: \textit{''Przeglądaj ksiażki oczekujące''}.
+    \item Decision node: \textit{''Zatwierdzone?''}
+        \begin{itemize}
+            \item Jeśli \textbf{tak}: przejście do \textit{Action node: ''Dodaj rekord''}.
+
+            \item Action node: \textit{''Powiadom użytkownika''}.
+        
+            \item Jeśli \textbf{nie}: przejście do \textit{Action node: ''Usuń rekord''}.
+            \item Action node: \textit{''Powiadom użytkownika''}.
+        \end{itemize}
+
+    \end{itemize}
+    
+\end{itemize}
 
 \section{Przykład 3 - Zadanie zespołowe}
 \label{kairo_diagram}
@@ -324,9 +403,72 @@ Proces przedstawia system zamawiania pojazdów samochodowych przez użytkownika.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{resources/library/diagram_czynnosci_biblioteka.png}
+    \includegraphics[width=1\textwidth]{resources/kairo/diagram_czynnosci_kairo.png}
     \caption{Diagram czynności Kairo Habit App}
 \end{figure}
+
+\begin{itemize}
+    \item Initial node - \textit{''Start''}.
+    
+    \item Action node: 
+    \textit{''Uruchomienie koszyka''}.
+    
+    \item Action node: \textit{''Wyświetlenie koszyka''}.
+
+
+
+    \item Action node: 
+    \textit{''Rejestracja''}.
+
+    \item Action node: 
+    \textit{''Logowanie''}.
+
+
+    \item Action node: 
+    \textit{''Weryfikacja danych''}.
+
+    \item Decision node: \textit{''Dane poprawne?''}
+        \begin{itemize}
+            \item Jeśli \textbf{tak}: przejście do \textit{Kontwo utworzone''}.
+
+            \item Jeśli \textbf{nie}: przejście do \textit{Initial node: ''Start''}.
+        \end{itemize}
+
+    \item Action node: 
+    \textit{''Przeglądanie strony głównej''}.
+
+    \item Decision node: \textit{''Który ekran chcesz?''}
+        \begin{itemize}
+            \item Jeśli \textbf{nawyki}: przejście do \textit{Przeglądanie nawyków''}.
+
+            \item Jeśli \textbf{zarządzanie}: przejście do \textit{Action node: ''Zarządzanie nawykami''}.
+
+            \item Decision node: \textit{''Która opcja?''}
+            \begin{itemize}
+                \item Jeśli \textbf{zapisz}: przejście do \textit{Zapisz nawyki''}.
+
+                \item Jeśli \textbf{edytuj}: przejście do \textit{Edytuj nawyki''}.
+
+                \item Jeśli \textbf{usuń}: przejście do \textit{Usuń nawyki''}.
+
+            \end{itemize}
+            \item Jeśli \textbf{powiadomienia}: przejście do \textit{Action node: ''Zarządzanie powiadomioeniami''}.
+
+            \item Jeśli \textbf{znajomi}: przejście do \textit{Action node: ''Pinguj znajomego''}.
+
+            \item Jeśli \textbf{aplikacja}: przejście do \textit{Action node: ''Zarządzanie aplikacją''}.
+        \end{itemize}
+
+        \item Action node: 
+        \textit{''Zapisz ustawienia''}.
+
+        \item Action node: 
+        \textit{''Wyślij powiadomienie''}.
+
+        \item Action node: 
+        \textit{''Otrzymaj powiadomienie''}.
+    
+\end{itemize}
 
 Dla tego systemu przykład diagramu czynności pokazuje scenariusz użytkownika ustawiającego nowy nawyk z przypomnieniem.
 Taki przypadek użycia łączy interakcję człowieka z automatycznymi procesami wewnątrz systemu.

@@ -115,5 +115,652 @@ Instytut Informatyki}
 \tableofcontents
 \newpage
 
+\section{Określenie problemu projektowego.}
+
+\subsection{Cel i zakres problemu projektowego}
+
+Celem projektu jest pokazanie, w jaki sposób diagramy aktywności mogą służyć do modelowania logiki działania aplikacji. Tego typu diagramy pozwalają na jednoznaczne, graficzne odwzorowanie przepływu sterowania, dzięki czemu ułatwiają analizę, implementację oraz późniejsze utrzymanie kodu.
+Problem projektowy polega więc na potrzebie przedstawienia logiki systemu w sposób klarowny, tak aby ograniczyć ryzyko błędnej interpretacji funkcjonalności przez programistów i projektantów.
+
+\subsection{Dlaczego właśnie diagram aktywności?}
+
+Diagram aktywności pozwala zaprezentować złożone operacje jako sekwencje kroków, ścieżek równoległych i warunkowych rozgałęzień. Dzięki temu stanowi narzędzie umożliwiające:
+
+\begin{itemize}
+    \item uporządkowane przedstawienie logiki wykonania,
+
+    \item zrozumienie zależności pomiędzy operacjami,
+
+    \item identyfikację miejsc wymagających synchronizacji,
+
+    \item ocenę, gdzie proces może zostać zrównoleglony.
+\end{itemize}
+
+Choć w literaturze określenia \textit{diagram czynności} i \textit{diagram aktywności} są zazwyczaj używane zamiennie, w tym projekcie skupiamy się na ich zastosowaniu do prezentowania \textbf{wewnętrznej logiki operacji systemu}, czyli modelowania tego, jak kod faktycznie działa.
+
+\subsection{Co powinien przedstawiać diagram aktywności?}
+
+Diagram aktywności opisuje m.in.:
+
+\begin{itemize}
+    \item szczegółowe kroki realizacji funkcji systemu,
+
+    \item przepływ sterowania między operacjami,
+
+    \item warunki logiczne decydujące o wyborze kolejnych instrukcji,
+
+    \item ścieżki wykonywane równolegle,
+
+    \item podstawowy przepływ danych,
+
+    \item sekwencję działań wykonywanych przez moduły systemu,
+
+    \item zależności pomiędzy fragmentami implementacji.
+\end{itemize}
+
+Jego główną rolą jest przedstawienie, w jaki sposób system wykonuje daną procedurę.
+
+\subsection{Zastosowanie w projektowaniu logiki kodu}
+
+W kontekście projektowania i dokumentowania kodu diagramy aktywności są szczególnie przydatne, ponieważ umożliwiają:
+
+\begin{itemize}
+    \item analizę operacji na poziomie wykonawczym,
+
+    \item wykrywanie błędów sekwencji lub brakujących warunków,
+
+    \item identyfikację kroków, które mogą być wykonywane współbieżnie,
+
+    \item doprecyzowanie formalnego opisu procedur przed ich implementacją.
+\end{itemize}
+
+W efekcie stanowią one wsparcie zarówno na etapie programowania, jak i przy późniejszych modyfikacjach systemu.
+
+\subsection{Podsumowanie problemu i roli diagramu}
+
+Diagram aktywności pozwala skutecznie rozwiązać kluczowy problem projektowy:
+przedstawienie logiki systemu w sposób jednoznaczny i zrozumiały, z uwzględnieniem alternatywnych ścieżek wykonania, decyzji oraz zależności operacyjnych.
+
+Jego wykorzystanie poprawia komunikację w zespole, ułatwia przyszłą rozbudowę projektu i pełni istotną rolę w dokumentacji technicznej, zwłaszcza gdy nad aplikacją pracuje wiele osób.
+
+\section{Notacje diagramu aktywności.}
+
+W diagramach aktywności wykorzystywane są standardowe elementy UML, które umożliwiają opis struktury przepływu sterowania i danych w procesach realizowanych przez system.:
+
+\subsection{Elementy podstawowe} 
+
+\begin{itemize}
+    \item Początek (Initial Node) - punkt startowy procedury lub algorytmu. Zwykle jako czarne koło.
+
+    \item Czynność (Action Node) - elementarna operacja wykonywana przez aplikację.
+
+    \item Przejście (Transition) - kreśla przepływ sterowania między operacjami.
+
+    \item Zakończenie (Activity Final Node) - zakończenie całego procesu wykonawczego.
+
+    \item Flow Final - zakończenie pojedynczej ścieżki operacji.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{resources/activity_diagram/Podstawowe elementy diagramu.png}
+    \caption{Graficzne przedstawienie podstawowych elementów diagramu: Initial node, Action node, Transition, Activity final node i Flow final}
+    \label{fig:elementy_podstawowe}
+\end{figure}
+
+\subsection{Elementy kontrolne}
+
+\begin{itemize}
+    \item Węzeł decyzyjny (Decision Node) - rozgałęzienie logiki operacji na podstawie warunku.
+
+    \item Węzeł łączenia (Merge Node) - scalenie alternatywnych ścieżek sterowania.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{resources/activity_diagram/Elementy kontrolne diagramu.png}
+    \caption{Graficzne przedstawienie elementów kontrolnych diagramu: Decision node i Merge node}
+    \label{fig:elementy_kontrolne}
+\end{figure}
+
+\subsection{Równoległość}
+
+\begin{itemize}
+    \item Fork Node - rozdzielenie ścieżki sterowania na równoległe fragmenty wykonania.
+
+    \item Join Node - synchronizacja kilku równoległych operacji.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{resources/activity_diagram/Równoległości diagramu.png}
+    \caption{Graficzne przedstawienie podstawowych elementów diagramu: Fork node i Join node}
+    \label{fig:równoległości_diagramu}
+\end{figure}
+
+\subsection{Obiekty i dane}
+
+\begin{itemize}
+    \item Object Node - przekazywane lub przetwarzane dane w trakcie operacji.
+
+    \item Swimlane (tor aktywności) - sposób podziału odpowiedzialności między modułami systemu (np. Użytkownik, System, Moduł Powiadomień).
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{resources/activity_diagram/Obiekty i dane diagramu.png}
+    \caption{Graficzne przedstawienie podstawowych elementów diagramu: Object node i Swimlane}
+    \label{fig:obiekty_i_dane_diagramu}
+\end{figure}
+
+\subsection{Semantyka}
+
+\begin{itemize}
+\item Wykonanie operacji przebiega zgodnie z przepływem sterowania (Control Flow).
+
+\item Akcje traktowane są jako atomowe jednostki implementacji.
+
+\item Warunki muszą definiować jednoznaczny wybór ścieżki.
+
+\item Równoległość wymaga jawnej synchronizacji w celu zachowania spójności danych.
+\end{itemize}
+
+Elementy te łączy się za pomocą przepływów sterowania (\textit{Control Flow}), które określają kolejność wykonywania czynności.
+
+\section{Budowa architektury realizacji usługi aplikacji}
+
+Tworzenie architektury realizacji usługi aplikacji z wykorzystaniem diagramów aktywności polega na odwzorowaniu logiki działania poszczególnych komponentów systemu oraz sposobu, w jaki współpracują one w trakcie wykonywania konkretnego zadania. Diagram aktywności stanowi w tym kontekście narzędzie umożliwiające analizę przepływu sterowania oraz danych, wspierając zarówno projektowanie usług, jak i ocenę ich spójności oraz efektywności.
+
+\subsection{Modelowanie komponentów i przepływu informacji}
+
+Z punktu widzenia architektury usługi kluczowe jest przedstawienie, w jaki sposób dane przepływają pomiędzy modułami aplikacji. Diagram aktywności pozwala uchwycić:
+
+\begin{itemize}
+\item przekazywanie danych pomiędzy elementami systemu,
+\item kierunek i kolejność komunikacji,
+\item punkty synchronizacji i rozdzielenia ścieżek operacji,
+\item kontekst danych niezbędny do wykonania każdej czynności.
+\end{itemize}
+
+Odwzorowanie przepływu informacji umożliwia ocenę, czy projektowana architektura minimalizuje redundancję, zapewnia odpowiednią separację odpowiedzialności oraz umożliwia późniejszą skalowalność systemu.
+
+\subsection{Reprezentacja kolejności operacji i logiki systemowej}
+
+Diagram aktywności przedstawia również logiczną strukturę działań składających się na daną usługę. Pozwala to określić:
+
+\begin{itemize}
+\item które operacje są wykonywane sekwencyjnie,
+\item w których punktach następują decyzje warunkowe,
+\item jakie działania mogą być wykonywane współbieżnie,
+\item jak przebiega przepływ sterowania po zakończeniu danej czynności.
+\end{itemize}
+
+Precyzyjne rozpisanie kolejności operacji jest kluczowe przy analizie wydajności systemu oraz identyfikacji kroków podatnych na błędy lub wymagających optymalizacji.
+
+\subsection{Obsługa wyjątków i przypadków brzegowych}
+
+W projektowaniu architektury usługi konieczne jest uwzględnienie scenariuszy niepoprawnych lub nietypowych. Diagram aktywności pozwala wyraźnie wskazać:
+
+\begin{itemize}
+\item momenty wykrywania błędów,
+\item alternatywne ścieżki wykonania,
+\item procesy uzupełniające (np. rejestracja błędów, komunikaty zwrotne),
+\item zasoby wymagające wycofania lub ponownej alokacji.
+\end{itemize}
+
+Dzięki temu architektura usługi uwzględnia mechanizmy odporności na błędy i pozwala ocenić jakość obsługi sytuacji wyjątkowych.
+
+\subsection{Integracja modułów i zależności pomiędzy elementami aplikacji}
+
+Diagram aktywności umożliwia identyfikację zależności pomiędzy elementami implementacji, takich jak:
+
+\begin{itemize}
+\item kolejność wywołań modułów,
+\item wymogi dotyczące stanu systemu przed wykonaniem operacji,
+\item zależności danych w kontekście kolejnych działań,
+\item powiązania logiczne wpływające na działanie całej usługi.
+\end{itemize}
+
+W ten sposób diagram aktywności wspiera tworzenie architektury usług, które są spójne, odporne na błędy i zgodne z założeniami projektowymi.
+
+
+\section{Procedura wykonania operacji informatycznej}
+
+Procedura realizacji operacji informatycznej przedstawiona poprzez diagram aktywności pozwala uchwycić szczegółową logikę wykonania zadania, od momentu inicjalizacji po zakończenie działania systemu. Dzięki takiemu modelowi możliwe jest zarówno zrozumienie przebiegu operacji z perspektywy użytkownika, jak i uwzględnienie wewnętrznych kroków realizowanych przez system.
+
+\subsection{Inicjalizacja działania i odbiór żądania}
+
+Proces rozpoczyna się od zainicjowania operacji, najczęściej poprzez:
+
+\begin{itemize}
+\item wysłanie żądania przez użytkownika,
+\item wywołanie usługi przez inny moduł systemu,
+\item zewnętrzny sygnał lub zdarzenie (np. czasowe, systemowe).
+\end{itemize}
+
+Etap ten stanowi punkt wejścia do procedury i określa kontekst wykonywanych dalej działań.
+
+\subsection{Weryfikacja danych wejściowych i warunków początkowych}
+
+Kolejnym krokiem jest sprawdzenie, czy dane wejściowe są poprawne oraz czy system znajduje się w stanie umożliwiającym wykonanie operacji. Proces ten może obejmować:
+
+\begin{itemize}
+\item walidację wartości dostarczonych przez użytkownika,
+\item kontrolę integralności danych,
+\item sprawdzenie uprawnień,
+\item weryfikację dostępności wymaganych zasobów.
+\end{itemize}
+
+W przypadku niepowodzenia system może przejść do ścieżki obsługi błędu lub alternatywnego scenariusza.
+
+\subsection{Podejmowanie decyzji i wybór ścieżki wykonania}
+
+Po weryfikacji danych system dokonuje wyboru dalszej ścieżki na podstawie zdefiniowanych warunków logicznych. Obejmuje to:
+
+\begin{itemize}
+\item analizę spełnienia warunków decyzyjnych,
+\item wybór odpowiednich operacji lub procedur,
+\item inicjację procesów równoległych, jeśli sytuacja tego wymaga.
+\end{itemize}
+
+Warunki te determinują, w jaki sposób operacja będzie przebiegać dalej.
+
+\subsection{Realizacja operacji systemowych}
+
+Właściwe wykonanie procedury polega na realizacji zdefiniowanych działań. Mogą one obejmować:
+
+\begin{itemize}
+\item przetwarzanie danych w modułach aplikacji,
+\item wykonywanie operacji równoległych,
+\item komunikację z bazą danych lub usługami zewnętrznymi,
+\item wywoływanie dodatkowych procesów pomocniczych.
+\end{itemize}
+
+Diagram aktywności pozwala przy tym jasno wskazać punkty synchronizacji oraz miejsca potencjalnych konfliktów lub blokad.
+
+\subsection{Zapis wyników i zwrócenie odpowiedzi}
+
+Po zakończeniu właściwego przetwarzania system:
+
+\begin{itemize}
+\item zapisuje dane w repozytorium,
+\item aktualizuje stan zasobów,
+\item generuje wynik operacji i przekazuje go do użytkownika lub innego modułu.
+\end{itemize}
+
+Ten etap jest kluczowy dla zapewnienia integralności danych oraz spójności stanu systemu.
+
+\subsection{Zakończenie procesu i zwolnienie zasobów}
+
+Proces kończy się zwolnieniem zasobów, takimi jak połączenia sieciowe, uchwyty plików czy tymczasowe fragmenty pamięci. W niektórych implementacjach etap ten obejmuje również:
+
+\begin{itemize}
+\item rejestrowanie informacji diagnostycznych,
+\item aktualizację logów systemowych,
+\item zwolnienie blokad wykorzystywanych przez procedurę.
+\end{itemize}
+
+Zamknięcie operacji zapewnia poprawne funkcjonowanie systemu i minimalizuje ryzyko wycieków zasobów.
+
+\section{Zadanie 1 - diagram aktywności według pliku od prowadzącego}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{resources/teacher/teacher_diagram.png}
+    \caption{Diagram aktywności przedstawiający czynności związane z wypełnianiem formularza z podziałem na 3 swimlanes: use cases, logika i repozytorium}
+    \label{fig:teacher_diagram}
+\end{figure}
+
+Poniższy diagram aktywności przedstawia podstawowy proces obsługi formularza w systemie: od momentu jego wyświetlenia, przez odbiór danych i walidację, aż do podjęcia decyzji o zakończeniu procedury lub ponownym zwróceniu formularza z błędami. Diagram został podzielony na trzy torowiska (swimlanes):
+Use Case, Logika, Repozytorium, co pozwala odróżnić działania użytkownika, procedury przetwarzania oraz operacje końcowe.
+
+\subsection{Struktura diagramu i przepływ sterowania}
+
+\begin{enumerate}
+
+\item Inicjalizacja procesu (Use Case)
+        Proces rozpoczyna się w torze \textbf{Use Case}.
+        Pierwszą aktywnością jest:
+
+
+\begin{itemize}
+    \item Wyświetlenie formularza - system prezentuje użytkownikowi interfejs wejściowy.
+\end{itemize}
+\quad Węzeł obiektu ``Formularz'' reprezentuje przekazywaną strukturę danych.
+
+Po prezentacji formularza system oczekuje na interakcję użytkownika.
+
+
+\item Przyjęcie danych od użytkownika (Use Case -> Logika)
+
+Kolejna aktywność to:
+\begin{itemize}
+    \item Przyjęcie danych - formularz zostaje odesłany do systemu wraz z wartościami pól.
+\end{itemize}
+
+
+\qquad \qquad W tym miejscu dane są przekazywane do toru logicznego.
+
+Dołączony jest drugi węzeł obiektu ``Formularz'', który obrazuje, że system pracuje już na strukturze wypełnionej przez użytkownika.
+
+\item Sprawdzanie poprawności (Logika)
+
+Najważniejsza część procesu:
+
+\begin{itemize}
+    \item Sprawdzenie poprawności - system przeprowadza walidację na podstawie reguł logicznych.
+\end{itemize}
+
+Walidacja prowadzi do podjęcia decyzji:
+
+\begin{itemize}
+    \item \textbf{[tak]} błędy - jeżeli dane są niepoprawne.
+
+    \item \textbf{[nie]} - jeżeli dane przeszły walidację.
+\end{itemize}
+
+W przypadku wykrycia błędów system:
+
+\begin{itemize}
+    \item zwraca formularz do wcześniejszego etapu (pętla odzwierciedlona strzałkami),
+
+    \item umożliwia ponowną edycję danych przez użytkownika.
+\end{itemize}
+
+Całość odzwierciedla klasyczny wzorzec: validate --> return --> correct --> resubmit
+
+\item Przekazanie procesu do Repozytorium
+
+Gdy dane są poprawne, przepływ przechodzi do toru \textbf{Repozytorium}:
+
+\begin{itemize}
+    \item Węzeł obiektu ''Formularz'' reprezentuje przekazywaną, zwalidowaną strukturę danych,
+
+    \item Następnie wykonywana jest aktywność końcowa:
+        \begin{itemize}
+            \item Zachowanie - operacja systemowa, np. zapis danych, wygenerowanie rekordu, wykonanie dalszej logiki.
+        \end{itemize}
+\end{itemize}
+
+Po wykonaniu tej operacji proces zostaje zakończony.
+
+\end{enumerate}
+
+\subsection{Interpretacja logiki działania systemu}
+
+Diagram ukazuje logiczny i uporządkowany przepływ informacji pomiędzy trzema warstwami:
+
+\begin{enumerate}
+    \item Warstwa przypadków użycia (Use Case)
+        \begin{itemize}
+            \item Interakcje użytkownika.
+
+            \item System wyświetla formularz i odbiera dane wejściowe.
+        \end{itemize}
+
+    \item Warstwa logiki biznesowej (Logika)
+        \begin{itemize}
+            \item Realizowane są tu wewnętrzne algorytmy walidacyjne.
+
+            \item Gałęzie decyzyjne obsługują błędy i zapewniają pętlę poprawiania danych.
+
+            \item Warstwa ta odpowiada za poprawność i spójność danych przed jakąkolwiek ich persystencją.
+        \end{itemize}
+
+    \item Warstwa repozytorium (Repozytorium)
+        \begin{itemize}
+            \item Wykonywane są operacje trwałe: zapis, aktualizacja, dalsze procesy systemowe.
+
+            \item Proces kończy się w tym torze, co podkreśla, że finalny rezultat jest wynikiem poprawnie zweryfikowanych danych.
+        \end{itemize}
+\end{enumerate}
+
+\subsection{Podsumowanie działania procesu}
+
+Diagram przedstawia klasyczny scenariusz obsługi formularza w aplikacji:
+
+\begin{enumerate}
+    \item Prezentacja --> Odbiór --> Walidacja --> Zapis
+
+    \item Obsługa błędów odbywa się w formie powrotnej pętli.
+
+    \item Przepływ między torami jasno rozdziela odpowiedzialności warstw systemu.
+\end{enumerate}
+
+Układ diagramu jest czytelny i zgodny z praktyką modelowania przepływu działań w systemach wymagających walidacji wejścia oraz bezpiecznego przetwarzania danych.
+
+\section{Zadanie 2 - diagram aktywności według systemu czytelni}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{resources/library/diagram_czynnosci_biblioteka.png}
+    \caption{Diagram aktywności przedstawiający działanie systemu bibliotecznego}
+    \label{fig:library_diagram}
+\end{figure}
+
+Diagram aktywności prezentuje logikę operacji wykonywanych w systemie bibliotecznym. Obejmuje zarówno procesy związane z obsługą użytkownika, jak i wewnętrzne działania systemu odpowiedzialne za zarządzanie danymi i stanem wypożyczeń.
+
+\subsection{Proces uwierzytelniania użytkownika}
+
+Pierwszym etapem jest inicjalizacja aplikacji poprzez formularz logowania lub rejestracji. Diagram obejmuje:
+
+\begin{itemize}
+    \item walidację danych wejściowych,
+
+    \item obsługę błędów uwierzytelniania,
+
+    \item przekierowanie użytkownika do interfejsu głównego po poprawnym logowaniu.
+\end{itemize}
+
+Proces ten reprezentuje moduł bezpieczeństwa odpowiadający za dostęp do systemu.
+
+\subsection{Przeglądanie zasobów bibliotecznych}
+
+Po zalogowaniu użytkownik przechodzi do modułu katalogu. Diagram przedstawia:
+
+\begin{itemize}
+    \item wyświetlenie listy dostępnych pozycji,
+
+    \item filtrowanie i wyszukiwanie zasobów,
+
+    \item pobieranie szczegółów wybranej książki.
+\end{itemize}
+
+Sekcja ta odwzorowuje komunikację między warstwą prezentacji a modułem zarządzania katalogiem.
+
+\subsection{Obsługa operacji wypożyczeń}
+
+Diagram zawiera trzy główne ścieżki, które system może wykonać:
+
+\begin{itemize}
+    \item wypożyczenie książki,
+
+    \item przedłużenie trwającego wypożyczenia,
+
+    \item zwrot egzemplarza.
+\end{itemize}
+
+Każda ścieżka zawiera etap walidacji, aktualizacji bazy danych oraz generowania powiadomień. Alternatywne przejścia są odwzorowane poprzez rozgałęzienia decyzyjne.
+
+\subsection{Zapis i powiadomienia systemowe}
+
+Końcowa część procesu obejmuje operacje systemowe:
+
+\begin{itemize}
+    \item zapis stanu wypożyczeń,
+
+    \item aktualizację historii użytkownika,
+\end{itemize}
+
+wysłanie komunikatu o powodzeniu lub błędzie.
+Te czynności stanowią końcowy etap przepływu logiki.
+
+\section{Zadanie 3 - diagram aktywności według projektu zespołowego}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{resources/kairo/diagram_czynnosci_kairo.png}
+    \caption{Diagram aktywności Kairo Habit App}
+    \label{fig:project_diagram}
+\end{figure}
+
+Diagram aktywności przedstawia szczegółową logikę działania aplikacji \textit{Kairo Habit App}, odwzorowując sposób, w jaki system przetwarza dane użytkownika oraz realizuje operacje związane z zarządzaniem nawykami.
+
+\subsection{Rejestracja i logowanie użytkownika}
+
+Model obejmuje dwa warianty wejścia do aplikacji:
+
+\begin{itemize}
+    \item pełną rejestrację konta wraz z walidacją danych:
+    weryfikacja nazwy użytkownika, struktury hasła oraz adresu e-mail,
+    
+    \item logowanie z wykorzystaniem wcześniej zapisanych danych i tokenów sesyjnych.
+\end{itemize}
+
+Proces uwzględnia również obsługę błędów i ścieżkę alternatywną dla niepoprawnych danych.
+
+\subsection{Walidacja i przetwarzanie danych użytkownika}
+
+W diagramie przedstawiono logikę związaną z obsługą danych użytkownika, obejmującą:
+
+\begin{itemize}
+    \item sprawdzanie ważności tokenu sesji,
+
+    \item walidację danych pobieranych z pamięci lokalnej lub bazy,
+
+    \item aktualizację konfiguracji użytkownika przy starcie aplikacji.
+\end{itemize}
+
+Sekcja ta odzwierciedla współpracę modułów odpowiedzialnych za bezpieczeństwo, sesje oraz repozytorium danych.
+
+\subsection{Obsługa modułów funkcjonalnych aplikacji}
+
+Diagram uwzględnia główne moduły aplikacji:
+
+\begin{enumerate}
+    \item moduł nawyków:
+        \begin{itemize}
+            \item tworzenie wpisów,
+            \item edytowanie wpisów,
+            \item usuwanie wpisów.
+        \end{itemize}
+    
+    \item moduł powiadomień:
+        \begin{itemize}
+            \item harmonogramy.
+            \item synchronizacja,
+            \item obsługa zdarzeń.
+        \end{itemize}
+        
+    \item moduł ustawień:
+        \begin{itemize}
+            \item konfiguracja preferencji użytkownika.
+        \end{itemize}
+\end{enumerate}
+
+Każdy moduł operuje na współdzielonych zasobach i posiada własne warunki wykonania, przedstawione jako rozgałęzienia decyzyjne.
+
+\subsection{Zapis, edycja i synchronizacja danych}
+
+Ostatni etap obejmuje:
+
+\begin{itemize}
+    \item zapis zmian w pamięci lokalnej i bazie danych,
+
+    \item synchronizację z serwerem,
+
+    \item aktualizację stanu aplikacji po każdej operacji,
+
+    \item obsługę równoległych procesów synchronizacyjnych.
+\end{itemize}
+
+Sekcja ta odwzorowuje implementacyjną logikę współpracy modułów z elementami infrastruktury aplikacji (API, repozytorium, warstwa synchronizacji).
+
+\section{Zastosowania diagramów aktywności}
+
+Diagramy aktywności znajdują zastosowanie wszędzie tam, gdzie konieczne jest precyzyjne odwzorowanie logiki operacji systemowych:
+
+\subsection{Projektowanie logiki aplikacji}
+
+\begin{itemize}
+\item Umożliwiają analizę przepływu danych i sterowania.
+\item Pozwalają projektantom zaplanować implementację modułów.
+\end{itemize}
+
+\subsection{Modelowanie procedur i algorytmów}
+
+\begin{itemize}
+\item Pomagają w formalnym opisaniu procesów wykonywanych w kodzie.
+\item Stanowią uzupełnienie pseudokodu i diagramów sekwencji.
+\end{itemize}
+
+\subsection{Dokumentacja implementacji}
+
+\begin{itemize}
+\item Wspierają zrozumienie kodu przez cały zespół developerski.
+\item Ułatwiają utrzymanie i rozwijanie aplikacji.
+\end{itemize}
+
+\subsection{Testowanie i weryfikacja logiki}
+
+\begin{itemize}
+\item Służą za podstawę do projektowania testów integracyjnych i systemowych.
+\item Ułatwiają wykrywanie ścieżek alternatywnych i wyjątków.
+\end{itemize}
+
+\subsection{Optymalizacja implementacji}
+
+\begin{itemize}
+\item Pozwalają ocenić miejsca do równoległego wykonywania operacji,
+\item ujawniają potencjalne wąskie gardła procedur.
+\end{itemize}
+
+\section{Wnioski}
+
+Wnioski z analizy oraz tworzenia diagramów aktywności można podzielić na trzy główne obszary: znaczenie modelowania, wpływ na projektowanie architektury oraz zastosowanie w praktycznej realizacji projektu zespołowego.
+
+\subsection{Znaczenie modelowania procesów}
+
+Diagramy aktywności stanowią jedno z kluczowych narzędzi do odwzorowania logiki wykonawczej systemu. Dzięki nim możliwe jest:
+
+\begin{itemize}
+    \item szczegółowe prześledzenie kolejnych etapów realizacji operacji,
+    \item precyzyjne określenie warunków decyzyjnych i gałęzi alternatywnych,
+    \item identyfikacja błędów w przepływach procesów jeszcze przed etapem implementacji,
+    \item zweryfikowanie czy podział logiki na moduły jest spójny i kompletny.
+\end{itemize}
+
+Modelowanie w ten sposób pozwala lepiej zrozumieć wewnętrzne działanie systemu oraz ocenić, czy procesy użytkownika zostały odwzorowane zgodnie z założeniami funkcjonalnymi.
+
+\subsection{Wpływ na projektowanie architektury}
+
+W kontekście tworzenia architektury aplikacji diagramy aktywności pełnią funkcję narzędzia porządkującego:
+
+\begin{itemize}
+    \item ujawniają przepływ informacji pomiędzy komponentami aplikacji,
+    \item ułatwiają identyfikację zależności pomiędzy modułami,
+    \item pozwalają analizować scenariusze wyjątków oraz sposób obsługi błędów,
+    \item umożliwiają wczesną ocenę wydajnościową (np. wykrycie potencjalnych blokad i nieefektywnych ścieżek).
+\end{itemize}
+
+Dzięki takiemu podejściu projekt architektury staje się bardziej kompletny, a dokumentacja logiczna wyraźnie wspiera proces implementacji.
+
+\subsection{Zastosowanie w projekcie zespołowym}
+
+W przypadku złożonych projektów, takich jak aplikacja \textit{Kairo Habit App}, diagramy aktywności odgrywają rolę narzędzia koordynacji:
+
+\begin{itemize}
+    \item zapewniają wspólne zrozumienie sposobu działania modułów przez wszystkich członków zespołu,
+    \item porządkują proces implementacji i wyznaczają granice odpowiedzialności,
+    \item upraszczają planowanie prac nad integracją komponentów,
+    \item stanowią podstawę do projektowania testów jednostkowych i integracyjnych.
+\end{itemize}
+
+Tego typu modelowanie zmniejsza ryzyko niespójności między poszczególnymi częściami projektu i ułatwia utrzymanie jednolitego kierunku implementacyjnego. Trzeba jednak pamiętać, że nie ważne jak dobrze udokumentujemy całość, niezrozumienie wśród członków zespołu do pewnego stopnia jest normalną częścią życia i pracy jako informatyk lub programista.
+
+\subsection{Podsumowanie}
+
+Ostatecznie diagramy aktywności pełnią rolę połączenia pomiędzy analizą funkcjonalną a implementacją. Umożliwiają jasne odwzorowanie operacji aplikacji, wspierają poprawność projektowania i przyczyniają się do zwiększenia jakości kodu. Dzięki temu stanowią jedno z podstawowych narzędzi w procesie inżynierii oprogramowania, szczególnie w środowiskach zespołowych; jako narzędzie do zmniejszenia ilości nieporozumień w zespole poprzez ustandaryzowany sposób przekazania wiedzy jak działające moduły aplikacji.
 
 \end{document}
+

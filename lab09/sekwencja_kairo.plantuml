@@ -1,0 +1,114 @@
+@startuml
+actor Użytkownik
+participant "Aplikacja mobilna\n(Frontend)" as Frontend
+participant "Backend\n(API PHP)" as Backend
+database "Baza danych" as DB
+participant "System powiadomień" as Notif
+
+== Rejestracja ==
+Użytkownik -> Frontend : Otwiera ekran rejestracji
+Frontend -> Użytkownik : Formularz rejestracji
+Użytkownik -> Frontend : Wysyła dane rejestracyjne
+Frontend -> Backend : POST /register {email, hasło, nick}
+Backend -> DB : Sprawdź czy email istnieje
+DB --> Backend : Wynik sprawdzenia
+alt Email wolny
+    Backend -> DB : INSERT INTO users
+    DB --> Backend : Potwierdzenie
+    Backend -> Frontend : 201 Created
+    Frontend -> Użytkownik : Konto utworzone
+else Email zajęty
+    Backend -> Frontend : 409 Conflict
+    Frontend -> Użytkownik : Komunikat o błędzie
+end
+
+== Logowanie ==
+Użytkownik -> Frontend : Otwiera ekran logowania
+Frontend -> Użytkownik : Formularz logowania
+Użytkownik -> Frontend : Wysyła dane logowania
+Frontend -> Backend : POST /login {email, hasło}
+Backend -> DB : SELECT user WHERE email
+DB --> Backend : Dane użytkownika
+alt Hasło poprawne
+    Backend -> Frontend : 200 OK + token
+    Frontend -> Użytkownik : Zalogowano
+else Błąd logowania
+    Backend -> Frontend : 401 Unauthorized
+    Frontend -> Użytkownik : Komunikat o błędzie
+end
+
+== Dodawanie nowego nawyku z przypomnieniem ==
+Użytkownik -> Frontend : Dodaje nawyk + przypomnienie
+Frontend -> Backend : POST /habits {dane nawyku, przypomnienie}
+Backend -> DB : INSERT INTO habits, reminders
+DB --> Backend : Potwierdzenie
+Backend -> Notif : Zarejestruj przypomnienie
+Notif --> Backend : Potwierdzenie
+Backend -> Frontend : 201 Created
+Frontend -> Użytkownik : Potwierdzenie
+
+== Przeglądanie i edycja nawyków ==
+Użytkownik -> Frontend : Przegląda nawyki
+Frontend -> Backend : GET /habits
+Backend -> DB : SELECT * FROM habits WHERE userId
+DB --> Backend : Lista nawyków
+Backend -> Frontend : Lista nawyków
+Frontend -> Użytkownik : Wyświetla nawyki
+
+Użytkownik -> Frontend : Edytuje/usuwa nawyk
+Frontend -> Backend : PUT/DELETE /habits/{id}
+Backend -> DB : UPDATE/DELETE habits
+DB --> Backend : Potwierdzenie
+Backend -> Frontend : 200 OK
+Frontend -> Użytkownik : Potwierdzenie
+
+== Przeglądanie postępów ==
+Użytkownik -> Frontend : Przegląda postępy
+Frontend -> Backend : GET /progress
+Backend -> DB : SELECT wykonania, statystyki
+DB --> Backend : Dane statystyczne
+Backend -> Frontend : Statystyki, wykresy, streaki, osiągnięcia
+Frontend -> Użytkownik : Wyświetla analizy
+
+== Dodawanie znajomego ==
+Użytkownik -> Frontend : Dodaje znajomego (email/nick)
+Frontend -> Backend : POST /friends/invite {friendEmail}
+Backend -> DB : Sprawdź użytkownika, INSERT INTO friendships
+DB --> Backend : Potwierdzenie
+Backend -> Frontend : 201 Created
+Frontend -> Użytkownik : Zaproszenie wysłane
+
+== Pingowanie znajomego ==
+Użytkownik -> Frontend : Pinguj znajomego
+Frontend -> Backend : POST /friends/ping {friendId}
+Backend -> Notif : Wyślij powiadomienie ping
+Notif -> Backend : Potwierdzenie
+Backend -> Frontend : 200 OK
+Frontend -> Użytkownik : Potwierdzenie
+
+== Zarządzanie powiadomieniami ==
+Użytkownik -> Frontend : Ustawienia powiadomień
+Frontend -> Backend : PUT /settings/notifications
+Backend -> DB : UPDATE settings
+DB --> Backend : Potwierdzenie
+Backend -> Frontend : 200 OK
+Frontend -> Użytkownik : Potwierdzenie
+
+== Personalizacja motywu ==
+Użytkownik -> Frontend : Zmienia motyw aplikacji
+Frontend -> Backend : PUT /settings/theme
+Backend -> DB : UPDATE settings
+DB --> Backend : Potwierdzenie
+Backend -> Frontend : 200 OK
+Frontend -> Użytkownik : Potwierdzenie
+
+== Przypomnienie (automatyczne) ==
+alt Odpowiedni czas przypomnienia
+    Notif -> Backend : Wyślij powiadomienie push
+    Backend -> DB : Pobierz dane użytkownika i nawyku
+    DB --> Backend : Dane użytkownika i nawyku
+    Backend -> Frontend : Push notification
+    Frontend -> Użytkownik : Wyświetl powiadomienie
+end
+
+@enduml

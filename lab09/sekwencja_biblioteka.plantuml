@@ -1,0 +1,50 @@
+@startuml
+actor Uzytkownik
+participant "Interfejs\nWeb" as UI
+participant "System" as System
+participant "Baza danych" as DB
+actor Administrator
+
+== Logowanie ==
+Uzytkownik -> UI : Otwiera stronę logowania
+Uzytkownik -> UI : Wprowadza dane logowania
+UI -> System : Przekazuje dane logowania
+System -> DB : Sprawdza dane użytkownika
+DB --> System : Wynik autoryzacji
+alt Dane poprawne
+    System -> UI : Przekieruj do katalogu
+else Dane błędne
+    System -> UI : Wyświetl błąd logowania
+end
+
+== Przeglądanie katalogu ==
+Uzytkownik -> UI : Wybiera katalog
+UI -> System : Żądanie listy książek
+System -> DB : Pobierz listę książek
+DB --> System : Lista książek
+System -> UI : Wyświetl listę książek
+Uzytkownik -> UI : Ustawia filtry/wyszukuje
+UI -> System : Przekazuje filtry
+System -> DB : Pobierz książki wg filtrów
+DB --> System : Lista książek
+System -> UI : Wyświetl przefiltrowaną listę
+
+== Wypożyczenie książki ==
+Uzytkownik -> UI : Wybiera książkę, klika "Wypożycz"
+UI -> System : Żądanie wypożyczenia
+System -> DB : Sprawdź dostępność książki
+DB --> System : Dostępna/Niedostępna
+alt Dostępna
+    System -> DB : Dodaj wypożyczenie (status: oczekujące)
+    System -> Administrator : Powiadom o nowym wypożyczeniu
+    System -> UI : Wyświetl komunikat "Wypożyczenie oczekuje na akceptację"
+else Niedostępna
+    System -> UI : Wyświetl komunikat "Książka niedostępna"
+end
+
+== Akceptacja wypożyczenia ==
+Administrator -> System : Akceptuje wypożyczenie
+System -> DB : Zmień status wypożyczenia na "Wypożyczona"
+System -> Uzytkownik : Powiadom o akceptacji wypożyczenia
+
+@enduml

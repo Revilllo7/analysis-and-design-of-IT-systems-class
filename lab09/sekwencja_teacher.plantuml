@@ -1,0 +1,45 @@
+@startuml
+actor User
+participant "ATM Machine" as ATM
+participant "Bank Server" as Bank
+
+User -> ATM: InsertCard
+ATM -> User: RequestPIN
+User -> ATM: InsertPIN
+ATM -> Bank: VerifyPIN
+Bank -> ATM: PIN Verified
+
+ATM -> User: Show Options
+User -> ATM: Choose Option
+
+alt option = BalanceEnquiry
+    ATM -> Bank: GetBalance
+    Bank -> ATM: Balance
+    ATM -> User: ShowBalance
+else option = Withdraw
+    ATM -> User: GetAmount
+    User -> ATM: EnterAmount
+    ATM -> Bank: CheckBalance
+    Bank -> ATM: Balance
+
+    alt Balance < WithdrawAmount
+        ATM -> User: Display("Insufficient Balance")
+    else Balance >= WithdrawAmount
+        ATM -> User: DispenseCash
+        ATM -> Bank: UpdateBalance
+        Bank -> ATM: BalanceUpdated
+        ATM -> User: Display("Collect Cash")
+        User -> ATM: CollectCash
+    end
+else option = Cancel
+    ATM -> User: Display("Transaction Cancelled")
+end
+
+ATM -> User: Print Receipt
+ATM -> User: Eject Card
+User -> ATM: Collect Card
+ATM -> User: Display("Thank You")
+
+destroy User
+destroy ATM
+@enduml

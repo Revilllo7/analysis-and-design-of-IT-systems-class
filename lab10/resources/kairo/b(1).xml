@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_Kairo" targetNamespace="http://bpmn.io/schema/bpmn" exporter="bpmn-js (https://demo.bpmn.io)" exporterVersion="18.9.0">
+  <process id="KairoHabitAppProcess" isExecutable="false">
+    <laneSet>
+      <lane id="Lane_System" name="System">
+        <flowNodeRef>SaveHabitTask</flowNodeRef>
+        <flowNodeRef>SetReminderTask</flowNodeRef>
+        <flowNodeRef>WaitForReminderTask</flowNodeRef>
+        <flowNodeRef>Activity_0qrvauh</flowNodeRef>
+      </lane>
+      <lane id="Lane_User" name="Użytkownik">
+        <flowNodeRef>RegisterTask</flowNodeRef>
+        <flowNodeRef>ViewFriendsTask</flowNodeRef>
+        <flowNodeRef>Activity_0m5e7ov</flowNodeRef>
+        <flowNodeRef>ViewStatsTask</flowNodeRef>
+        <flowNodeRef>AccountSettingsTask</flowNodeRef>
+        <flowNodeRef>DashboardTask</flowNodeRef>
+        <flowNodeRef>Gateway_194pewn</flowNodeRef>
+        <flowNodeRef>DeleteHabitTask</flowNodeRef>
+        <flowNodeRef>AddHabitTask</flowNodeRef>
+        <flowNodeRef>EditHabitTask</flowNodeRef>
+        <flowNodeRef>Gateway_15xqwxy</flowNodeRef>
+        <flowNodeRef>LoginTask</flowNodeRef>
+        <flowNodeRef>LogoutTask</flowNodeRef>
+        <flowNodeRef>Activity_0ss0y32</flowNodeRef>
+        <flowNodeRef>Gateway_0xaycjc</flowNodeRef>
+        <flowNodeRef>Activity_0rvkl66</flowNodeRef>
+        <flowNodeRef>Activity_17l3jus</flowNodeRef>
+        <flowNodeRef>Activity_0p9l4ge</flowNodeRef>
+        <flowNodeRef>Event_0ze9s75</flowNodeRef>
+        <flowNodeRef>Event_0l3dgh3</flowNodeRef>
+        <flowNodeRef>StartEvent_1</flowNodeRef>
+        <flowNodeRef>CheckLoginGateway</flowNodeRef>
+        <flowNodeRef>EndEvent_1</flowNodeRef>
+      </lane>
+    </laneSet>
+    <startEvent id="StartEvent_1" name="Start">
+      <outgoing>Flow_0kklbkn</outgoing>
+    </startEvent>
+    <task id="LoginTask" name="Logowanie">
+      <incoming>Flow_137skbj</incoming>
+    </task>
+    <exclusiveGateway id="CheckLoginGateway" name="Zalogowany?">
+      <incoming>Flow_0kklbkn</incoming>
+      <outgoing>Flow_1fh4y0v</outgoing>
+      <outgoing>Flow_137skbj</outgoing>
+      <outgoing>Flow_0wbfkkt</outgoing>
+    </exclusiveGateway>
+    <task id="RegisterTask" name="Rejestracja">
+      <incoming>Flow_1fh4y0v</incoming>
+    </task>
+    <task id="DashboardTask" name="Wyświetl pulpit">
+      <incoming>Flow_0wbfkkt</incoming>
+      <outgoing>Flow_179rxey</outgoing>
+    </task>
+    <task id="AddHabitTask" name="Dodaj nawyk">
+      <incoming>Flow_04dluk9</incoming>
+      <outgoing>Flow_00feh6w</outgoing>
+    </task>
+    <task id="SaveHabitTask" name="Zapisz nawyk">
+      <incoming>Flow_0e1yjta</incoming>
+      <incoming>Flow_00feh6w</incoming>
+      <incoming>Flow_1t2ror7</incoming>
+      <outgoing>Flow_0bo3hbs</outgoing>
+    </task>
+    <task id="SetReminderTask" name="Ustaw przypomnienie">
+      <incoming>Flow_0bo3hbs</incoming>
+    </task>
+    <task id="WaitForReminderTask" name="Oczekiwanie na przypomnienie" />
+    <task id="EditHabitTask" name="Edytuj nawyk">
+      <incoming>Flow_1iefxuk</incoming>
+      <outgoing>Flow_0e1yjta</outgoing>
+    </task>
+    <task id="DeleteHabitTask" name="Usuń nawyk">
+      <incoming>Flow_1hmy2mw</incoming>
+      <outgoing>Flow_1t2ror7</outgoing>
+    </task>
+    <task id="ViewStatsTask" name="Przeglądaj statystyki">
+      <incoming>Flow_1b4md5r</incoming>
+    </task>
+    <task id="ViewFriendsTask" name="Przeglądaj znajomych">
+      <incoming>Flow_1usynak</incoming>
+      <outgoing>Flow_1sy8c89</outgoing>
+    </task>
+    <task id="AccountSettingsTask" name="Zmień ustawienia konta">
+      <incoming>Flow_15ihn4i</incoming>
+      <outgoing>Flow_16z8kth</outgoing>
+    </task>
+    <task id="LogoutTask" name="Wyloguj się">
+      <incoming>Flow_0a18suu</incoming>
+      <outgoing>Flow_1b9zfw8</outgoing>
+    </task>
+    <endEvent id="EndEvent_1" name="Koniec">
+      <incoming>Flow_1b9zfw8</incoming>
+    </endEvent>
+    <sequenceFlow id="Flow_9" sourceRef="SetReminderTask" targetRef="WaitForReminderTask" />
+    <sequenceFlow id="Flow_0kklbkn" sourceRef="StartEvent_1" targetRef="CheckLoginGateway" />
+    <task id="Activity_0m5e7ov" name="Przeglądaj nawyki">
+      <incoming>Flow_0hsz4u8</incoming>
+      <outgoing>Flow_1icndrh</outgoing>
+    </task>
+    <sequenceFlow id="Flow_1fh4y0v" sourceRef="CheckLoginGateway" targetRef="RegisterTask" />
+    <sequenceFlow id="Flow_137skbj" sourceRef="CheckLoginGateway" targetRef="LoginTask" />
+    <sequenceFlow id="Flow_0wbfkkt" sourceRef="CheckLoginGateway" targetRef="DashboardTask" />
+    <exclusiveGateway id="Gateway_194pewn">
+      <incoming>Flow_1icndrh</incoming>
+      <outgoing>Flow_1iefxuk</outgoing>
+      <outgoing>Flow_04dluk9</outgoing>
+      <outgoing>Flow_1hmy2mw</outgoing>
+    </exclusiveGateway>
+    <sequenceFlow id="Flow_1icndrh" sourceRef="Activity_0m5e7ov" targetRef="Gateway_194pewn" />
+    <sequenceFlow id="Flow_1iefxuk" sourceRef="Gateway_194pewn" targetRef="EditHabitTask" />
+    <sequenceFlow id="Flow_04dluk9" sourceRef="Gateway_194pewn" targetRef="AddHabitTask" />
+    <sequenceFlow id="Flow_1hmy2mw" sourceRef="Gateway_194pewn" targetRef="DeleteHabitTask" />
+    <sequenceFlow id="Flow_0e1yjta" sourceRef="EditHabitTask" targetRef="SaveHabitTask" />
+    <sequenceFlow id="Flow_00feh6w" sourceRef="AddHabitTask" targetRef="SaveHabitTask" />
+    <sequenceFlow id="Flow_1t2ror7" sourceRef="DeleteHabitTask" targetRef="SaveHabitTask" />
+    <intermediateThrowEvent id="Event_0ze9s75">
+      <incoming>Flow_0r87l02</incoming>
+      <messageEventDefinition id="MessageEventDefinition_1exvn6p" />
+    </intermediateThrowEvent>
+    <exclusiveGateway id="Gateway_15xqwxy">
+      <incoming>Flow_179rxey</incoming>
+      <outgoing>Flow_0hsz4u8</outgoing>
+      <outgoing>Flow_1b4md5r</outgoing>
+      <outgoing>Flow_15ihn4i</outgoing>
+      <outgoing>Flow_1usynak</outgoing>
+      <outgoing>Flow_0a18suu</outgoing>
+      <outgoing>Flow_142od55</outgoing>
+    </exclusiveGateway>
+    <sequenceFlow id="Flow_179rxey" sourceRef="DashboardTask" targetRef="Gateway_15xqwxy" />
+    <sequenceFlow id="Flow_0hsz4u8" sourceRef="Gateway_15xqwxy" targetRef="Activity_0m5e7ov" />
+    <sequenceFlow id="Flow_1b4md5r" sourceRef="Gateway_15xqwxy" targetRef="ViewStatsTask" />
+    <sequenceFlow id="Flow_15ihn4i" sourceRef="Gateway_15xqwxy" targetRef="AccountSettingsTask" />
+    <sequenceFlow id="Flow_1usynak" sourceRef="Gateway_15xqwxy" targetRef="ViewFriendsTask" />
+    <sequenceFlow id="Flow_0a18suu" sourceRef="Gateway_15xqwxy" targetRef="LogoutTask" />
+    <task id="Activity_0rvkl66" name="Pinguj znajomego">
+      <incoming>Flow_012wnyf</incoming>
+      <outgoing>Flow_0r87l02</outgoing>
+    </task>
+    <sequenceFlow id="Flow_0r87l02" sourceRef="Activity_0rvkl66" targetRef="Event_0ze9s75" />
+    <sequenceFlow id="Flow_1b9zfw8" sourceRef="LogoutTask" targetRef="EndEvent_1" />
+    <task id="Activity_0ss0y32" name="Zarządzaj powiadomieniami">
+      <incoming>Flow_142od55</incoming>
+      <outgoing>Flow_0wabdlb</outgoing>
+    </task>
+    <sequenceFlow id="Flow_142od55" sourceRef="Gateway_15xqwxy" targetRef="Activity_0ss0y32" />
+    <exclusiveGateway id="Gateway_0xaycjc">
+      <incoming>Flow_1sy8c89</incoming>
+      <outgoing>Flow_012wnyf</outgoing>
+      <outgoing>Flow_16z9l4l</outgoing>
+      <outgoing>Flow_1jjp2x2</outgoing>
+    </exclusiveGateway>
+    <sequenceFlow id="Flow_1sy8c89" sourceRef="ViewFriendsTask" targetRef="Gateway_0xaycjc" />
+    <sequenceFlow id="Flow_012wnyf" sourceRef="Gateway_0xaycjc" targetRef="Activity_0rvkl66" />
+    <task id="Activity_17l3jus" name="Usuń znajomego">
+      <incoming>Flow_1jjp2x2</incoming>
+    </task>
+    <task id="Activity_0p9l4ge" name="Dodaj znajomego">
+      <incoming>Flow_16z9l4l</incoming>
+      <outgoing>Flow_1cmcahs</outgoing>
+    </task>
+    <sequenceFlow id="Flow_16z9l4l" sourceRef="Gateway_0xaycjc" targetRef="Activity_0p9l4ge" />
+    <sequenceFlow id="Flow_1jjp2x2" sourceRef="Gateway_0xaycjc" targetRef="Activity_17l3jus" />
+    <intermediateThrowEvent id="Event_0l3dgh3">
+      <incoming>Flow_1cmcahs</incoming>
+      <messageEventDefinition id="MessageEventDefinition_0r2m6u7" />
+    </intermediateThrowEvent>
+    <sequenceFlow id="Flow_1cmcahs" sourceRef="Activity_0p9l4ge" targetRef="Event_0l3dgh3" />
+    <sequenceFlow id="Flow_0bo3hbs" sourceRef="SaveHabitTask" targetRef="SetReminderTask" />
+    <task id="Activity_0qrvauh" name="Zapisz ustawienia">
+      <incoming>Flow_16z8kth</incoming>
+      <incoming>Flow_0wabdlb</incoming>
+    </task>
+    <sequenceFlow id="Flow_16z8kth" sourceRef="AccountSettingsTask" targetRef="Activity_0qrvauh" />
+    <sequenceFlow id="Flow_0wabdlb" sourceRef="Activity_0ss0y32" targetRef="Activity_0qrvauh" />
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_Kairo">
+    <bpmndi:BPMNPlane id="BPMNPlane_Kairo" bpmnElement="KairoHabitAppProcess">
+      <bpmndi:BPMNShape id="Lane_System_di" bpmnElement="Lane_System" isHorizontal="true">
+        <dc:Bounds x="150" y="550" width="890" height="200" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_User_di" bpmnElement="Lane_User" isHorizontal="true">
+        <dc:Bounds x="150" y="80" width="890" height="470" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_1_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="182" y="388" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="188" y="424" width="24" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="CheckLoginGateway_di" bpmnElement="CheckLoginGateway" isMarkerVisible="true">
+        <dc:Bounds x="267" y="381" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="327" y="399" width="66" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="RegisterTask_di" bpmnElement="RegisterTask">
+        <dc:Bounds x="180" y="292" width="100" height="56" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ViewFriendsTask_di" bpmnElement="ViewFriendsTask">
+        <dc:Bounds x="470" y="272" width="100" height="56" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_03ypiqk" bpmnElement="Activity_0m5e7ov">
+        <dc:Bounds x="470" y="482" width="100" height="56" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ViewStatsTask_di" bpmnElement="ViewStatsTask">
+        <dc:Bounds x="470" y="413" width="100" height="56" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="AccountSettingsTask_di" bpmnElement="AccountSettingsTask">
+        <dc:Bounds x="470" y="342" width="100" height="56" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DashboardTask_di" bpmnElement="DashboardTask">
+        <dc:Bounds x="232" y="482" width="120" height="56" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_194pewn_di" bpmnElement="Gateway_194pewn" isMarkerVisible="true">
+        <dc:Bounds x="625" y="485" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DeleteHabitTask_di" bpmnElement="DeleteHabitTask">
+        <dc:Bounds x="716" y="482" width="100" height="56" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="AddHabitTask_di" bpmnElement="AddHabitTask">
+        <dc:Bounds x="716" y="402" width="100" height="56" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EditHabitTask_di" bpmnElement="EditHabitTask">
+        <dc:Bounds x="600" y="402" width="100" height="56" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_01ulnjs" bpmnElement="Gateway_15xqwxy" isMarkerVisible="true">
+        <dc:Bounds x="395" y="416" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="LoginTask_di" bpmnElement="LoginTask">
+        <dc:Bounds x="300" y="292" width="100" height="56" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="LogoutTask_di" bpmnElement="LogoutTask">
+        <dc:Bounds x="470" y="202" width="100" height="56" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1oz7itv" bpmnElement="Activity_0ss0y32">
+        <dc:Bounds x="470" y="132" width="100" height="56" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_1_di" bpmnElement="EndEvent_1">
+        <dc:Bounds x="622" y="212" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="623" y="253" width="34" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1drehw8" bpmnElement="Gateway_0xaycjc" isMarkerVisible="true">
+        <dc:Bounds x="615" y="275" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1dcje7a" bpmnElement="Activity_0rvkl66">
+        <dc:Bounds x="716" y="212" width="100" height="56" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_173z5it" bpmnElement="Activity_17l3jus">
+        <dc:Bounds x="716" y="272" width="100" height="56" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0o8fuf5" bpmnElement="Activity_0p9l4ge">
+        <dc:Bounds x="716" y="332" width="100" height="56" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0ze9s75_di" bpmnElement="Event_0ze9s75">
+        <dc:Bounds x="841" y="222" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0akwwsv" bpmnElement="Event_0l3dgh3">
+        <dc:Bounds x="841" y="342" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="SaveHabitTask_di" bpmnElement="SaveHabitTask">
+        <dc:Bounds x="809" y="572" width="100" height="56" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="SetReminderTask_di" bpmnElement="SetReminderTask">
+        <dc:Bounds x="680" y="572" width="100" height="56" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="WaitForReminderTask_di" bpmnElement="WaitForReminderTask">
+        <dc:Bounds x="550" y="572" width="100" height="56" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1xcsy8t" bpmnElement="Activity_0qrvauh">
+        <dc:Bounds x="930" y="572" width="100" height="56" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0kklbkn_di" bpmnElement="Flow_0kklbkn">
+        <di:waypoint x="218" y="406" />
+        <di:waypoint x="267" y="406" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1fh4y0v_di" bpmnElement="Flow_1fh4y0v">
+        <di:waypoint x="292" y="381" />
+        <di:waypoint x="292" y="365" />
+        <di:waypoint x="230" y="365" />
+        <di:waypoint x="230" y="348" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_137skbj_di" bpmnElement="Flow_137skbj">
+        <di:waypoint x="292" y="381" />
+        <di:waypoint x="292" y="365" />
+        <di:waypoint x="350" y="365" />
+        <di:waypoint x="350" y="348" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0wbfkkt_di" bpmnElement="Flow_0wbfkkt">
+        <di:waypoint x="292" y="431" />
+        <di:waypoint x="292" y="482" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1usynak_di" bpmnElement="Flow_1usynak">
+        <di:waypoint x="420" y="416" />
+        <di:waypoint x="420" y="300" />
+        <di:waypoint x="470" y="300" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0hsz4u8_di" bpmnElement="Flow_0hsz4u8">
+        <di:waypoint x="420" y="466" />
+        <di:waypoint x="420" y="510" />
+        <di:waypoint x="470" y="510" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1icndrh_di" bpmnElement="Flow_1icndrh">
+        <di:waypoint x="570" y="510" />
+        <di:waypoint x="625" y="510" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1b4md5r_di" bpmnElement="Flow_1b4md5r">
+        <di:waypoint x="445" y="441" />
+        <di:waypoint x="470" y="441" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_15ihn4i_di" bpmnElement="Flow_15ihn4i">
+        <di:waypoint x="420" y="416" />
+        <di:waypoint x="420" y="370" />
+        <di:waypoint x="470" y="370" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_179rxey_di" bpmnElement="Flow_179rxey">
+        <di:waypoint x="352" y="510" />
+        <di:waypoint x="420" y="510" />
+        <di:waypoint x="420" y="466" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1iefxuk_di" bpmnElement="Flow_1iefxuk">
+        <di:waypoint x="650" y="485" />
+        <di:waypoint x="650" y="458" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_04dluk9_di" bpmnElement="Flow_04dluk9">
+        <di:waypoint x="664" y="499" />
+        <di:waypoint x="719" y="454" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1hmy2mw_di" bpmnElement="Flow_1hmy2mw">
+        <di:waypoint x="675" y="510" />
+        <di:waypoint x="716" y="510" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1t2ror7_di" bpmnElement="Flow_1t2ror7">
+        <di:waypoint x="816" y="515" />
+        <di:waypoint x="859" y="520" />
+        <di:waypoint x="859" y="572" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_00feh6w_di" bpmnElement="Flow_00feh6w">
+        <di:waypoint x="796" y="458" />
+        <di:waypoint x="859" y="518" />
+        <di:waypoint x="859" y="570" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0e1yjta_di" bpmnElement="Flow_0e1yjta">
+        <di:waypoint x="699" y="451" />
+        <di:waypoint x="859" y="519" />
+        <di:waypoint x="859" y="572" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_9_di" bpmnElement="Flow_9">
+        <di:waypoint x="680" y="600" />
+        <di:waypoint x="650" y="600" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0a18suu_di" bpmnElement="Flow_0a18suu">
+        <di:waypoint x="420" y="416" />
+        <di:waypoint x="420" y="230" />
+        <di:waypoint x="470" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0r87l02_di" bpmnElement="Flow_0r87l02">
+        <di:waypoint x="816" y="240" />
+        <di:waypoint x="841" y="240" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1b9zfw8_di" bpmnElement="Flow_1b9zfw8">
+        <di:waypoint x="570" y="230" />
+        <di:waypoint x="622" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_142od55_di" bpmnElement="Flow_142od55">
+        <di:waypoint x="420" y="416" />
+        <di:waypoint x="420" y="160" />
+        <di:waypoint x="470" y="160" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1sy8c89_di" bpmnElement="Flow_1sy8c89">
+        <di:waypoint x="570" y="300" />
+        <di:waypoint x="615" y="300" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_012wnyf_di" bpmnElement="Flow_012wnyf">
+        <di:waypoint x="665" y="300" />
+        <di:waypoint x="691" y="300" />
+        <di:waypoint x="691" y="240" />
+        <di:waypoint x="716" y="240" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_16z9l4l_di" bpmnElement="Flow_16z9l4l">
+        <di:waypoint x="665" y="300" />
+        <di:waypoint x="690" y="300" />
+        <di:waypoint x="690" y="360" />
+        <di:waypoint x="716" y="360" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1jjp2x2_di" bpmnElement="Flow_1jjp2x2">
+        <di:waypoint x="665" y="300" />
+        <di:waypoint x="716" y="300" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1cmcahs_di" bpmnElement="Flow_1cmcahs">
+        <di:waypoint x="816" y="360" />
+        <di:waypoint x="841" y="360" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0bo3hbs_di" bpmnElement="Flow_0bo3hbs">
+        <di:waypoint x="809" y="600" />
+        <di:waypoint x="780" y="600" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_16z8kth_di" bpmnElement="Flow_16z8kth">
+        <di:waypoint x="570" y="370" />
+        <di:waypoint x="610" y="370" />
+        <di:waypoint x="610" y="390" />
+        <di:waypoint x="980" y="390" />
+        <di:waypoint x="980" y="572" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0wabdlb_di" bpmnElement="Flow_0wabdlb">
+        <di:waypoint x="570" y="160" />
+        <di:waypoint x="980" y="160" />
+        <di:waypoint x="980" y="572" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

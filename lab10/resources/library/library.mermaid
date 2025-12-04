@@ -1,0 +1,28 @@
+%% Diagram BPMN: Obsługa procesu wypożyczenia książki w czytelni elektronicznej
+
+flowchart TD
+    Start([Start]) --> Login{Zalogowany?}
+    Login -- "Nie" --> ShowLogin[Wyświetl formularz logowania]
+    ShowLogin --> EnterData[Wprowadź dane logowania]
+    EnterData --> ValidateLogin{Dane poprawne?}
+    ValidateLogin -- "Nie" --> ShowLogin
+    ValidateLogin -- "Tak" --> MainMenu[Wyświetl menu główne]
+    Login -- "Tak" --> MainMenu
+
+    MainMenu --> BookList[Wyświetl listę książek]
+    BookList --> FilterBooks[Filtruj książki]
+    FilterBooks --> SelectBook[Wybierz książkę]
+    SelectBook --> BookDetails[Wyświetl szczegóły książki]
+    BookDetails --> Borrow{Wypożyczyć książkę?}
+    Borrow -- "Tak" --> RequestBorrow[Wyślij żądanie wypożyczenia]
+    Borrow -- "Nie" --> MainMenu
+
+    RequestBorrow --> WaitForApproval{Akceptacja admina?}
+    WaitForApproval -- "Tak" --> ConfirmBorrow[Potwierdź wypożyczenie]
+    WaitForApproval -- "Nie" --> RejectBorrow[Odrzuć wypożyczenie]
+
+    ConfirmBorrow --> ShowSuccess[Wyświetl potwierdzenie]
+    RejectBorrow --> ShowReject[Wyświetl informację o odrzuceniu]
+
+    ShowSuccess --> End([Koniec])
+    ShowReject --> End

@@ -1,0 +1,79 @@
+flowchart TD
+    %% Start procesu
+    Start([Start]) --> Login{Zalogowany?}
+
+    %% Rejestracja/logowanie
+    Login -- "Nie" --> Rejestracja[Rejestracja użytkownika]
+    Rejestracja --> Logowanie[Logowanie]
+    Logowanie --> Login
+
+    Login -- "Tak" --> Dashboard[Wyświetl pulpit użytkownika]
+
+    %% Główne funkcje aplikacji
+    Dashboard --> DodajNawyk[Dodaj nowy nawyk]
+    Dashboard --> PrzegladajNawyki[Przeglądaj nawyki]
+    Dashboard --> EdytujNawyk[Edytuj nawyk]
+    Dashboard --> UsunNawyk[Usuń nawyk]
+    Dashboard --> PrzegladajStatystyki[Przeglądaj statystyki]
+    Dashboard --> PrzegladajZnajomych[Przeglądaj znajomych]
+    Dashboard --> Ustawienia[Ustawienia konta]
+
+    %% Dodawanie nawyku
+    DodajNawyk --> UstawPrzypomnienie[Ustaw przypomnienie]
+    DodajNawyk --> DodajOpis[Dodaj opis nawyku]
+    DodajNawyk --> DodajKategorie[Wybierz kategorię]
+    DodajNawyk --> ZapiszNawyk[Zapisz nawyk]
+    ZapiszNawyk --> Dashboard
+
+    %% Edycja nawyku
+    EdytujNawyk --> ZmienOpis[Zmień opis]
+    EdytujNawyk --> ZmienKategorie[Zmień kategorię]
+    EdytujNawyk --> ZmienPrzypomnienie[Zmień przypomnienie]
+    EdytujNawyk --> ZapiszZmiany[Zapisz zmiany]
+    ZapiszZmiany --> Dashboard
+
+    %% Usuwanie nawyku
+    UsunNawyk --> PotwierdzUsuniecie[Potwierdź usunięcie]
+    PotwierdzUsuniecie --> Dashboard
+
+    %% Przypomnienia i powiadomienia
+    UstawPrzypomnienie --> Oczekiwanie[Oczekiwanie na czas przypomnienia]
+    ZmienPrzypomnienie --> Oczekiwanie
+    Oczekiwanie --> Powiadomienie[Wyślij powiadomienie]
+    Powiadomienie --> OdbierzPowiadomienie[Użytkownik odbiera powiadomienie]
+    OdbierzPowiadomienie --> Dashboard
+
+    %% Przeglądanie nawyków
+    PrzegladajNawyki --> OznaczWykonanie[Oznacz nawyk jako wykonany]
+    OznaczWykonanie --> AktualizujStatystyki[Zaktualizuj statystyki]
+    AktualizujStatystyki --> Dashboard
+
+    %% Statystyki
+    PrzegladajStatystyki --> Dashboard
+
+    %% Znajomi i funkcje społecznościowe
+    PrzegladajZnajomych --> DodajZnajomego[Dodaj znajomego]
+    PrzegladajZnajomych --> UsunZnajomego[Usuń znajomego]
+    PrzegladajZnajomych --> PingujZnajomego[Pinguj znajomego]
+    PingujZnajomego --> WyślijPowiadomienieZnajomemu[Wyślij powiadomienie znajomemu]
+    WyślijPowiadomienieZnajomemu --> Dashboard
+
+    %% Ustawienia konta
+    Ustawienia --> ZmienHaslo[Zmień hasło]
+    Ustawienia --> Wyloguj[Wyloguj się]flowchart TD
+    Start([Start]) --> Login{Zalogowany?}
+    Login -- "Nie" --> Rejestracja[Rejestracja użytkownika]
+    Rejestracja --> Logowanie[Logowanie]
+    Logowanie --> Login
+    Login -- "Tak" --> Dashboard[Wyświetl pulpit użytkownika]
+    Dashboard --> DodajNawyk[Dodaj nowy nawyk]
+    DodajNawyk --> UstawPrzypomnienie[Ustaw przypomnienie]
+    UstawPrzypomnienie --> Oczekiwanie[Oczekiwanie na czas przypomnienia]
+    Oczekiwanie --> Powiadomienie[Wyślij powiadomienie]
+    Powiadomienie --> OdbierzPowiadomienie[Użytkownik odbiera powiadomienie]
+    OdbierzPowiadomienie --> Koniec([Koniec])
+    ZmienHaslo --> Dashboard
+    Wyloguj --> Login
+
+    %% Koniec procesu
+    Dashboard --> Koniec([Koniec])

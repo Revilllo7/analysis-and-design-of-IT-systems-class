@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_Warzywniak" targetNamespace="http://bpmn.io/schema/bpmn" exporter="bpmn-js (https://demo.bpmn.io)" exporterVersion="18.9.0">
+  <process id="WarzywniakProcess" isExecutable="false">
+    <laneSet>
+      <lane id="Lane_Klient" name="Klient">
+        <flowNodeRef>StartEvent_1</flowNodeRef>
+        <flowNodeRef>SelectProductsTask</flowNodeRef>
+        <flowNodeRef>PayTask</flowNodeRef>
+        <flowNodeRef>Activity_0ps5nv4</flowNodeRef>
+        <flowNodeRef>EndEvent_1</flowNodeRef>
+      </lane>
+      <lane id="Lane_Sprzedawca" name="Sprzedawca">
+        <flowNodeRef>PrepareProductsTask</flowNodeRef>
+        <flowNodeRef>ReceivePaymentTask</flowNodeRef>
+        <flowNodeRef>Gateway_09zkl1p</flowNodeRef>
+        <flowNodeRef>GiveReceiptTask</flowNodeRef>
+      </lane>
+    </laneSet>
+    <startEvent id="StartEvent_1" name="Start" />
+    <task id="SelectProductsTask" name="Wybierz produkty" />
+    <task id="PrepareProductsTask" name="Sprzedawca pakuje produkty" />
+    <task id="PayTask" name="Zapłać" />
+    <task id="ReceivePaymentTask" name="Odbierz płatność">
+      <incoming>Flow_03adx4s</incoming>
+    </task>
+    <task id="GiveReceiptTask" name="Wydaj paragon">
+      <incoming>Flow_0naw5yv</incoming>
+      <outgoing>Flow_11cpe2v</outgoing>
+    </task>
+    <endEvent id="EndEvent_1" name="Koniec">
+      <incoming>Flow_11cpe2v</incoming>
+    </endEvent>
+    <sequenceFlow id="Flow_1" sourceRef="StartEvent_1" targetRef="SelectProductsTask" />
+    <sequenceFlow id="Flow_2" sourceRef="SelectProductsTask" targetRef="PrepareProductsTask" />
+    <sequenceFlow id="Flow_3" sourceRef="PrepareProductsTask" targetRef="PayTask" />
+    <sequenceFlow id="Flow_4" sourceRef="PayTask" targetRef="ReceivePaymentTask" />
+    <sequenceFlow id="Flow_5" sourceRef="ReceivePaymentTask" targetRef="Gateway_09zkl1p" />
+    <exclusiveGateway id="Gateway_09zkl1p">
+      <incoming>Flow_5</incoming>
+      <outgoing>Flow_0naw5yv</outgoing>
+      <outgoing>Flow_0kuj3lq</outgoing>
+    </exclusiveGateway>
+    <sequenceFlow id="Flow_0naw5yv" sourceRef="Gateway_09zkl1p" targetRef="GiveReceiptTask" />
+    <task id="Activity_0ps5nv4" name="Ponów płatność">
+      <incoming>Flow_0kuj3lq</incoming>
+      <outgoing>Flow_03adx4s</outgoing>
+    </task>
+    <sequenceFlow id="Flow_0kuj3lq" sourceRef="Gateway_09zkl1p" targetRef="Activity_0ps5nv4" />
+    <sequenceFlow id="Flow_03adx4s" sourceRef="Activity_0ps5nv4" targetRef="ReceivePaymentTask" />
+    <sequenceFlow id="Flow_11cpe2v" sourceRef="GiveReceiptTask" targetRef="EndEvent_1" />
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_Warzywniak">
+    <bpmndi:BPMNPlane id="BPMNPlane_Warzywniak" bpmnElement="WarzywniakProcess">
+      <bpmndi:BPMNShape id="Lane_Sprzedawca_di" bpmnElement="Lane_Sprzedawca" isHorizontal="true">
+        <dc:Bounds x="150" y="200" width="1060" height="120" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_Klient_di" bpmnElement="Lane_Klient" isHorizontal="true">
+        <dc:Bounds x="150" y="80" width="1060" height="120" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_1_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="200" y="130" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="SelectProductsTask_di" bpmnElement="SelectProductsTask">
+        <dc:Bounds x="270" y="120" width="120" height="56" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="PrepareProductsTask_di" bpmnElement="PrepareProductsTask">
+        <dc:Bounds x="420" y="220" width="120" height="56" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="PayTask_di" bpmnElement="PayTask">
+        <dc:Bounds x="570" y="120" width="120" height="56" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ReceivePaymentTask_di" bpmnElement="ReceivePaymentTask">
+        <dc:Bounds x="720" y="220" width="120" height="56" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_09zkl1p_di" bpmnElement="Gateway_09zkl1p" isMarkerVisible="true">
+        <dc:Bounds x="875" y="223" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0awkcj2" bpmnElement="Activity_0ps5nv4">
+        <dc:Bounds x="720" y="112" width="120" height="56" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="GiveReceiptTask_di" bpmnElement="GiveReceiptTask">
+        <dc:Bounds x="960" y="220" width="120" height="56" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_1_di" bpmnElement="EndEvent_1">
+        <dc:Bounds x="1132" y="130" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1133" y="166" width="34" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1_di" bpmnElement="Flow_1">
+        <di:waypoint x="236" y="148" />
+        <di:waypoint x="270" y="148" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_2_di" bpmnElement="Flow_2">
+        <di:waypoint x="390" y="148" />
+        <di:waypoint x="420" y="248" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_3_di" bpmnElement="Flow_3">
+        <di:waypoint x="540" y="248" />
+        <di:waypoint x="570" y="148" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_4_di" bpmnElement="Flow_4">
+        <di:waypoint x="690" y="148" />
+        <di:waypoint x="720" y="248" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_5_di" bpmnElement="Flow_5">
+        <di:waypoint x="840" y="248" />
+        <di:waypoint x="875" y="248" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0naw5yv_di" bpmnElement="Flow_0naw5yv">
+        <di:waypoint x="925" y="248" />
+        <di:waypoint x="960" y="248" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0kuj3lq_di" bpmnElement="Flow_0kuj3lq">
+        <di:waypoint x="900" y="223" />
+        <di:waypoint x="900" y="140" />
+        <di:waypoint x="840" y="140" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_03adx4s_di" bpmnElement="Flow_03adx4s">
+        <di:waypoint x="780" y="168" />
+        <di:waypoint x="780" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_11cpe2v_di" bpmnElement="Flow_11cpe2v">
+        <di:waypoint x="1080" y="248" />
+        <di:waypoint x="1106" y="248" />
+        <di:waypoint x="1106" y="148" />
+        <di:waypoint x="1132" y="148" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

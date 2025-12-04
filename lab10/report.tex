@@ -1,0 +1,423 @@
+\documentclass[12pt,a4paper]{article}
+
+% ------------------ Pakiety ------------------
+
+\usepackage{multicol}
+\usepackage[polish]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{polski}
+\usepackage{lmodern}
+\usepackage{setspace}
+\usepackage{titlesec}
+\usepackage{array}
+\usepackage[utf8]{inputenc}
+\usepackage{polski}
+\usepackage{lmodern}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{verbatim}
+
+% ------------------ Ustawienia ------------------
+
+\geometry{margin=2.5cm}
+\setstretch{1.3}
+\titleformat{\section}{\large\bfseries}{\thesection.}{1em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection.}{1em}{}
+\definecolor{lightgray}{rgb}{.9,.9,.9}
+\definecolor{darkgray}{rgb}{.4,.4,.4}
+\definecolor{purple}{rgb}{0.65, 0.12, 0.82}
+
+\lstdefinelanguage{JavaScript}{
+  keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
+  keywordstyle=\color{blue}\bfseries,
+  ndkeywords={class, export, boolean, throw, implements, import, this},
+  ndkeywordstyle=\color{darkgray}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  morestring=[b]',
+  morestring=[b]''
+}
+
+\lstset{
+   language=JavaScript,
+   backgroundcolor=\color{lightgray},
+   extendedchars=true,
+   basicstyle=\footnotesize\ttfamily,
+   showstringspaces=false,
+   showspaces=false,
+   numbers=left,
+   numberstyle=\footnotesize,
+   numbersep=9pt,
+   tabsize=2,
+   breaklines=true,
+   showtabs=false,
+   captionpos=b
+}
+
+\DeclareUnicodeCharacter{25CF}{$\bullet$}
+\DeclareUnicodeCharacter{251C}{\mbox{\kern.23em
+  \vrule height2.2exdepth1exwidth.4pt\vrule height2.2ptdepth-1.8ptwidth.23em}}
+\DeclareUnicodeCharacter{2500}{\mbox{\vrule height2.2ptdepth-1.8ptwidth.5em}}
+\DeclareUnicodeCharacter{2514}{\mbox{\kern.23em
+  \vrule height2.2exdepth-1.8ptwidth.4pt\vrule height2.2ptdepth-1.8ptwidth.23em}}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    urlcolor=blue,
+    pdftitle={Modelowanie procesów
+biznesowych z wykorzystaniem
+notacji BPMN}
+}
+
+% ------------------ Dane ------------------
+
+\title{Uniwersytet Gdański
+Wydział Matematyki, Fizyki i Informatyki
+Instytut Informatyki}
+\author{Oliver Gruba, Maciej Nasiadka}
+
+\begin{document}
+\maketitle
+\begin{table}
+    \centering
+    \begin{tabular}{|>{\raggedright\arraybackslash}p{0.5\linewidth}|>{\raggedright\arraybackslash}p{0.4\linewidth}|}\hline
+         Imię i Nazwisko (nr indeksu)& Oliver Gruba (292583) \\
+         & Maciej Nasiadka (292574)\\\hline
+         Nazwa uczelni& Uniwersytet Gdański\\\hline
+         Kierunek& Informatyka (profil praktyczny)\\\hline
+         Prowadzący& dr inż. Stanisław Witkowski\\\hline
+         Nazwa ćwiczenia& Modelowanie procesów biznesowych z wykorzystaniem notacji BPMN\\\hline
+         Numer sprawozdania& 7\\\hline
+         Data zajęć& 04.12.2025\\\hline
+         Data oddania& 10.12.2025\\\hline
+         Miejscę na ocenę& \\ \hline
+    \end{tabular}
+\end{table}
+\clearpage
+
+% ------------------ Dokument ------------------
+
+\tableofcontents
+
+\clearpage
+
+\section{Omówienie procesów biznesowych i podejścia procesowego.}
+
+Podejście procesowe stanowi współcześnie jeden z kluczowych elementów zarządzania organizacjami, umożliwiający całościowe spojrzenie na realizowane działania oraz ich wpływ na osiąganie celów strategicznych. Procesy biznesowe są zatem definiowane jako uporządkowane, logiczne sekwencje czynności wykonywanych w przedsiębiorstwie w celu uzyskania mierzalnej wartości dla klienta wewnętrznego lub zewnętrznego.
+
+\subsection{Istota procesów biznesowych.}
+
+Procesy biznesowe odzwierciedlają sposób funkcjonowania organizacji, wskazując nie tylko na kolejność działań, ale również na zależności pomiędzy komórkami organizacyjnymi oraz wymianę informacji.
+
+\subsubsection{Cechy procesów biznesowych.}
+\begin{itemize}
+    \item Orientacja na wartość - procesy ukierunkowane są na dostarczenie określonych korzyści klientowi,
+    
+    \item Ciągłość i powtarzalność - procesy są powtarzalne, co umożliwia ich analizę i optymalizację,
+    
+    \item Mierzalność - efektywność procesów można oceniać przy pomocy wskaźników,
+    
+    \item Przekrojowy charakter - obejmują wiele jednostek organizacyjnych, co wymaga koordynacji działań.
+\end{itemize}
+
+\subsection{Znaczenie podejścia procesowego.}
+
+Wdrożenie podejścia procesowego umożliwia lepszą identyfikację nieefektywności, zwiększenie transparentności działań oraz usprawnienie współpracy między zespołami.
+
+\subsubsection{Korzyści z podejścia procesowego.}
+\begin{itemize}
+    \item Uspójnienie sposobu realizacji zadań -\newline
+    \qquad np. stosowanie wspólnych procedur i standardów pracy.
+    
+    \item Lepsza komunikacja między działami -\newline
+    \qquad np. jasny podział ról i odpowiedzialności.
+    
+    \item Możliwość wprowadzania automatyzacji -\newline
+    \qquad np. implementacja systemów workflow.
+    
+    \item Zwiększenie jakości obsługi klienta -\newline
+    \qquad np. skrócenie czasu realizacji procesu.
+\end{itemize}
+
+Podejście procesowe zapewnia organizacjom większą elastyczność i efektywność działania. Analiza procesowa pozwala na identyfikację obszarów wymagających usprawnień oraz na przygotowanie struktury pod dalszą automatyzację i optymalizację.
+
+% ---------------------------------------------------------------
+
+\section{Koncepcje wspierające podejście biznesowe.}
+
+Współczesne organizacje wykorzystują różnorodne koncepcje i metody zarządzania, które wspierają budowę kultury procesowej oraz sprzyjają wdrażaniu usprawnień.
+
+\subsection{Przegląd kluczowych koncepcji.}
+
+Każda z koncepcji wnosi inny zestaw narzędzi oraz podejść analitycznych, pozwalając na skuteczne zarządzanie złożonymi procesami.
+
+\begin{itemize}
+    \item Zarządzanie przez cele (MBO) - zapewnia ukierunkowanie działań procesowych na osiąganie jasno zdefiniowanych celów,
+    
+    \item Zarządzanie jakością (TQM) - promuje kulturę ciągłego doskonalenia i standaryzacji działań,
+    
+    \item Lean Management - eliminuje marnotrawstwo poprzez optymalizację przepływu wartości,
+    
+    \item Six Sigma - opiera się na redukcji zmienności procesów i poprawie ich stabilności,
+    
+    \item Automatyzacja procesów biznesowych (BPA) -wykorzystuje technologie informatyczne do usprawnienia działań operacyjnych,
+    
+    \item Zarządzanie zmianą - wspiera organizację w adaptacji do nowych procesów i struktur.
+\end{itemize}
+
+Koncepcje wspierające podejście procesowe umożliwiają organizacjom systematyczne doskonalenie, optymalizację i zwiększenie jakości świadczonych usług. Integracja ich założeń zapewnia spójność działań oraz przyczynia się do budowania kultury ciągłego rozwoju.
+
+% ---------------------------------------------------------------
+
+\section{Modelowanie procesów biznesowych.}
+
+Modelowanie procesów jest kluczowym etapem zarządzania procesami, stanowiąc podstawę dla analizy, usprawniania oraz projektowania nowych rozwiązań organizacyjnych.
+
+\subsection{Cel i istota modelowania.}
+
+Graficzna reprezentacja procesów ułatwia komunikację oraz wspólną pracę nad usprawnieniami, zarówno na poziomie operacyjnym, jak i strategicznym.
+
+\subsubsection{Zastosowania modelowania procesów.}
+\begin{itemize}
+    \item Analiza przebiegu procesów - identyfikacja elementów generujących opóźnienia lub błędy,
+    
+    \item Identyfikacja miejsc wymagających optymalizacji -\newline
+    \qquad np. eliminacja zbędnych kroków lub powtarzalnych czynności.
+    
+    \item Usprawnienie komunikacji między interesariuszami - modele stanowią wspólny język dla pracowników i kierownictwa,
+    
+    \item Przygotowanie do automatyzacji i wdrożenia systemów IT - modele wyznaczają logikę przepływów wykorzystywanych w systemach workflow.
+\end{itemize}
+
+Modelowanie procesów stanowi fundament dla zrozumienia działania organizacji. Umożliwia zarówno optymalizację, jak i projektowanie nowych rozwiązań wspierających rozwój przedsiębiorstwa.
+
+% ---------------------------------------------------------------
+
+\section{Notacja BPMN w modelowaniu procesów biznesowych.}
+
+\subsection{Charakterystyka notacji BPMN.}
+
+BPMN (Business Process Model and Notation) to jedna z najbardziej rozpowszechnionych notacji graficznych, która umożliwia czytelne i jednoznaczne przedstawienie procesów biznesowych. Jej popularność wynika z możliwości integracji modelu z narzędziami informatycznymi oraz zrozumiałości zarówno dla specjalistów biznesowych, jak i technicznych.
+
+\subsection{Elementy podstawowe.}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{resources/bpmn/BPMN podstawy.png}
+    \caption{Przedstawienie graficzne pool i lane w notacji BPMN.}
+    \label{fig:bpmn_podstawy}
+\end{figure}
+
+\subsubsection{Opis elementów podstawowych.}
+\begin{itemize}
+    \item Pool - przedstawia główny uczestnik procesu\newline
+    \qquad np. organizację lub system.
+    
+    \item Lane - reprezentuje podział wewnętrzny, \newline
+    \qquad np. komórki organizacyjne lub role.
+\end{itemize}
+
+\subsection{Symbole przepływu.}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{resources/bpmn/BPMN przepływ.png}
+    \caption{Przedstawienie graficzne symboli przepływu w notacji (start, intermediate, end, task, sub-process, gateway) BPMN.}
+    \label{fig:bpmn_przepływ}
+\end{figure}
+
+\subsubsection{Rodzaje symboli przepływu.}
+\begin{itemize}
+    \item Zdarzenia (Events) - startowe, pośrednie oraz końcowe sygnalizują określone momenty w procesie,
+    
+    \item Zadania (Tasks) - pojedyncze aktywności wykonywane przez uczestników,
+    
+    \item Podprocesy (Sub-processes) - umożliwiają hierarchiczne przedstawienie złożonych sekwencji działań,
+    
+    \item Bramki (Gateways) - kontrolują przepływ procesu na podstawie warunków i decyzji.
+\end{itemize}
+
+\subsection{Elementy przepływu i łączniki.}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{resources/bpmn/BPMN łączniki.png}
+    \caption{Przedstawienie graficzne elementów przepływu i łączników (sequence flow, association, message flow, data association) w notacji BPMN.}
+    \label{fig:bpmn_laczniki}
+\end{figure}
+
+\subsubsection{Typy łączników.}
+\begin{itemize}
+    \item Sequence Flow - definiuje logiczną kolejność wykonywanych czynności,
+    
+    \item Message Flow - reprezentuje wymianę komunikatów pomiędzy uczestnikami procesu,
+    
+    \item Association - łączy obiekty pomocnicze z elementami procesu,
+    
+    \item Data Association - wskazuje kierunek przepływu danych.
+\end{itemize}
+
+\subsection{Dokumenty i repozytorium.}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{resources/bpmn/BPMN dokumenty.png}
+    \caption{Przedstawienie graficzne dokumentów (Data object, data input, data output) i repozytorium (data store).}
+    \label{fig:bpmn_dokumenty}
+\end{figure}
+
+\subsubsection{Rola dokumentów w BPMN.}
+\begin{itemize}
+    \item Data Object - wskazuje dane wykorzystywane lub generowane w procesie,
+    
+    \item Data Input - reprezentuje dane wejściowe,
+    
+    \item Data Output - określa dane wyjściowe procesu,
+    
+    \item Data Store - działa jak repozytorium danych dostępnych dla procesu.
+\end{itemize}
+
+\subsection{Podsumowanie notacji.}
+Notacja BPMN stanowi kompleksowe narzędzie do modelowania zarówno prostych, jak i bardzo złożonych procesów biznesowych. Dzięki bogactwu elementów graficznych oraz jednoznacznym regułom interpretacji umożliwia skuteczną komunikację oraz integrację modeli z systemami informatycznymi.
+
+\section{Wybrany model procesu biznesowego - zakupy w warzywniaku.}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{resources/teacher/teacher_v2}
+    \caption{Diagram przedstawiający przeprowadzanie zakupów w warzywniaku w notacji BPMN.}
+    \label{fig:bpmn_example}
+\end{figure}
+
+\subsection{Opis diagramu}
+
+Diagram przedstawia dwa tory (lanes), \textit{Klient} i \textit{Sprzedawca}.
+
+
+
+\section{Wybrany model procesu biznesowego - czytelnia.}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{resources/library/library_bpmn_v2.png}
+    \caption{Przedstawienie graficzne symboli przepływu w notacji (start, intermediate, end, task, sub-process, gateway) BPMN.}
+    \label{fig:bpmn_library}
+\end{figure}
+\subsection{Opis diagramu}
+
+\section{Wybrany model procesu biznesowego - projekt zespołowy.}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\linewidth]{resources/kairo/kairo_bpmn_v2.png}
+    \caption{Przedstawienie graficzne symboli przepływu w notacji (start, intermediate, end, task, sub-process, gateway) BPMN.}
+    \label{fig:bpmn_kairo}
+\end{figure}
+
+\subsection{Opis diagramu}
+[placeholder]
+
+\section{Korzyści wynikające z BPMN.}
+
+Wykorzystanie notacji BPMN w zarządzaniu procesami biznesowymi przynosi znaczące korzyści zarówno na poziomie operacyjnym, jak i strategicznym. Standard ten umożliwia tworzenie spójnych, przejrzystych i jednoznacznych modeli, które stanowią podstawę dla analizy, optymalizacji oraz automatyzacji działań realizowanych w organizacji.
+
+\subsection{Korzyści organizacyjne.}
+
+\subsubsection{Usprawnienie komunikacji wewnętrznej.}
+\begin{itemize}
+    \item Ujednolicenie komunikacji pomiędzy działami -modele BPMN stanowią wspólny język zrozumiały zarówno dla biznesu, jak i działu IT,
+    
+    \item Jasne określenie odpowiedzialności - dzięki podziałowi na \textit{pool} i \textit{lane}, każdy uczestnik procesu zna swoje zadania.
+\end{itemize}
+
+\subsection{Korzyści analityczne.}
+
+\subsubsection{Wsparcie procesów optymalizacyjnych.}
+\begin{itemize}
+    \item Łatwość analizy i optymalizacji procesów - graficzne przedstawienie umożliwia szybkie identyfikowanie nieefektywnych kroków oraz zbędnych działań,
+    
+    \item Możliwość szybkiego wykrywania błędów - modele BPMN pozwalają na analizę przepływów, dzięki czemu wczesne identyfikowanie problemów jest znacznie prostsze.
+\end{itemize}
+
+\subsection{Korzyści technologiczne.}
+
+\subsubsection{Wsparcie dla architektury systemu.}
+\begin{itemize}
+    \item Wsparcie dla automatyzacji i wdrożeń IT - BPMN jest kompatybilne z wieloma narzędziami workflow, co umożliwia bezpośrednie odwzorowanie logiki procesów w środowisku informatycznym,
+    
+    \item Zwiększenie przejrzystości i kontroli nad procesami - precyzyjne modele ułatwiają monitorowanie przebiegu procesów oraz ich zgodności ze standardami jakości.
+\end{itemize}
+
+\subsection{Podsumowanie korzyści zastosowania.}
+Korzyści wynikające ze stosowania notacji BPMN obejmują zarówno poprawę komunikacji i przejrzystości działań, jak i możliwość skutecznego wdrażania automatyzacji oraz narzędzi IT. Notacja ta wspiera analizę, optymalizację oraz rozwój procesów, co przekłada się na zwiększenie efektywności całej organizacji.
+
+% --------------------------------------------------------------
+
+\section{Mieszanie kontekstu biznesowego i aplikacyjnego.}
+
+Modelowanie procesów biznesowych w praktyce wymaga zachowania równowagi pomiędzy perspektywą biznesową a aplikacyjną. Właściwe połączenie obu punktów widzenia umożliwia lepsze zrozumienie zarówno wymagań funkcjonalnych, jak i wymagań technicznych warunkujących implementację procesu.
+
+\subsection{Kontekst biznesowy.}
+
+\subsubsection{Elementy perspektywy biznesowej.}
+\begin{itemize}
+    \item Cele procesu - określenie wartości, którą proces ma zapewnić klientowi lub organizacji,
+    
+    \item Wymagania funkcjonalne - opisują, jakie działania powinny być realizowane w ramach procesu,
+    
+    \item Miary sukcesu - obejmują wskaźniki efektywności służące ocenie działania procesu.
+\end{itemize}
+
+\subsection{Kontekst aplikacyjny.}
+
+\subsubsection{Elementy perspektywy technicznej.}
+\begin{itemize}
+    \item Logika implementacji - sposób odwzorowania działań procesowych w systemach informatycznych,
+    
+    \item Integracja systemów - określenie wymiany danych i komunikacji pomiędzy aplikacjami,
+    
+    \item Ograniczenia techniczne - warunki wynikające z architektury, wydajności lub infrastruktury IT.
+\end{itemize}
+
+\subsection{Rola BPMN w łączeniu kontekstów.}
+
+\subsubsection{Komunikacja pomiędzy zespołami.}
+\begin{itemize}
+    \item Eliminacja nieporozumień - BPMN umożliwia tworzenie modeli zrozumiałych dla analityków biznesowych i programistów,
+    
+    \item Spójność dokumentacji - jeden model może służyć zarówno do analizy biznesowej, jak i do implementacji procesów w systemach.
+\end{itemize}
+
+\subsection{Podsumowanie sekcji.}
+Łączenie perspektywy biznesowej i aplikacyjnej jest konieczne dla prawidłowego projektowania procesów. BPMN odgrywa w tym kluczową rolę, ponieważ dostarcza spójnej i jednoznacznej notacji, która umożliwia współpracę między specjalistami z różnych obszarów.
+
+% --------------------------------------------------------------
+
+\section{Wnioski.}
+
+Modelowanie procesów biznesowych z wykorzystaniem notacji BPMN stanowi fundament nowoczesnego zarządzania organizacją, umożliwiając jednoczesne usprawnienie działań operacyjnych, podniesienie jakości usług oraz zwiększenie efektywności funkcjonowania.
+
+\subsection{Najważniejsze obserwacje.}
+
+\begin{itemize}
+    \item BPMN zapewnia jednoznaczność i standaryzację - co przekłada się na spójność dokumentacji i ułatwia komunikację między interesariuszami,
+    
+    \item Notacja ułatwia integrację z systemami IT - dzięki czemu możliwe jest szybkie wdrażanie rozwiązań automatyzujących procesy,
+    
+    \item Modelowanie procesów wspiera rozwój organizacji - stanowi podstawę do optymalizacji, analizy oraz ciągłego doskonalenia działań,
+    
+    \item BPMN łączy perspektywę biznesową i techniczną - umożliwiając współpracę analityków, projektantów i programistów.
+\end{itemize}
+
+\subsection{Podsumowanie.}
+BPMN jest wszechstronnym i dojrzałym standardem, który łączy świat biznesu z technologią. Umożliwia on efektywne projektowanie, analizę oraz wdrażanie procesów, stanowiąc nieodzowny element w realizacji projektów organizacyjnych i informatycznych. Jego wykorzystanie przyczynia się do zwiększenia przejrzystości działań, poprawy jakości zarządzania procesami oraz wspiera rozwój nowoczesnych systemów informatycznych.
+
+% --------------------------------------------------------------
+
+\end{document}

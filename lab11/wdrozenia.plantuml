@@ -1,0 +1,28 @@
+@startuml
+node "Load Balancer" as LB
+
+node "Serwer Aplikacji 1" as App1 {
+  artifact "Aplikacja Webowa"
+}
+
+node "Serwer Aplikacji 2" as App2 {
+  artifact "Aplikacja Webowa"
+}
+
+node "Serwer Plików" as FileSrv {
+  folder "Zasoby statyczne"
+}
+
+node "Serwer Bazy Danych" as DB {
+  database "Baza Danych"
+}
+
+LB --> App1 : HTTP/HTTPS
+LB --> App2 : HTTP/HTTPS
+
+App1 --> FileSrv : SMB/NFS
+App2 --> FileSrv : SMB/NFS
+
+App1 --> DB : JDBC/SQL
+App2 --> DB : JDBC/SQL
+@enduml

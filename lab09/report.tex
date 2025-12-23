@@ -1,0 +1,645 @@
+\documentclass[12pt,a4paper]{article}
+
+% ------------------ Pakiety ------------------
+
+\usepackage{multicol}
+\usepackage[polish]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{polski}
+\usepackage{lmodern}
+\usepackage{setspace}
+\usepackage{titlesec}
+\usepackage{array}
+\usepackage[utf8]{inputenc}
+\usepackage{polski}
+\usepackage{lmodern}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{verbatim}
+
+% ------------------ Ustawienia ------------------
+
+\geometry{margin=2.5cm}
+\setstretch{1.3}
+\titleformat{\section}{\large\bfseries}{\thesection.}{1em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection.}{1em}{}
+\definecolor{lightgray}{rgb}{.9,.9,.9}
+\definecolor{darkgray}{rgb}{.4,.4,.4}
+\definecolor{purple}{rgb}{0.65, 0.12, 0.82}
+
+\lstdefinelanguage{JavaScript}{
+  keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
+  keywordstyle=\color{blue}\bfseries,
+  ndkeywords={class, export, boolean, throw, implements, import, this},
+  ndkeywordstyle=\color{darkgray}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  morestring=[b]',
+  morestring=[b]''
+}
+
+\lstset{
+   language=JavaScript,
+   backgroundcolor=\color{lightgray},
+   extendedchars=true,
+   basicstyle=\footnotesize\ttfamily,
+   showstringspaces=false,
+   showspaces=false,
+   numbers=left,
+   numberstyle=\footnotesize,
+   numbersep=9pt,
+   tabsize=2,
+   breaklines=true,
+   showtabs=false,
+   captionpos=b
+}
+
+\DeclareUnicodeCharacter{25CF}{$\bullet$}
+\DeclareUnicodeCharacter{251C}{\mbox{\kern.23em
+  \vrule height2.2exdepth1exwidth.4pt\vrule height2.2ptdepth-1.8ptwidth.23em}}
+\DeclareUnicodeCharacter{2500}{\mbox{\vrule height2.2ptdepth-1.8ptwidth.5em}}
+\DeclareUnicodeCharacter{2514}{\mbox{\kern.23em
+  \vrule height2.2exdepth-1.8ptwidth.4pt\vrule height2.2ptdepth-1.8ptwidth.23em}}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    urlcolor=blue,
+    pdftitle={Interakcja procesu programu informatycznego w czasie poprzez tworzenie diagramu sekwencji}
+}
+
+
+
+% ------------------ Dane ------------------
+
+\title{Uniwersytet Gdański
+Wydział Matematyki, Fizyki i Informatyki
+Instytut Informatyki}
+\author{Oliver Gruba, Maciej Nasiadka}
+
+\begin{document}
+\maketitle
+\begin{table}
+    \centering
+    \begin{tabular}{|>{\raggedright\arraybackslash}p{0.5\linewidth}|>{\raggedright\arraybackslash}p{0.4\linewidth}|}\hline
+         Imię i Nazwisko (nr indeksu)& Oliver Gruba (292583) \\
+         & Maciej Nasiadka (292574)\\\hline
+         Nazwa uczelni& Uniwersytet Gdański\\\hline
+         Kierunek& Informatyka (profil praktyczny)\\\hline
+         Prowadzący& dr inż. Stanisław Witkowski\\\hline
+         Nazwa ćwiczenia& Interakcja procesu programu informatycznego w czasie poprzez tworzenie diagramu sekwencji\\\hline
+         Numer sprawozdania& 6\\\hline
+         Data zajęć& 27.11.2025\\\hline
+         Data oddania& 03.12.2025\\\hline
+         Miejscę na ocenę& \\ \hline
+    \end{tabular}
+\end{table}
+\clearpage
+
+% ------------------ Dokument ------------------
+
+\tableofcontents
+
+\clearpage
+
+\section{Procedura uruchamiania diagramu sekwencji}
+
+Diagram sekwencji jest narzędziem dynamicznym, służącym do odwzorowania zachowania systemu w czasie. Aby poprawnie zinterpretować, uruchomić i przeanalizować diagram sekwencji, konieczne jest zastosowanie określonej procedury. Pozwala ona na konsekwentne prześledzenie przepływu komunikatów pomiędzy aktorami i obiektami, a także na analizę logiki procesów biznesowych.
+
+\subsection{Identyfikacja aktorów i obiektów uczestniczących w procesie}
+\begin{itemize}
+    \item Określenie, które elementy systemu biorą udział w analizowanej interakcji.
+    \item Wyróżnienie aktorów zewnętrznych (np. użytkownik, system nadrzędny).
+    \item Wyodrębnienie obiektów wewnętrznych systemu (np. podsystemy).
+    \item Ustalenie zależności między elementami oraz zakresu ich odpowiedzialności.\newline
+    \qquad Np. rozróżnienie międy komunikacją między frontendem, backendem i bazą danych.
+\end{itemize}
+
+\subsection{Określenie scenariusza bazowego}
+\begin{itemize}
+    \item Zdefiniowanie kolejnych kroków przewidywanej interakcji.
+    \item Zapisanie scenariusza w sposób sekwencyjny, od pierwszego do ostatniego kroku.\newline
+    \qquad Gdzie idąc kolejno w dół diagrmau pokazujemy elementy, które wykonują się później w systemie (zachowując hierarchie kolejności procesów).
+    \item Uwzględnienie logiki biznesowej bez wprowadzania wyjątków.
+\end{itemize}
+
+\subsection{Dodanie scenariuszy alternatywnych}
+\begin{itemize}
+    \item Identyfikacja możliwych punktów decyzyjnych w procesie.
+    \item Określenie sytuacji wyjątkowych (np. błędy, odmowy dostępu, brak środków).
+    \item Uporządkowanie alternatyw przy użyciu konstrukcji \texttt{alt} i \texttt{opt}.
+    \item Zapewnienie kompletności scenariuszy poprzez uwzględnienie wszystkich możliwych ścieżek.
+\end{itemize}
+
+\subsection{Modelowanie komunikacji między obiektami}
+\begin{itemize}
+    \item Przedstawienie wywołań metod, wymiany komunikatów, sygnałów asynchronicznych.
+    \item Określenie, czy komunikacja jest synchroniczna (blokująca), czy asynchroniczna.
+    \item Uporządkowanie komunikatów od góry do dołu, zgodnie z czasem ich wystąpienia.
+\end{itemize}
+
+\subsection{Analiza i walidacja poprawności diagramu}
+\begin{itemize}
+    \item Sprawdzenie spójności diagramu z rzeczywistym przebiegiem operacji.
+    \item Weryfikacja kompletności procesu oraz zgodności ze specyfikacją wymagań.
+    \item Ocena poprawności połączeń pomiędzy liniami życia.
+    \item Eliminacja błędów logicznych oraz niepotrzebnych elementów.
+\end{itemize}
+
+\section{Cel tworzenia diagramu sekwencji}
+
+Diagram sekwencji jest kluczowym narzędziem analizy dynamicznej systemu, pozwalającym na precyzyjne odwzorowanie logiki przepływu zdarzeń w czasie. Jego głównym celem jest wyjaśnienie sposobu współpracy obiektów i aktorów podczas realizacji konkretnej funkcji systemu.
+
+\subsection{Przedstawienie dynamiki systemu w czasie}
+\begin{itemize}
+    \item Umożliwia modelowanie zachowania systemu w odpowiedzi na działania aktora.
+    \item Ukazuje kolejność operacji oraz reakcje obiektów.
+    \item Pozwala obserwować logikę sterowania procesem w sposób chronologiczny.
+\end{itemize}
+
+\subsection{Dokumentacja interakcji między obiektami}
+\begin{itemize}
+    \item Wskazuje sposób komunikacji pomiędzy komponentami systemu.
+    \item Wyjaśnia, jakie metody lub komunikaty są wywoływane.
+    \item Umożliwia zrozumienie odpowiedzialności poszczególnych elementów systemu.
+\end{itemize}
+
+\subsection{Wspomaganie projektowania architektury}
+\begin{itemize}
+    \item Ułatwia podział systemu na moduły oraz określenie ich odpowiedzialności.
+    \item Pomaga wykryć przeciążone lub zbędne elementy logiki.
+    \item Przedstawia miejsca, w których występuje zależność czasowa.
+\end{itemize}
+
+\subsection{Analiza warunków wyjątkowych i przypadków alternatywnych}
+\begin{itemize}
+    \item Pozwala wykryć potencjalne błędy na wczesnym etapie projektowania.
+    \item Ułatwia dokumentowanie sytuacji, w których logika procesu się rozgałęzia.
+    \item Formalizuje decyzje i punkty kontrolne w systemie.
+\end{itemize}
+
+\subsection{Wspieranie komunikacji w zespole projektowym}
+\begin{itemize}
+    \item Stanowi wspólny język pomiędzy analitykami, programistami i testerami.
+    \item Ujednolica sposób interpretacji funkcjonalności systemu.
+    \item Jest przydatny w trakcie przeglądów technicznych oraz analiz kodu.
+\end{itemize}
+
+\section{Linie życia aktorów i obiektów}
+
+Linie życia (\textit{lifelines}) stanowią podstawowy element diagramu sekwencji i służą do reprezentacji istnienia aktora lub obiektu w czasie. Każdy uczestnik interakcji posiada własną linię życia, która biegnie pionowo od góry diagramu w dół.
+
+\subsection{Definicja linii życia}
+\begin{itemize}
+    \item Jest to pionowa linia symbolizująca czas istnienia obiektu w trakcie wykonywania procesu.
+    \item Linia zaczyna się w momencie, w którym obiekt pojawia się w systemie, a kończy w chwili zakończenia interakcji.
+    \item Może reprezentować zarówno aktorów zewnętrznych, jak i obiekty systemowe.
+\end{itemize}
+
+\subsection{Reprezentacja aktywności obiektu}
+\begin{itemize}
+    \item Aktywność często oznaczana jest prostokątnym paskiem (tzw. \textit{activation bar}).
+    \item Pasek aktywności pokazuje okres, w którym obiekt wykonuje operację lub przetwarza dane.
+    \item Dłuższe okresy aktywności mogą oznaczać intensywną logikę obliczeniową lub oczekiwanie na odpowiedź.
+\end{itemize}
+
+\subsection{Komunikaty wpływające na linię życia}
+\begin{itemize}
+    \item Komunikaty synchroniczne rozpoczynają aktywność obiektu (np. wywołanie metody).
+    \item Komunikaty zwrotne kończą aktywność lub sygnalizują rezultat operacji.
+    \item Komunikaty asynchroniczne mogą nie wymagać aktywności zwrotnej.
+\end{itemize}
+
+\subsection{Zależności czasowe}
+\begin{itemize}
+    \item Im niżej umieszczony komunikat, tym później występuje w czasie.
+    \item Linie życia pozwalają analizować, jak długo trwa przetwarzanie poszczególnych operacji.
+    \item Dzięki nim możliwe jest wskazanie wąskich gardeł lub punktów blokujących system.
+\end{itemize}
+
+\subsection{Interpretacja zakończenia życia obiektu}
+\begin{itemize}
+    \item Zakończenie linii życia często przedstawione jest za pomocą symbolu \textit{X}.
+    \item Oznacza moment, w którym obiekt jest usuwany lub kończy działanie w procesie.
+    \item W przypadku aktorów zakończenie linii życia sygnalizuje zakończenie interakcji użytkownika z systemem.
+\end{itemize}
+
+\section{Zadanie 1 - przykład z materiałów.}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.65\linewidth]{resources/teacher/sekwencja_teacher.png}
+    \caption{Diagram sekwencji z materiałów od prowadzącego. Przedstawiający użycie bankomatu przez użytkownika i przebieg aktualizacji systemu serwera bankowego.}
+    \label{fig:teacher_sequence_diagram}
+\end{figure}
+
+\subsection{Rozpoczęcie interakcji: uwierzytelnienie użytkownika}
+
+Proces rozpoczyna się, gdy Użytkownik umieszcza kartę w bankomacie:
+\begin{itemize}
+    \item \textbf{Użytkownik} wykonuje akcję \textit{Insert Card}.
+    \item \textbf{ATM} odpowiada żądaniem wprowadzenia numeru PIN \textit{Request PIN}.
+    \item \textbf{Użytkownik} wprowadza PIN, wysyłając komunikat \textit{Insert PIN} do \textbf{ATM}.
+    \item \textbf{ATM} przekazuje PIN do \textbf{Systemu Bankowego} poprzez komunikat \textit{Verify PIN}.
+    \item \textbf{System Bankowy} odpowiada komunikatem \textit{PIN Verified}, potwierdzając poprawność danych uwierzytelniających.
+\end{itemize}
+
+Jeżeli uwierzytelnienie przebiegnie pomyślnie, użytkownik może kontynuować proces.
+
+\subsection{Wybór operacji przez użytkownika}
+
+Po poprawnej weryfikacji PIN \textbf{ATM}:
+\begin{itemize}
+    \item wyświetla możliwe opcje operacji \textit{Show Options},
+    \item użytkownik wybiera jedną z nich \textit{Choose Option}.
+\end{itemize}
+
+Dalszy przebieg procesu zależy od wybranego wariantu, co przedstawione jest na diagramie za pomocą konstrukcji alternatywnej \texttt{alt}.
+
+\subsection{Opcja: Sprawdzenie salda}
+
+Jeżeli \textbf{Użytkownik} wybiera \textit{Balance Enquiry}, wykonywane są następujące kroki:
+\begin{itemize}
+    \item \textbf{ATM} wysyła do Systemu Bankowego żądanie \textit{Get Balance}.
+    \item \textbf{System Bankowy} zwraca bieżące saldo konta (\textit{Balance}).
+    \item \textbf{ATM} wyświetla saldo użytkownikowi poprzez komunikat \textit{Show Balance}.
+\end{itemize}
+
+Proces tej opcji kończy się na wyświetleniu informacji.
+
+\subsection{Opcja: Wypłata gotówki}
+
+Jeżeli \textbf{Użytkownik} wybiera opcję \textit{Withdraw}, proces przebiega dalej:
+\begin{itemize}
+    \item \textbf{ATM} prosi użytkownika o podanie kwoty do wypłaty \textit{Get Amount}.
+    \item \textbf{Użytkownik} wprowadza kwotę \textit{Enter Amount}.
+    \item \textbf{ATM} przesyła żądanie do Systemu Bankowego: \textit{Check Balance}.
+    \item \textbf{System Bankowy} zwraca aktualne saldo (\textit{Balance}).
+\end{itemize}
+
+W tym momencie pojawia się alternatywa:
+\begin{enumerate}
+    \item \textbf{Saldo niewystarczające}\\
+    Jeżeli saldo jest mniejsze niż żądana kwota:
+    \begin{itemize}
+        \item \textbf{ATM} wyświetla komunikat \textit{Insufficient Balance}.
+    \end{itemize}
+
+    \item \textbf{Saldo wystarczające}\\
+    Jeżeli saldo jest wystarczające:
+    \begin{itemize}
+        \item \textbf{ATM} uruchamia wypłatę gotówki \textit{Dispense Cash}.
+        \item \textbf{System Bankowy} aktualizuje saldo konta (\textit{Update Balance}).
+        \item Po zakończeniu operacji \textbf{Użytkownik} otrzymuje komunikat: \textit{Collect Cash} i odbiera gotówkę (\textit{Collect Cash}).
+    \end{itemize}
+\end{enumerate}
+
+\subsection{Opcja: Anulowanie transakcji}
+
+Jeżeli użytkownik wybierze opcję \textit{Cancel}, ATM wyświetla komunikat \textit{Transaction Cancelled}. Proces wypłaty lub sprawdzania salda zostaje zakończony.
+
+\subsection{Zakończenie procesu}
+
+W końcowej części, niezależnie od wcześniejszej ścieżki:
+\begin{itemize}
+    \item \textbf{ATM} drukuje potwierdzenie operacji \textit{Print Receipt}.
+    \item \textbf{ATM} zwraca kartę użytkownikowi \textit{Eject Card}.
+    \item \textbf{Użytkownik} odbiera kartę \textit{Collect Card}.
+    \item \textbf{ATM} wyświetla końcowy komunikat \textit{Thank You}, kończąc interakcję.
+\end{itemize}
+
+
+\section{Zadanie 2 - przykład dla czytelni.}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\linewidth]{resources/library/sekwencja_biblioteka.png}
+    \caption{Diagram sekwencji systemu czytelni przedstawiający procesy logowania, przeglądania katalogów, wypożyczania książek przez użytkownika i jak to wpływa kolejno na system, oraz proces akceptacji wypożyczenia przed administratora oraz kolejne procesy wykonywane kolejno przez system.}
+    \label{fig:library_sequence_diagram}
+\end{figure}
+
+\clearpage
+
+\subsection{Logowanie użytkownika}
+
+Proces rozpoczyna się, gdy \textbf{Użytkownik} otwiera stronę logowania systemu bibliotecznego:
+\begin{itemize}
+    \item \textbf{Użytkownik} otwiera stronę logowania i wprowadza dane uwierzytelniające, wysyłając je do \textbf{Interfejsu Web}.
+    \item \textbf{Interfejs Web} przekazuje dane logowania do \textbf{Systemu}.
+    \item \textbf{System} przesyła dane do \textbf{Bazy danych} w celu ich weryfikacji.
+    \item \textbf{Baza danych} zwraca wynik autoryzacji do \textbf{Systemu}.
+\end{itemize}
+
+Na diagramie przedstawiono alternatywę \texttt{wyniku autoryzacji}:
+\begin{enumerate}
+    \item \textbf{Dane poprawne} - \textbf{System} przekierowuje użytkownika do ekranu katalogu.
+    \item \textbf{Dane błędne} - \textbf{Interfejs Web} wyświetla komunikat o błędzie logowania.
+\end{enumerate}
+
+\subsection{Przeglądanie katalogu}
+
+Po poprawnym logowaniu użytkownik może rozpocząć przeglądanie dostępnych zasobów systemu czytelniczego:
+\begin{itemize}
+    \item \textbf{Użytkownik} wybiera katalog, wysyłając odpowiednie żądanie do \textbf{Interfejsu Web}.
+    \item \textbf{Interfejs Web} przekazuje żądanie do \textbf{Systemu}.
+    \item \textbf{System} pobiera listę książek z \textbf{Bazy danych}.
+    \item \textbf{Baza danych} zwraca listę książek, którą \textbf{Interfejs Web} prezentuje użytkownikowi.
+\end{itemize}
+
+Następnie użytkownik może zawęzić wyniki:
+\begin{itemize}
+    \item \textbf{Użytkownik} ustawia filtry lub wpisuje kryteria wyszukiwania.
+    \item \textbf{Interfejs Web} przekazuje filtry do \textbf{Systemu}.
+    \item \textbf{System} pobiera z \textbf{Bazy danych} listę książek spełniających podane kryteria.
+    \item Otrzymane dane prezentowane są użytkownikowi jako lista przefiltrowana.
+\end{itemize}
+
+\subsection{Wypożyczenie książki}
+
+Gdy użytkownik wybierze interesującą go pozycję:
+\begin{itemize}
+    \item \textbf{Użytkownik} wybiera książkę i inicjuje proces wypożyczenia poprzez akcję \textit{Wypożycz}.
+    \item \textbf{Interfejs Web} przekazuje żądanie wypożyczenia do \textbf{Systemu}.
+    \item \textbf{System} sprawdza dostępność wybranej pozycji w \textbf{Bazie danych}.
+\end{itemize}
+
+Następnie pojawia się alternatywa \texttt{dostępność książki}:
+\begin{enumerate}
+    \item \textbf{Książka dostępna}:
+    \begin{itemize}
+        \item \textbf{System} dodaje nowe wypożyczenie ze statusem \textit{oczekujące}.
+        \item \textbf{System} powiadamia \textbf{Administratora} o nowym wypożyczeniu.
+        \item \textbf{Interfejs Web} wyświetla komunikat: \textit{Wypożyczenie oczekuje na akceptację}.
+    \end{itemize}
+
+    \item \textbf{Książka niedostępna}:
+    \begin{itemize}
+        \item \textbf{Interfejs Web} prezentuje użytkownikowi komunikat: \textit{Książka niedostępna}.
+    \end{itemize}
+\end{enumerate}
+
+\subsection{Akceptacja wypożyczenia}
+
+Proces kończy się po stronie administracyjnej:
+\begin{itemize}
+    \item \textbf{Administrator} akceptuje wypożyczenie w systemie.
+    \item \textbf{System} aktualizuje status wypożyczenia na \textit{Wypożyczona} w \textbf{Bazie danych}.
+    \item \textbf{System} wysyła powiadomienie do \textbf{Użytkownika} o zaakceptowaniu wypożyczenia.
+    \newline\newline
+\end{itemize}
+
+
+\section{Zadanie 3 - przykład dla projektu zespołowego.}
+
+\newpage
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\linewidth]{resources/kairo/top_half.png}
+    \label{fig:kairo_sequence_diagram_top}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\linewidth]{resources/kairo/bottom_half.png}
+    \label{fig:kairo_sequence_diagram_bottom}
+\end{figure}
+
+\subsection{Rejestracja użytkownika}
+
+Proces rozpoczyna się, gdy \textbf{Użytkownik} otwiera ekran rejestracji w aplikacji mobilnej:
+\begin{itemize}
+    \item \textbf{Użytkownik} otwiera formularz rejestracyjny i wypełnia wymagane pola.
+    \item Aplikacja mobilna (\textbf{Frontend}) wysyła dane rejestracyjne do \textbf{Backendu} poprzez żądanie \texttt{POST /register}.
+    \item \textbf{Backend} sprawdza w \textbf{Bazie danych}, czy podany adres e-mail już istnieje.
+    \item \textbf{Baza danych} zwraca wynik weryfikacji.
+\end{itemize}
+
+Występuje tu konstrukcja alternatywna \texttt{wyniku sprawdzania}:
+\begin{enumerate}
+    \item \textbf{Email wolny}:  
+    \begin{itemize}
+        \item \textbf{Backend} tworzy nowy rekord użytkownika w tabeli \texttt{users}.
+        \item \textbf{Baza danych} potwierdza poprawne dodanie użytkownika.
+        \item \textbf{Frontend} otrzymuje odpowiedź \texttt{201 Created}, informując o utworzonym koncie użytkownika.
+    \end{itemize}
+
+    \item \textbf{Email zajęty}:
+    \begin{itemize}
+        \item \textbf{Backend} zwraca komunikat błędu \texttt{409 Conflict}.
+        \item \textbf{Frontend} informuje użytkownika o duplikacie adresu e-mail.
+    \end{itemize}
+\end{enumerate}
+
+\subsection{Logowanie użytkownika}
+
+Aby uzyskać dostęp do aplikacji, użytkownik wykonuje:
+\begin{itemize}
+    \item Otwarcie ekranu logowania i wprowadzenie danych.
+    \item \textbf{Frontend} wysyła żądanie \texttt{POST /login}.
+    \item \textbf{Backend} pobiera dane użytkownika z \textbf{Bazy danych}.
+\end{itemize}
+
+Następnie występuje alternatywa:
+\begin{enumerate}
+    \item \textbf{Hasło poprawne}:
+    \begin{itemize}
+        \item \textbf{Backend} zwraca kod \texttt{200 OK} wraz z tokenem sesyjnym.
+        \item Aplikacja informuje o poprawnym logowaniu.
+    \end{itemize}
+
+    \item \textbf{Hasło błędne}:
+    \begin{itemize}
+        \item \textbf{Backend} zwraca kod \texttt{401 Unauthorized}.
+        \item \textbf{Frontend} wyświetla komunikat o błędzie.
+    \end{itemize}
+\end{enumerate}
+
+\subsection{Dodawanie nowego nawyku z przypomnieniem}
+
+Po zalogowaniu użytkownik może stworzyć nowy nawyk:
+\begin{itemize}
+    \item \textbf{Użytkownik} uzupełnia formularz nowego nawyku i opcjonalne przypomnienie.
+    \item \textbf{Frontend} wysyła żądanie \texttt{POST /habits}.
+    \item \textbf{Backend} dodaje rekordy do tabel \texttt{habits} oraz \texttt{reminders} w \textbf{Bazie danych}.
+    \item \textbf{System powiadomień} rejestruje nowe przypomnienie.
+    \item Aplikacja otrzymuje odpowiedź \texttt{201 Created}.
+\end{itemize}
+
+\subsection{Przeglądanie i edycja nawyków}
+
+Użytkownik może przeglądać lub modyfikować swoje nawyki:
+\begin{itemize}
+    \item Żądanie \texttt{GET /habits} trafia do \textbf{Backendu}.
+    \item \textbf{Backend} pobiera listę nawyków z \textbf{Bazy danych}.
+    \item \textbf{Frontend} wyświetla pobraną listę.
+\end{itemize}
+
+W przypadku edycji lub usunięcia:
+\begin{itemize}
+    \item \textbf{Frontend} wysyła żądanie \texttt{PUT/DELETE /habits/\{id\}}.
+    \item \textbf{Backend} dokonuje odpowiedniej operacji w \textbf{Bazie danych}.
+    \item Po zakończeniu przetwarzania zwracany jest kod \texttt{200 OK}.
+\end{itemize}
+
+\subsection{Przeglądanie postępów}
+
+Użytkownik może przeanalizować swoje statystyki:
+\begin{itemize}
+    \item \textbf{Frontend} wykonuje żądanie \texttt{GET /progress}.
+    \item \textbf{Backend} pobiera dane statystyczne z \textbf{Bazy danych}.
+    \item Aplikacja prezentuje użytkownikowi wykresy, streaki i osiągnięcia.
+\end{itemize}
+
+\subsection{Dodawanie znajomego}
+
+W celu zwiększenia motywacji użytkownik może dodać znajomego:
+\begin{itemize}
+    \item \textbf{Frontend} wysyła żądanie \texttt{POST /friends/invite}.
+    \item \textbf{Backend} sprawdza istnienie użytkownika i dodaje relację w tabeli \texttt{friendships}.
+    \item \textbf{Frontend} otrzymuje odpowiedź \texttt{201 Created}.
+\end{itemize}
+
+\subsection{Pingowanie znajomego}
+
+Użytkownik może wysłać szybkie przypomnienie do znajomego:
+\begin{itemize}
+    \item Wysyłane jest żądanie \texttt{POST /friends/ping}.
+    \item \textbf{Backend} inicjuje powiadomienie w \textbf{Systemie powiadomień}.
+    \item \textbf{Frontend} otrzymuje odpowiedź \texttt{200 OK}.
+\end{itemize}
+
+\subsection{Zarządzanie powiadomieniami}
+
+Użytkownik może dostosować parametry przypomnień:
+\begin{itemize}
+    \item \textbf{Frontend} wysyła żądanie \texttt{PUT /settings/notifications}.
+    \item \textbf{Backend} aktualizuje ustawienia w \textbf{Bazie danych}.
+    \item Zwracana jest odpowiedź \texttt{200 OK}.
+\end{itemize}
+
+\subsection{Personalizacja motywu aplikacji}
+
+Użytkownik może zmieniać motyw wizualny:
+\begin{itemize}
+    \item Żądanie \texttt{PUT /settings/theme} trafia do \textbf{Backendu}.
+    \item \textbf{Baza danych} aktualizuje preferencje.
+    \item Aplikacja otrzymuje odpowiedź \texttt{200 OK}.
+\end{itemize}
+
+\subsection{Przypomnienia (automatyczne)}
+
+System obsługuje wysyłanie przypomnień nawet bez akcji użytkownika:
+\begin{itemize}
+    \item \textbf{System powiadomień} cyklicznie sprawdza ustawienia i czas przypomnień.
+    \item W przypadku spełnienia warunków wysyłane jest powiadomienie push.
+    \item \textbf{Backend} pobiera dane użytkownika i nawyku celem generacji treści powiadomienia.
+    \item \textbf{Frontend} prezentuje powiadomienie użytkownikowi.
+\end{itemize}
+
+\section{Diagram interakcji sekwencji i współpracy - omówienie różnic}
+
+Diagramy interakcji w notacji UML można podzielić na dwa główne typy: diagram sekwencji oraz diagram współpracy (zwany również diagramem komunikacji). Oba typy modelują sposób, w jaki obiekty wzajemnie oddziałują, jednak każdy z nich eksponuje inne aspekty analizowanego procesu. W niniejszej sekcji omówiono kluczowe cechy obu diagramów oraz wskazano fundamentalne różnice między nimi.
+
+\subsection{Charakterystyka diagramu sekwencji}
+\begin{itemize}
+    \item Koncentruje się na przebiegu zdarzeń w czasie, ukazując chronologiczną kolejność komunikatów.
+    \item Wykorzystuje pionowe linie życia, które wizualizują czas istnienia obiektów w trakcie interakcji.
+    \item Komunikaty ułożone są liniowo od góry do dołu, co pozwala prześledzić pełen przebieg procesu.
+    \item Podkreśla rytm, czas trwania i zależności czasowe między operacjami.
+    \item Jest szczególnie przydatny w analizie procesów logicznych i dynamicznych przepływów danych.
+\end{itemize}
+
+\subsection{Charakterystyka diagramu współpracy}
+\begin{itemize}
+    \item Skupia się na strukturze komunikacji między obiektami, a nie na czasie wykonania.
+    \item Komunikaty opisane są numeracją odzwierciedlającą kolejność operacji, ale nie ich czasową liniowość.
+    \item Umożliwia analizę organizacji i sieci powiązań między obiektami.
+    \item Przedstawia obiekty w układzie przestrzennym, co pozwala ocenić ich relacje oraz stopień zależności.
+    \item Często stosowany podczas projektowania architektury systemu lub sieci współpracujących agentów.
+\end{itemize}
+
+\subsection{Porównanie obu typów diagramów}
+\begin{itemize}
+    \item \textbf{Perspektywa czasu:}  
+    Diagram sekwencji akcentuje oś czasu, natomiast diagram współpracy przedstawia relacje strukturalne, bez dokładnego odwzorowania przebiegu czasowego.
+    \item \textbf{Priorytet wizualizacji:}  
+    Diagram sekwencji eksponuje kolejność wywołań, a diagram współpracy - zależności między obiektami.
+    \item \textbf{Złożoność interpretacji:}  
+    Diagram sekwencji jest łatwiejszy do odczytania w przypadku długich procesów. Diagram współpracy lepiej prezentuje rozbudowane relacje między obiektami.
+    \item \textbf{Różne zastosowania projektowe:}  
+    Diagram sekwencji zalecany jest dla analizy procesów użytkownika (use-case), a diagram współpracy dla projektowania architektury i struktury systemu.
+\end{itemize}
+
+\subsection{Kiedy stosować każdy z diagramów}
+\begin{itemize}
+    \item Diagram sekwencji:  
+    \begin{itemize}
+        \item analizowanie przepływów czasowych i zależności operacji,
+        \item wykrywanie błędów w logicznym następstwie czynności,
+        \item modelowanie procesów użytkownika w systemach interaktywnych,
+        \item analiza zachowania systemów czasu rzeczywistego.
+    \end{itemize}
+    \item Diagram współpracy:
+    \begin{itemize}
+        \item analizowanie zależności obiektów w architekturze systemu,
+        \item projektowanie komunikujących się modułów,
+        \item optymalizacja struktury interakcji,
+        \item modelowanie systemów wieloagentowych.
+    \end{itemize}
+\end{itemize}
+
+\section{Wnioski}
+
+Diagramy sekwencji i współpracy stanowią kluczowe narzędzia w inżynierii oprogramowania, umożliwiając zrozumienie dynamiki działania systemu oraz relacji między jego elementami. Ich stosowanie przynosi liczne korzyści na etapie projektowania, dokumentowania i analizy procesów informatycznych.
+
+\subsection{Zastosowania diagramów interakcji}
+\begin{itemize}
+    \item Dokumentacja zachowania systemów w czasie rzeczywistym.
+    \item Analiza funkcjonalności z poziomu użytkownika (modelowanie przypadków użycia).
+    \item Projektowanie interakcji między modułami i podsystemami.
+    \item Wspieranie analizy wymagań oraz walidacja kompletności specyfikacji.
+\end{itemize}
+
+\subsection{Celowość ich wykorzystania w procesie informatycznym}
+\begin{itemize}
+    \item Pozwalają wcześnie wykryć nieścisłości w projektowaniu logiki systemu.
+    \item Stanowią podstawę do tworzenia kodu źródłowego i architektury systemowej.
+    \item Zapewniają formalny sposób komunikacji pomiędzy członkami zespołu projektowego.
+    \item Ułatwiają analizę i optymalizację przepływu danych i komunikatów.
+\end{itemize}
+
+\subsection{Znaczenie dla bezpieczeństwa i niezawodności systemu}
+\begin{itemize}
+    \item Umożliwiają identyfikację potencjalnych punktów awarii lub przeciążenia.
+    \item Wspierają analizę ryzyka poprzez modelowanie scenariuszy wyjątkowych.
+    \item Pozwalają przewidzieć konsekwencje błędnych interakcji między komponentami.
+\end{itemize}
+
+\subsection{Rola w procesie implementacji i testowania}
+\begin{itemize}
+    \item Ułatwiają projektowanie struktur klas i interfejsów API.
+    \item Tworzą podstawę dla testów jednostkowych i integracyjnych.
+    \item Pozwalają zasymulować różne ścieżki wykonywania programu.
+    \item Wspomagają automatyzację testów poprzez mapowanie scenariuszy.
+\end{itemize}
+
+\subsection{Podsumowanie wniosków}
+\begin{itemize}
+    \item Diagramy interakcji są niezbędne w procesie projektowania dynamicznego zachowania systemu.
+    \item Zapewniają pełną przejrzystość procesów oraz hierarchii komunikatów.
+    \item Poprawiają efektywność projektowania, implementacji i weryfikacji oprogramowania.
+    \item Ich stosowanie przekłada się na wyższą jakość, stabilność i zrozumiałość systemu informatycznego.
+\end{itemize}
+
+\end{document}
+

@@ -1,0 +1,600 @@
+\documentclass[12pt,a4paper]{article}
+
+% ------------------ Pakiety ------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[polish]{babel}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{lmodern}
+\usepackage{setspace}
+\usepackage{titlesec}
+\usepackage{array}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{verbatim}
+
+% ------------------ Ustawienia ------------------
+\geometry{margin=2.5cm}
+\setstretch{1.3}
+\titleformat{\section}{\large\bfseries}{\thesection.}{1em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection.}{1em}{}
+\definecolor{lightgray}{rgb}{.9,.9,.9}
+\definecolor{darkgray}{rgb}{.4,.4,.4}
+\definecolor{purple}{rgb}{0.65, 0.12, 0.82}
+
+\lstdefinelanguage{JavaScript}{
+  keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
+  keywordstyle=\color{blue}\bfseries,
+  ndkeywords={class, export, boolean, throw, implements, import, this},
+  ndkeywordstyle=\color{darkgray}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  morestring=[b]',
+  morestring=[b]''
+}
+
+\lstset{
+   language=JavaScript,
+   backgroundcolor=\color{lightgray},
+   extendedchars=true,
+   basicstyle=\footnotesize\ttfamily,
+   showstringspaces=false,
+   showspaces=false,
+   numbers=left,
+   numberstyle=\footnotesize,
+   numbersep=9pt,
+   tabsize=2,
+   breaklines=true,
+   showtabs=false,
+   captionpos=b
+}
+
+\DeclareUnicodeCharacter{25CF}{$\bullet$}
+\DeclareUnicodeCharacter{251C}{\mbox{\kern.23em
+  \vrule height2.2exdepth1exwidth.4pt\vrule height2.2ptdepth-1.8ptwidth.23em}}
+\DeclareUnicodeCharacter{2500}{\mbox{\vrule height2.2ptdepth-1.8ptwidth.5em}}
+\DeclareUnicodeCharacter{2514}{\mbox{\kern.23em
+  \vrule height2.2exdepth-1.8ptwidth.4pt\vrule height2.2ptdepth-1.8ptwidth.23em}}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    urlcolor=blue,
+    pdftitle={Tworzenie diagramów UML z wykorzystaniem sztucznej inteligencji (AI)}
+}
+
+% ------------------ Dane ------------------
+
+\title{Uniwersytet Gdański
+Wydział Matematyki, Fizyki i Informatyki
+Instytut Informatyki}
+\author{Oliver Gruba, Maciej Nasiadka}
+
+\begin{document}
+\maketitle
+\begin{table}
+    \centering
+    \begin{tabular}{|>{\raggedright\arraybackslash}p{0.5\linewidth}|>{\raggedright\arraybackslash}p{0.4\linewidth}|}\hline
+         Imię i Nazwisko (nr indeksu)& Oliver Gruba (292583) \\
+         & Maciej Nasiadka (292574)\\\hline
+         Nazwa uczelni& Uniwersytet Gdański\\\hline
+         Kierunek& Informatyka (profil praktyczny)\\\hline
+         Prowadzący& dr inż. Stanisław Witkowski\\\hline
+         Nazwa ćwiczenia& Tworzenie diagramów UML z wykorzystaniem sztucznej inteligencji (AI)\\\hline
+         Numer sprawozdania& 9\\\hline
+         Data zajęć& 18.12.2025\\\hline
+         Data oddania& 07.01.2026\\\hline
+         Miejsce na ocenę& \\ \hline
+    \end{tabular}
+\end{table}
+\clearpage
+
+% ------------------ Dokument ------------------
+
+\tableofcontents
+
+\clearpage
+
+% -------------------------------------------------------------
+
+\section{Wprowadzenie}
+
+Rozwój sztucznej inteligencji (Artificial Intelligence, AI) w ostatnich latach znacząco wpłynął na sposób projektowania oraz dokumentowania systemów informatycznych. Narzędzia wykorzystujące AI coraz częściej wspierają programistów i architektów oprogramowania w procesach analitycznych, projektowych oraz decyzyjnych.
+
+Jednym z obszarów, w których obserwuje się rosnące zastosowanie AI, jest tworzenie diagramów UML (Unified Modeling Language). Automatyczne generowanie diagramów na podstawie opisu tekstowego, kodu źródłowego lub analizy wymagań pozwala przyspieszyć proces projektowy oraz zwiększyć jego dostępność dla osób o różnym poziomie doświadczenia.
+
+Celem niniejszego sprawozdania jest omówienie zalet, ograniczeń oraz perspektyw rozwoju tworzenia diagramów UML z wykorzystaniem sztucznej inteligencji, a także wskazanie potencjalnych kierunków dalszego zastosowania AI w projektowaniu oprogramowania.
+
+% -------------------------------------------------------------
+
+\section{Metodyka przeprowadzonych badań}
+
+Przeprowadzone badania miały charakter eksploracyjny i jakościowy. Ich celem nie było ilościowe porównanie modeli językowych ani ocena ich „jakości” w sensie benchmarkowym, lecz analiza zachowania narzędzi opartych o sztuczną inteligencję w kontekście wspomagania procesu tworzenia diagramów UML przy ograniczonym wkładzie użytkownika.
+
+Badanie skoncentrowało się na obserwacji:
+\begin{itemize}
+    \item sposobu interpretacji krótkiego i nieprecyzyjnego opisu problemu,
+    \item zdolności modelu do samodzielnego doboru odpowiedniej notacji,
+    \item poprawności strukturalnej generowanych diagramów,
+    \item konieczności ingerencji użytkownika w celu uzyskania poprawnego rezultatu.
+\end{itemize}
+
+Zastosowana metodyka odpowiada rzeczywistemu scenariuszowi pracy początkującego użytkownika, który nie posiada pełnej wiedzy z zakresu notacji UML lub nie potrafi jednoznacznie sformułować wymagań projektowych.
+
+
+% -------------------------------------------------------------
+
+\section{Darmowe narzędzia UML wykorzystujące AI}
+
+W celach dydaktycznych wykorzystano różne narzędzia i modele językowe. Użyliśmy najnowszych dostępnych i darmowych do wykorzystania modeli językowych w trybie agenta:
+\begin{itemize}
+    \item Claude Sonnet 4.5
+    \item ChatGPT 5.2
+    \item Grok Code Fast 1
+    \item Gemini 3 Fast
+\end{itemize}
+
+Typy diagramu dla agenta:
+\begin{itemize}
+    \item Diagram przypadków użycia - Claude
+    \item Diagram aktywności - ChatGPT
+    \item Diagram BPMN - Grok
+    \item Diagram sekwencji - Gemini
+\end{itemize}
+
+\subsection{Uzasadnienie ograniczonego kontekstu wejściowego}
+
+Wykorzystane prompty zostały celowo skrócone i pozbawione szczegółowych wytycznych. Zabieg ten miał na celu symulację sytuacji, w której użytkownik:
+\begin{itemize}
+    \item nie zna pełnej specyfikacji UML,
+    \item nie jest pewien oczekiwanego poziomu szczegółowości diagramu,
+    \item traktuje AI jako narzędzie wspierające proces myślowy, a nie jedynie generator kodu.
+\end{itemize}
+
+Ograniczenie liczby tokenów wejściowych pozwalało również zaobserwować mechanizmy autokorekty modeli językowych oraz ich skłonność do:
+\begin{itemize}
+    \item nadmiernego uogólniania,
+    \item tworzenia zbędnych elementów diagramu,
+    \item pomijania istotnych informacji technicznych.
+\end{itemize}
+
+\subsection{Dobór typów diagramów UML}
+
+Każdemu modelowi językowemu przypisano inny typ diagramu UML. Decyzja ta była celowa i miała na celu:
+\begin{itemize}
+    \item uniknięcie bezpośredniego porównywania modeli na identycznym zadaniu,
+    \item sprawdzenie elastyczności AI w różnych aspektach modelowania systemu,
+    \item ocenę, czy AI lepiej radzi sobie z modelami statycznymi czy dynamicznymi.
+\end{itemize}
+
+Zastosowane diagramy reprezentują odmienne perspektywy projektowe:
+\begin{itemize}
+    \item diagram przypadków użycia — perspektywa funkcjonalna,
+    \item diagram aktywności — perspektywa procesowa,
+    \item diagram BPMN — perspektywa biznesowa,
+    \item diagram sekwencji — perspektywa interakcyjna.
+\end{itemize}
+
+Takie podejście pozwala na szerszą ocenę przydatności AI w całym cyklu projektowym, zamiast ograniczać analizę do jednego wycinka UML.
+
+
+
+\subsection{Claude + Mermaid}
+
+Wygenerowany diagram przypadków użycia dla \textit{systemu tworzenia diagramów przez AI}
+
+Wykorzystany prompt:
+\begin{verbatim}
+Stwórz diagram przypadków użycia o "tworzeniu diagramów UML
+z wykorzystaniem sztucznej inteligencji".
+Wybierz odpowiednie narzędzie.
+\end{verbatim}
+
+\subsubsection{Wygenerowany diagram przypadków użycia}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{resources/claude/przypadki_uzycia_v1.png}
+    \caption{Oryginalna wersja diagramu przypadków użycia wygenerowana przez Claude Sonnet 4.5}
+    \label{fig:claudev1}
+\end{figure}
+
+Możemy zauważyć w modelu dużą tendencje do nadmiernego rozpisywania się, co nieraz powoduje niemałe problemy podczas tworzenia projektów lub dokumentacji.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{resources/claude/przypadki_uzycia_v2.png}
+    \caption{Uproszczona wersja diagramu przypadków użycia wygenerowana przez Claude Sonnet 4.5}
+    \label{fig:claudev2}
+\end{figure}
+
+\subsubsection{Wygenerowany opis diaramu}
+
+Opis wygenerowany przez Claude:
+
+\begin{verbatim}
+Ten diagram przedstawia system, w którym Użytkownik może wygenerować diagram
+UML z opisu tekstowego oraz edytować istniejące diagramy - obie te operacje
+automatycznie angażują Silnik AI, który dodationalnie waliduje poprawność
+utworzonego lub zmodyfikowanego diagramu. Użytkownik ma również możliwość
+wyeksportowania gotowego diagramu do pliku oraz zapisania go w systemie.
+Relacje "includes" wskazują, że walidacja przez AI jest integralną częścią
+zarówno generowania, jak i edycji diagramów, wykonującą się automatycznie
+podczas tych operacji.
+\end{verbatim}
+
+\subsubsection{Poprawki}
+
+Diagram nie wymagał poprawek po wstawieniu do narzędzia.
+
+% ---
+
+\subsection{ChatGPT + diagram aktywności}
+
+Wygenerowany diagram aktywności przy użyciu ChatGPT modelu 5.2 z celem wygenerowania \textit{diagramu aktywności dla systemu tworzącego diagramy UML przy użyciu sztucznej inteligencji}
+
+Wykorzystany prompt:
+\begin{verbatim}
+Stwórz diagram aktywności o tworzeniu diagramów UML
+z wykorzystaniem sztucznej inteligencji.
+Wybierz odpowiednie narzędzie.
+Zrób to dokładnie, ale bez nadmiernej szczegółowości
+\end{verbatim}
+
+\subsubsection{Wygenerowany diagram}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{resources/gpt/aktywnosci_v1.png}
+    \caption{Oryginalna wersja diagramu przypadków użycia wygenerowana przez ChatGPT i wyrenderowana poprzez zewnętrzne narzędzie}
+    \label{fig:gpt1}
+\end{figure}
+
+Diagram aktywności przedstawia proces tworzenia diagramu UML z wykorzystaniem sztucznej inteligencji, rozpoczynający się od określenia celu oraz wyboru rodzaju diagramu UML. Następnie użytkownik przygotowuje opis systemu i wprowadza go do narzędzia AI, które analizuje dostarczone informacje i generuje wstępną propozycję diagramu. W kolejnym kroku następuje decyzja, czy wygenerowany diagram jest poprawny — w przypadku negatywnej oceny użytkownik doprecyzowuje wymagania, a AI ponownie generuje diagram. Proces kończy się finalną korektą oraz eksportem gotowego diagramu w wybranym formacie, np. PlantUML.
+
+\subsubsection{Wygenerowany opis diaramu}
+
+Opis wygenerowany przez ChatGPT:
+
+\begin{verbatim}
+Diagram aktywności przedstawia proces tworzenia diagramu UML z wykorzystaniem
+sztucznej inteligencji, rozpoczynający się od określenia celu oraz wyboru 
+rodzaju diagramu UML. Następnie użytkownik przygotowuje opis systemu i wprowadza
+go do narzędzia AI, które analizuje dostarczone informacje i generuje wstępną
+propozycję diagramu. W kolejnym kroku następuje decyzja, czy wygenerowany diagram 
+jest poprawny — w przypadku negatywnej oceny użytkownik doprecyzowuje wymagania,
+a AI ponownie generuje diagram. Proces kończy się finalną korektą oraz eksportem
+gotowego diagramu w wybranym formacie, np. PlantUML.
+
+\end{verbatim}
+
+\subsubsection{Poprawki}
+
+Kod nie wymagał poprawek.
+
+% ---
+
+\subsection{Grok + diagram BPMN}
+
+Wygenerowany diagram aktywności przy użyciu \textit{Grok Code Fast 1} z celem wygenerowania \textit{diagramu BPMN dla systemu tworzącego diagramy UML przy użyciu sztucznej inteligencji}
+
+Wykorzystany prompt:
+\begin{verbatim}
+Stwórz diagram BPMN o "tworzeniu diagramów UML
+z wykorzystaniem sztucznej inteligencji".
+Wybierz odpowiednie narzędzie.
+Zadbaj o poprawność
+\end{verbatim}
+
+Drugi prompt:
+\begin{verbatim}
+Po imporcie do narzędzi, nie ma treści
+\end{verbatim}
+
+\subsubsection{Wygenerowany diagram}
+
+Poniżej przedstawiliśmy wygenerowany diagram. \textit{Tak, pierwszy wygenerowany diagram był pusty.}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{resources/grok/bpmn_v1.png}
+    \caption{Oryginalna wersja diagramu BPMN wygenerowana przez Grok i wyrenderowana poprzez zewnętrzne narzędzie.
+    Wystąpiły komplikacje, przez co kod BPMN poprawnie się importował, ale nie powodował wyświetlenia żadnej treści.}
+    \label{fig:grok1}
+\end{figure}
+
+\subsubsection{Wygenerowany opis diaramu}
+
+
+Opis wygenerowany przez Grok:
+
+\begin{verbatim}
+Diagram BPMN przedstawia proces tworzenia diagramów UML przy użyciu
+sztucznej inteligencji, zaczynając od zdarzenia startowego "Rozpoczęcie 
+procesu". Następnie użytkownik definiuje wymagania dla diagramu UML,
+wybiera narzędzie AI (np. GitHub Copilot) i generuje diagram za pomocą AI.
+Bramka decyzyjna sprawdza, czy diagram jest poprawny:
+jeśli tak, proces kończy się zdarzeniem końcowym;
+jeśli nie, diagram jest edytowany ręcznie przed zakończeniem.
+Przepływy sekwencyjne łączą zadania w liniowym układzie z jedną pętlą warunkową,
+z elementami rozmieszczonymi poziomo od lewej do prawej strony płótna.
+\end{verbatim}
+\subsubsection{Poprawki}
+
+Wygenerowany kod wymagał poprawki, przez brak informacji o położeniu elementów na planszy. Drugi prompt symulujący zwykłego użytkownika korzystającego z technologii:
+Wykorzystany prompt:
+\begin{verbatim}
+Po imporcie do narzędzi, nie ma treści
+\end{verbatim}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{resources/grok/bpmn_v2.png}
+    \caption{Poprawiona wersja diagramu BPMN wygenerowana przez Grok i wyrenderowana poprzez zewnętrzne narzędzie.
+    Po zwróceniu modelowi uwagi, wygenerował znacznie obszerniejszą odpowiedź, uzupełniając informajce o położeniu elementów na planszy. }
+    \label{fig:grok2}
+\end{figure}
+
+% ---
+
+% Gemini 3 Fast
+\subsection{Gemini + Mermaid}
+
+Wygenerowany diagram aktywności przy użyciu \textit{Gemini 3 Fast} z celem wygenerowania \textit{diagramu sekwencji dla systemu tworzącego diagramy UML przy użyciu sztucznej inteligencji}
+
+Wykorzystany prompt:
+\begin{verbatim}
+ Stwórz diagram sekwencji o "tworzeniu diagramów UML
+ z wykorzystaniem sztucznej inteligencji".
+ Wykorzystaj odpowiednie narzędzie.
+ Zrób to dokładnie, ale bez nadmiernej szczegółowości 
+\end{verbatim}
+
+\subsubsection{Wygenerowany diagram}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{resources/gemini/sekwencji.png}
+    \caption{Oryginalna wersja diagramu sekwencji wygenerowana przez Gemini i wyrenderowana poprzez zewnętrzne narzędzie.}
+    \label{fig:gemini1}
+\end{figure}
+
+\subsubsection{Wygenerowany opis diaramu}
+Odpowiedź LLM verbatim:
+
+\begin{verbatim}
+Ten konkretny diagram sekwencji ilustruje trójstronną interakcję pomiędzy 
+**Użytkownikiem**, **Modelem AI** (takim jak Gemini) 
+oraz **Narzędziem Renderującym** (np. Mermaid).
+
+Proces rozpoczyna się od przekazania przez użytkownika opisu tekstowego,
+który AI przetwarza na ustrukturyzowany kod (syntax), pełniący rolę pośrednika
+między myślą a obrazem. Kluczowym elementem diagramu jest blok **"alt"**,
+który pokazuje specyfikę pracy z AI – możliwość błyskawicznego wprowadzenia
+poprawek i wygenerowania zaktualizowanego kodu w odpowiedzi na prośbę o
+modyfikację. Całość obrazuje, że AI w tym procesie nie jest rysownikiem,
+lecz "tłumaczem" logiki biznesowej na język zrozumiały dla silników graficznych.
+\end{verbatim}
+
+\subsubsection{Poprawki}
+
+Diagram nie wymagał poprawek.
+
+% -------------------------------------------------------------
+
+\section{Kryteria oceny wygenerowanych diagramów}
+
+Ocena wygenerowanych diagramów została przeprowadzona w oparciu o następujące kryteria jakościowe:
+\begin{itemize}
+    \item poprawność notacyjna (zgodność z zasadami UML/BPMN),
+    \item kompletność logiczna procesu lub struktury,
+    \item czytelność i zrozumiałość diagramu,
+    \item stopień wymaganej ingerencji użytkownika,
+    \item zgodność diagramu z opisem tekstowym.
+\end{itemize}
+
+Analiza nie miała charakteru punktowego, lecz opisowy, co jest zgodne z eksploracyjnym charakterem badania.
+
+% -------------------------------------------------------------
+
+\section{Analiza porównawcza zachowania modeli AI}
+
+Analiza wygenerowanych diagramów wskazuje na istotne różnice w podejściu modeli językowych do zadania modelowania systemów.
+
+Modele wykazujące tendencję do nadmiernej elaboracji generowały diagramy bogate w szczegóły, lecz trudniejsze w dalszej edycji. Z kolei modele bardziej zachowawcze tworzyły struktury prostsze, wymagające doprecyzowania, ale łatwiejsze do dalszej rozbudowy.
+
+Istotnym wnioskiem jest fakt, że problemy techniczne (np. brak informacji o położeniu elementów w BPMN) nie wynikały z błędnej logiki procesu, lecz z niedostosowania wygenerowanego kodu do wymagań konkretnego silnika renderującego.
+
+
+% -------------------------------------------------------------
+
+\section{Zalety zastosowania AI w tworzeniu diagramów UML}
+
+Wykorzystanie sztucznej inteligencji w procesie tworzenia diagramów UML przynosi szereg istotnych korzyści, zarówno na etapie analizy, jak i projektowania systemu.
+
+\subsection{Automatyzacja procesu projektowego}
+
+\begin{itemize}
+    \item generowanie diagramów na podstawie opisu tekstowego lub kodu źródłowego,
+    \item ograniczenie ręcznego rysowania elementów diagramu,
+    \item skrócenie czasu potrzebnego na przygotowanie dokumentacji projektowej.
+\end{itemize}
+
+\subsection{Wsparcie dla mniej doświadczonych projektantów}
+
+\begin{itemize}
+    \item pomoc w doborze odpowiednich typów diagramów UML,
+    \item sugerowanie poprawnych relacji pomiędzy elementami,
+    \item redukcja liczby błędów wynikających z nieznajomości notacji UML.
+\end{itemize}
+
+\subsection{Spójność i standaryzacja diagramów}
+
+\begin{itemize}
+    \item zachowanie jednolitej struktury i stylu diagramów,
+    \item automatyczne stosowanie zasad UML,
+    \item łatwiejsze utrzymanie zgodności dokumentacji w dużych projektach.
+\end{itemize}
+
+\subsection{Integracja z procesem wytwarzania oprogramowania}
+
+\begin{itemize}
+    \item możliwość analizy kodu i generowania diagramów aktualizowanych na bieżąco,
+    \item wsparcie pracy zespołowej i iteracyjnego rozwoju systemu,
+    \item lepsza synchronizacja dokumentacji z implementacją.
+\end{itemize}
+
+% -------------------------------------------------------------
+
+\section{Wady i ograniczenia wykorzystania AI}
+
+Pomimo licznych zalet, zastosowanie AI w tworzeniu diagramów UML wiąże się również z pewnymi ograniczeniami, które należy uwzględnić w praktyce projektowej.
+
+\subsection{Ograniczone zrozumienie kontekstu biznesowego}
+
+\begin{itemize}
+    \item AI może nie uwzględniać specyficznych wymagań domenowych,
+    \item brak pełnego rozumienia intencji projektanta,
+    \item ryzyko generowania diagramów nadmiernie uproszczonych lub zbyt złożonych.
+\end{itemize}
+
+\subsection{Jakość danych wejściowych}
+
+\begin{itemize}
+    \item skuteczność AI zależy od jakości opisu lub kodu źródłowego,
+    \item nieprecyzyjne dane wejściowe prowadzą do niepoprawnych diagramów,
+    \item konieczność ręcznej weryfikacji wygenerowanych modeli.
+\end{itemize}
+
+\subsection{Ograniczona elastyczność projektowa}
+
+\begin{itemize}
+    \item generowane diagramy mogą nie odpowiadać preferowanemu stylowi architektonicznemu,
+    \item trudności w odwzorowaniu niestandardowych rozwiązań projektowych,
+    \item ryzyko nadmiernego polegania na sugestiach AI.
+\end{itemize}
+
+% -------------------------------------------------------------
+
+\section{Przyszłość tworzenia diagramów UMl}
+
+Rozwój technologii AI wskazuje na dalszą automatyzację i inteligentne wsparcie procesu projektowania systemów informatycznych.
+
+\subsection{Dynamiczne i adaptacyjne diagramy}
+
+\begin{itemize}
+    \item automatyczna aktualizacja diagramów wraz ze zmianami w kodzie,
+    \item dostosowywanie poziomu szczegółowości do potrzeb użytkownika,
+    \item interaktywne modele architektury.
+\end{itemize}
+
+\subsection{Integracja z narzędziami analitycznymi}
+
+\begin{itemize}
+    \item analiza jakości architektury na podstawie diagramów,
+    \item identyfikacja wąskich gardeł i zależności krytycznych,
+    \item wsparcie decyzji architektonicznych w czasie rzeczywistym.
+\end{itemize}
+
+\subsection{Rozszerzenie roli AI jako asystenta architekta}
+
+\begin{itemize}
+    \item sugerowanie alternatywnych rozwiązań projektowych,
+    \item wykrywanie antywzorców architektonicznych,
+    \item wspomaganie optymalizacji struktury systemu.
+\end{itemize}
+
+% -------------------------------------------------------------
+
+\section{Przyszłe wytyczne do projektowania oprogramowania z AI}
+
+Wykorzystanie AI w projektowaniu systemów informatycznych wymaga wypracowania nowych zasad i dobrych praktyk.
+
+\subsection{Rola projektanta}
+
+\begin{itemize}
+    \item projektant powinien pełnić rolę decyzyjną, a nie jedynie wykonawczą,
+    \item AI należy traktować jako narzędzie wspomagające, a nie zastępujące analizę,
+    \item konieczność krytycznej oceny wyników generowanych przez AI.
+\end{itemize}
+
+\subsection{Transparentność i kontrola}
+
+\begin{itemize}
+    \item zrozumienie sposobu generowania diagramów przez AI,
+    \item możliwość modyfikacji i korekty modeli,
+    \item zapewnienie zgodności z wymaganiami projektu.
+\end{itemize}
+
+\subsection{Edukacja i kompetencje}
+
+\begin{itemize}
+    \item rozwijanie umiejętności współpracy z narzędziami AI,
+    \item łączenie wiedzy projektowej z kompetencjami analitycznymi,
+    \item świadome wykorzystywanie automatyzacji.
+\end{itemize}
+
+% -------------------------------------------------------------
+
+\section{Propozycje zadania laboratoryjnego.}
+
+W ramach zajęć laboratoryjnych można zaproponować zadanie polegające na praktycznym wykorzystaniu AI do tworzenia diagramów UML.
+
+\subsection{Zakres zadania}
+
+\begin{itemize}
+    \item przygotowanie opisu systemu w formie tekstowej,\newline
+    \qquad podany prompt (ręczny opis wymagania diagramu).\newline
+    \qquad wykorzystanie sztucznej inteligencji do opisania istniejących diagramów.
+    \item wygenerowanie diagramu UML przy użyciu narzędzia AI,
+    \item ręczna weryfikacja poprawności diagramu.
+\end{itemize}
+
+\subsection{Cele dydaktyczne}
+
+\begin{itemize}
+    \item zrozumienie możliwości i ograniczeń AI,
+    \item nauka analizy i korekty wygenerowanych modeli,
+    \item rozwijanie umiejętności krytycznego myślenia projektowego.
+\end{itemize}
+
+\subsection{Efekty końcowe}
+
+\begin{itemize}
+    \item poprawnie przygotowany diagram UML,
+    \item raport z analizy działania narzędzia AI,
+    \item wnioski dotyczące jakości wygenerowanej architektury.
+\end{itemize}
+
+% -------------------------------------------------------------
+
+\section{Wnioski z przeprowadzonego eksperymentu}
+
+Przeprowadzony eksperyment potwierdza, że narzędzia AI mogą skutecznie wspierać proces tworzenia diagramów UML, jednak ich użycie wymaga:
+\begin{itemize}
+    \item podstawowej wiedzy z zakresu notacji,
+    \item umiejętności krytycznej analizy wyników,
+    \item gotowości do iteracyjnej współpracy z modelem.
+\end{itemize}
+
+AI nie eliminuje potrzeby myślenia projektowego, lecz zmienia jego charakter: z manualnego rysowania na nadzorowanie, korektę i interpretację modeli.
+
+% -------------------------------------------------------------
+
+\section{Podsumowanie}
+
+Sztuczna inteligencja stanowi istotne wsparcie w procesie tworzenia diagramów UML, przyczyniając się do automatyzacji, poprawy spójności oraz skrócenia czasu projektowania. Jednocześnie jej wykorzystanie wymaga świadomego podejścia, uwzględniającego ograniczenia technologiczne oraz konieczność kontroli ze strony projektanta.
+
+Połączenie wiedzy inżynierskiej z narzędziami AI może w przyszłości znacząco podnieść jakość dokumentacji projektowej oraz usprawnić proces wytwarzania oprogramowania, pod warunkiem zachowania równowagi pomiędzy automatyzacją a odpowiedzialnością projektową.
+
+Narzędzia na dany moment w czasie dobrze sobie radzą przy odpowiedniej wielkości oknta kontekstowego, o co będzie musiał zadbać przyszły projektant diagramów. Szala przesunie się z umiejętności tworzenia diagramów na ich opis i umiejętność stosowania poprawek. Element ludzki jeszcze przez długi czas będzie potrzebny do nadzorowania logiki, zwłaszcza dla bardziej skomplikowanych i mniej popularnych rozwiązań w systemach informatycznych lub biznesowych. 
+
+\end{document}

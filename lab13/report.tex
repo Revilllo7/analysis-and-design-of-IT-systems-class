@@ -1,0 +1,531 @@
+\documentclass[12pt,a4paper]{article}
+
+% ------------------ Pakiety ------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[polish]{babel}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{lmodern}
+\usepackage{setspace}
+\usepackage{titlesec}
+\usepackage{array}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{verbatim}
+
+% ------------------ Ustawienia ------------------
+\geometry{margin=2.5cm}
+\setstretch{1.3}
+\titleformat{\section}{\large\bfseries}{\thesection.}{1em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection.}{1em}{}
+\definecolor{lightgray}{rgb}{.9,.9,.9}
+\definecolor{darkgray}{rgb}{.4,.4,.4}
+\definecolor{purple}{rgb}{0.65, 0.12, 0.82}
+
+\lstdefinelanguage{JavaScript}{
+  keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
+  keywordstyle=\color{blue}\bfseries,
+  ndkeywords={class, export, boolean, throw, implements, import, this},
+  ndkeywordstyle=\color{darkgray}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  morestring=[b]',
+  morestring=[b]''
+}
+
+\lstset{
+   language=JavaScript,
+   backgroundcolor=\color{lightgray},
+   extendedchars=true,
+   basicstyle=\footnotesize\ttfamily,
+   showstringspaces=false,
+   showspaces=false,
+   numbers=left,
+   numberstyle=\footnotesize,
+   numbersep=9pt,
+   tabsize=2,
+   breaklines=true,
+   showtabs=false,
+   captionpos=b
+}
+
+\DeclareUnicodeCharacter{25CF}{$\bullet$}
+\DeclareUnicodeCharacter{251C}{\mbox{\kern.23em
+  \vrule height2.2exdepth1exwidth.4pt\vrule height2.2ptdepth-1.8ptwidth.23em}}
+\DeclareUnicodeCharacter{2500}{\mbox{\vrule height2.2ptdepth-1.8ptwidth.5em}}
+\DeclareUnicodeCharacter{2514}{\mbox{\kern.23em
+  \vrule height2.2exdepth-1.8ptwidth.4pt\vrule height2.2ptdepth-1.8ptwidth.23em}}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    urlcolor=blue,
+    pdftitle={Tworzenie diagramów UML z wykorzystaniem sztucznej inteligencji (AI)}
+}
+
+% ------------------ Dane ------------------
+
+\title{Uniwersytet Gdański
+Wydział Matematyki, Fizyki i Informatyki
+Instytut Informatyki}
+\author{Oliver Gruba, Maciej Nasiadka}
+
+\begin{document}
+\maketitle
+\begin{table}
+    \centering
+    \begin{tabular}{|>{\raggedright\arraybackslash}p{0.5\linewidth}|>{\raggedright\arraybackslash}p{0.4\linewidth}|}\hline
+         Imię i Nazwisko (nr indeksu)& Oliver Gruba (292583) \\
+         & Maciej Nasiadka (292574)\\\hline
+         Nazwa uczelni& Uniwersytet Gdański\\\hline
+         Kierunek& Informatyka (profil praktyczny)\\\hline
+         Prowadzący& dr inż. Stanisław Witkowski\\\hline
+         Nazwa ćwiczenia& Projektowanie architektury rozwiązań i mikrousług IT poprzez tworzenie diagramów komponentów.\\\hline
+         Numer sprawozdania& 10\\\hline
+         Data zajęć& 08.01.2026\\\hline
+         Data oddania& 14.01.2026\\\hline
+         Miejsce na ocenę& \\ \hline
+    \end{tabular}
+\end{table}
+\clearpage
+
+% ------------------ Dokument ------------------
+
+\tableofcontents
+
+\clearpage
+
+% -------------------------------------------------------------
+
+\section{Wprowadzenie}
+
+Projektowanie architektury rozwiązań informatycznych oraz mikrousług stanowi jeden z kluczowych etapów procesu wytwarzania nowoczesnych systemów IT. W szczególności w architekturach rozproszonych, takich jak mikroserwisy, konieczne jest precyzyjne określenie odpowiedzialności poszczególnych modułów, ich interfejsów oraz sposobów komunikacji.
+
+Diagram komponentów UML jest narzędziem, które umożliwia modelowanie logicznej struktury systemu poprzez przedstawienie jego elementów funkcjonalnych oraz zależności pomiędzy nimi. Pozwala on na czytelne zobrazowanie architektury systemu zarówno na poziomie pojedynczej aplikacji, jak i całego ekosystemu mikrousług.
+
+Celem niniejszego sprawozdania jest omówienie zasad projektowania architektury rozwiązań IT i mikrousług z wykorzystaniem diagramów komponentów, przedstawienie notacji symbolicznej, a także zaprezentowanie przykładowych zastosowań w rzeczywistych scenariuszach systemowych.
+
+% -------------------------------------------------------------
+
+\section{Architektura mikrousług a diagram komponentów}
+
+Architektura mikrousług zakłada podział systemu na niewielkie, niezależne usługi realizujące pojedyncze odpowiedzialności biznesowe. Diagram komponentów jest naturalnym narzędziem do modelowania takiej struktury.
+
+\subsection{Granice mikrousług}
+
+\begin{itemize}
+    \item każdy komponent powinien odpowiadać jednej domenowej odpowiedzialności,
+    \item komponent nie powinien zawierać logiki niezwiązanej z jego główną funkcją,
+    \item granice komponentów powinny odpowiadać granicom zespołów projektowych.
+\end{itemize}
+
+\subsection{Niezależność wdrożeniowa}
+
+\begin{itemize}
+    \item komponent jako mikrousługa powinien być wdrażalny niezależnie,
+    \item zmiana jednego komponentu nie powinna wymuszać rekompilacji innych,
+    \item diagram pozwala sprawdzić, czy nie powstały ukryte zależności.
+\end{itemize}
+
+\subsection{Sprzężenie i spójność}
+
+\begin{itemize}
+    \item diagram pomaga ograniczać sprzężenie (loose coupling),
+    \item interfejsy wymuszają kontrakt komunikacyjny,
+    \item spójność wewnętrzna komponentu powinna być maksymalna.
+\end{itemize}
+
+% -------------------------------------------------------------
+
+\section{Komunikacja pomiędzy komponentami i mikrousługami}
+
+Sposób komunikacji ma kluczowe znaczenie dla wydajności i stabilności systemu.
+
+\subsection{Komunikacja synchroniczna}
+
+\begin{itemize}
+    \item realizowana przez REST, gRPC lub SOAP,
+    \item prosta w implementacji, ale podatna na opóźnienia,
+    \item zwiększa ryzyko kaskadowych awarii.
+\end{itemize}
+
+\subsection{Komunikacja asynchroniczna}
+
+\begin{itemize}
+    \item oparta na kolejkach i brokerach zdarzeń,
+    \item zwiększa odporność systemu,
+    \item umożliwia skalowanie niezależne komponentów.
+\end{itemize}
+
+\subsection{Modelowanie komunikacji w diagramie}
+
+\begin{itemize}
+    \item strzałki pokazują kierunek wywołań,
+    \item podpis relacji określa protokół,
+    \item interfejs definiuje kontrakt komunikacyjny.
+\end{itemize}
+
+% -------------------------------------------------------------
+
+\section{Notacja symboliczna diagramu komponentów}
+
+Notacja diagramu komponentów UML umożliwia jednoznaczne przedstawienie struktury systemu oraz relacji pomiędzy jego elementami. Prawidłowe stosowanie symboli jest kluczowe dla czytelności i poprawnej interpretacji diagramu.
+
+\subsection{Podstawowe elementy}
+
+Podstawowe elementy diagramu komponentów służą do definiowania modułów systemu oraz punktów komunikacji pomiędzy nimi.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{resources/component_diagram/komponenty podstawy.png}
+    \caption{Graficzne przedstawienie podstawowych elementów diagramu komponentów}
+    \label{fig:podstawy}
+\end{figure}
+
+\subsubsection{Komponent (\textit{component})}
+
+Komponent reprezentuje logiczny lub fizyczny moduł systemu odpowiedzialny za realizację określonej funkcjonalności. Jest on niezależną jednostką, która może być rozwijana, testowana i wdrażana autonomicznie.
+
+Cechy komponentu:
+\begin{itemize}
+    \item posiada jasno określoną odpowiedzialność,
+    \item ukrywa szczegóły implementacyjne,
+    \item komunikuje się z innymi komponentami poprzez interfejsy,
+    \item może reprezentować mikrousługę, moduł aplikacji lub bibliotekę.
+\end{itemize}
+
+\subsubsection{Interfejs (\textit{interface})}
+
+Interfejs definiuje zbiór operacji udostępnianych lub wymaganych przez komponent. Stanowi kontrakt komunikacyjny pomiędzy komponentami.
+
+Rozróżnia się:
+\begin{itemize}
+    \item interfejsy dostarczane (provided),
+    \item interfejsy wymagane (required).
+\end{itemize}
+
+Zastosowanie interfejsów sprzyja luźnemu powiązaniu komponentów oraz zwiększa elastyczność architektury.
+
+\subsection{Powiązania i relacje}
+
+Relacje pomiędzy komponentami określają sposób ich współpracy oraz zależności funkcjonalne.
+
+W diagramach komponentów najczęściej stosuje się trzy warianty powiązań:
+
+\begin{itemize}
+    \item \textbf{Zależność (Dependency)} – wskazuje, że jeden komponent korzysta z funkcjonalności innego, lecz nie jest z nim silnie związany.
+    \item \textbf{Połączenie przez interfejs} – komunikacja realizowana poprzez zdefiniowane interfejsy provided/required.
+    \item \textbf{Delegacja} – przekazanie odpowiedzialności obsługi żądania do innego komponentu.
+\end{itemize}
+
+Dobór odpowiedniego rodzaju relacji ma istotny wpływ na czytelność diagramu oraz stopień sprzężenia systemu.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{resources/component_diagram/komponenty powiązania i relacje.png}
+    \caption{Graficzne przedstawienie powiązania i relacji diagramu komponentów}
+    \label{fig:powiązania}
+\end{figure}
+
+\subsection{Przepływ danych}
+
+Przepływ danych obrazuje kierunek i charakter przekazywanych informacji pomiędzy komponentami.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{resources/component_diagram/komponenty przepływ danych.png}
+    \caption{Graficzne przedstawienie przepływu danych w  diagramie komponentów}
+    \label{fig:przepływ}
+\end{figure}
+
+W przypadku przepływu danych z komponentu B do komponentu A:
+\begin{itemize}
+    \item komponent B pełni rolę dostawcy danych lub usług,
+    \item komponent A jest odbiorcą danych,
+    \item przepływ może reprezentować wywołanie usługi, komunikację asynchroniczną lub przesył zdarzeń.
+\end{itemize}
+
+Jawne zaznaczenie przepływu danych pozwala lepiej zrozumieć zależności systemowe oraz potencjalne punkty krytyczne.
+
+% -------------------------------------------------------------
+
+\section{Zasada użycia diagramu komponentów}
+
+Diagram komponentów powinien być stosowany jako narzędzie analizy i projektowania architektury logicznej systemu.
+
+\subsection{Moment wykorzystania}
+
+Diagramy komponentów tworzy się:
+\begin{itemize}
+    \item na etapie projektowania architektury systemu,
+    \item przed implementacją kluczowych modułów,
+    \item podczas refaktoryzacji lub migracji do architektury mikrousług.
+\end{itemize}
+
+\subsection{Poziom szczegółowości}
+
+\begin{itemize}
+    \item diagram wysokopoziomowy – przedstawia główne komponenty systemu,
+    \item diagram szczegółowy – opisuje wewnętrzną strukturę wybranych modułów,
+    \item diagramy pomocnicze – skupione na konkretnych procesach biznesowych.
+\end{itemize}
+
+\subsection{Dobre praktyki}
+
+\begin{itemize}
+    \item unikanie nadmiernej liczby komponentów na jednym diagramie,
+    \item konsekwentne nazewnictwo komponentów i interfejsów,
+    \item zachowanie czytelnego kierunku zależności.
+\end{itemize}
+
+% -------------------------------------------------------------
+
+\section{Bezpieczeństwo architektury komponentowej}
+
+Diagram komponentów pomaga projektować system z uwzględnieniem bezpieczeństwa.
+
+\subsection{Izolacja odpowiedzialności}
+
+\begin{itemize}
+    \item komponenty wrażliwe (np. autoryzacja) powinny być wydzielone,
+    \item ograniczenie dostępu przez interfejsy,
+    \item brak bezpośredniego dostępu do baz danych z wielu komponentów.
+\end{itemize}
+
+\subsection{Punkty kontroli dostępu}
+
+\begin{itemize}
+    \item centralne komponenty autoryzacji,
+    \item walidacja tożsamości na granicach systemu,
+    \item diagram ujawnia miejsca wymagające zabezpieczeń.
+\end{itemize}
+
+\subsection{Ochrona komunikacji}
+
+\begin{itemize}
+    \item szyfrowanie połączeń między komponentami,
+    \item podpisy komunikatów,
+    \item ograniczenie zaufania pomiędzy usługami.
+\end{itemize}
+
+% -------------------------------------------------------------
+
+\section{Przykład nr 1 — Diagram komponentów systemu ATM (UML)}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\linewidth]{resources/component_diagram/atm_component.png}
+    \caption{Diagram komponentów systemu bankomatowego z uwzględnieniem interfejsów i sterowników sprzętowych.}
+    \label{fig:atm_components}
+\end{figure}
+
+System obsługi transakcji bankomatowych został przedstawiony jako architektura rozproszona typu klient-serwer, w której kluczową rolę odgrywa separacja warstwy sprzętowej od logiki biznesowej oraz bezpieczna komunikacja z infrastrukturą banku.
+
+\subsection{Opis systemu}
+
+Prezentowany model realizuje procesy:
+\begin{itemize}
+    \item \textbf{Obsługa sprzętu:} Sterowanie peryferiami (czytnik, dyspenser) poprzez dedykowane interfejsy programistyczne.
+    \item \textbf{Komunikacja sieciowa:} Wymiana komunikatów w standardzie ISO 8583 przez protokół TCP/IP.
+    \item \textbf{Bezpieczeństwo:} Weryfikacja kryptograficzna PIN z użyciem modułów HSM (Hardware Security Module).
+    \item \textbf{Księgowanie:} Autoryzacja salda w centralnym systemie bankowym (Core Banking).
+\end{itemize}
+
+\subsection{Kluczowe komponenty i interfejsy}
+
+Architektura została podzielona na dwa główne węzły logiczne:
+
+\subsubsection{1. Terminal ATM (Strona Klienta)}
+\begin{itemize}
+    \item \textbf{ATM Controller (Aplikacja Główna):} Centralny komponent orkiestrujący pracę bankomatu. Nie komunikuje się bezpośrednio ze sprzętem, lecz wykorzystuje interfejsy (tzw. \textit{sockets}).
+    \item \textbf{Warstwa Sterowników (Hardware Drivers):} Komponenty realizujące fizyczną obsługę urządzeń. Udostępniają one interfejsy (tzw. \textit{lollipops}):
+    \begin{itemize}
+        \item \texttt{ICardReader} – obsługa odczytu paska magnetycznego/chipa.
+        \item \texttt{ICashDispenser} – sterowanie mechanizmem wypłaty banknotów.
+        \item \texttt{IPinPad} – bezpieczne wprowadzanie i szyfrowanie PIN.
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{2. Sieć Bankowa (Backend)}
+\begin{itemize}
+    \item \textbf{ATM Switch:} Brama sieciowa udostępniająca interfejs komunikacyjny (port nasłuchujący), odpowiedzialna za routing transakcji.
+    \item \textbf{Core Banking System (CBS):} Udostępnia interfejs \texttt{IAuthorisation} do weryfikacji dostępności środków na rachunku.
+    \item \textbf{HSM (Hardware Security Module):} Specjalistyczny komponent kryptograficzny udostępniający interfejs \texttt{ICrypto} do walidacji bloków PIN.
+\end{itemize}
+
+\subsection{Analiza architektoniczna}
+
+Zastosowanie diagramu komponentów w notacji UML 2.0 pozwoliło na zidentyfikowanie:
+\begin{enumerate}
+    \item \textbf{Zależności interfejsowych:} Wykorzystanie notacji „gniazdo-wtyczka” (socket-lollipop) obrazuje luźne powiązania (loose coupling) między aplikacją a sprzętem. Umożliwia to wymianę sterowników (np. na inny model czytnika) bez konieczności modyfikacji głównego kodu sterującego (\textit{ATM Controller}).
+    \item \textbf{Punktów styku sieciowego:} Wyodrębnienie interfejsu \texttt{ISO8583 over TCP/IP} definiuje kontrakt komunikacyjny między strefą publiczną (bankomat) a strefą bezpieczną (bank).
+\end{enumerate}
+
+% -------------------------------------------------------------
+
+\section{Przykład nr 2 — Diagram komponentów systemu zarządzania zapasami}
+
+\begin{figure}[H]
+    \centering
+    % Wstaw tutaj wygenerowany obraz z PlantUML
+    \includegraphics[width=1.0\linewidth]{resources/component_diagram/zapasy_component.png}
+    \caption{Diagram komponentów systemu Inventory Management System (IMS) z uwzględnieniem integracji ERP.}
+    \label{fig:inventory_components}
+\end{figure}
+
+Projekt systemu zarządzania zapasami (Inventory Management System - IMS) opiera się na architekturze wielowarstwowej, mającej na celu oddzielenie logiki biznesowej od interfejsów użytkownika oraz zapewnienie spójności danych z zewnętrznymi systemami finansowymi.
+
+\subsection{Opis systemu}
+
+System IMS odpowiada za:
+\begin{itemize}
+    \item śledzenie stanów magazynowych w czasie rzeczywistym,
+    \item obsługę przyjęć i wydań towarów za pomocą terminali mobilnych,
+    \item generowanie raportów dla kadry zarządzającej,
+    \item automatyczną synchronizację z systemem klasy ERP (np. SAP).
+\end{itemize}
+
+\subsection{Kluczowe komponenty i interfejsy}
+
+Architektura systemu została zdekomponowana na następujące moduły logiczne:
+
+\subsubsection{1. Backend (Inventory Core)}
+Serce systemu, realizujące logikę biznesową. Udostępnia funkcjonalności poprzez zdefiniowane interfejsy:
+\begin{itemize}
+    \item \textbf{Interfejs \texttt{IRestAPI}:} Główny punkt wejścia (Fasada) dla wszystkich klientów. Ujednolica komunikację, sprawiając, że zarówno skaner magazyniera, jak i przeglądarka managera korzystają z tych samych metod.
+    \item \textbf{Interfejs \texttt{IStockOperations}:} Wewnętrzny kontrakt realizujący operacje atomowe, takie jak \textit{IncreaseStock}, \textit{DecreaseStock} czy \textit{MoveItem}.
+    \item \textbf{Moduł Powiadomień:} Komponent nasłuchujący zdarzeń (np. spadek stanu poniżej minimum) i wykorzystujący interfejs \texttt{INotify} do wysyłki alertów e-mail przez bramkę SMTP.
+\end{itemize}
+
+\subsubsection{2. Warstwa Integracji (Data \& Integration)}
+System nie działa w próżni i wymaga połączenia z infrastrukturą przedsiębiorstwa:
+\begin{itemize}
+    \item \textbf{System ERP:} Zewnętrzny system nadrzędny. Komponent logiki magazynowej wykorzystuje interfejs \texttt{IERPConnector} do raportowania wartości magazynu na potrzeby księgowości.
+    \item \textbf{Baza Danych:} Trwałość danych zapewniana jest przez interfejs \texttt{IPersistence}, co pozwala na potencjalną wymianę silnika bazy danych (np. z PostgreSQL na Oracle) bez modyfikacji logiki biznesowej.
+\end{itemize}
+
+\subsection{Analiza architektury}
+
+Przedstawiony diagram komponentów uwypukla następujące cechy rozwiązania:
+\begin{enumerate}
+    \item \textbf{Centralizacja dostępu:} Zastosowanie komponentu \textit{Kontroler API} wystawiającego interfejs REST izoluje logikę biznesową od warstwy prezentacji. Zmiana technologii w terminalach mobilnych (np. z Android na iOS) nie wymaga zmian w backendzie.
+    \item \textbf{Skalowalność integracji:} Wydzielenie interfejsu do ERP pozwala na łatwe tworzenie „mocków” (atrap) podczas testowania, co przyspiesza proces developmentu bez konieczności ciągłego połączenia z produkcyjnym systemem SAP.
+\end{enumerate}
+
+% -------------------------------------------------------------
+
+\section{Przykład nr 3 — własna propozycja}
+
+Diagram komponentów przedstawia logiczną strukturę systemu, pokazując główne moduły (komponenty), ich interfejsy oraz zależności pomiędzy nimi. Ułatwia zrozumienie podziału odpowiedzialności oraz komunikacji między częściami systemu.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{resources/component_diagram/diagram_komponentow.png}
+    \caption{Diagram komponentów przykładowej aplikacji mobilnej.}
+    \label{fig:mobile_components}
+\end{figure}
+
+\begin{itemize}
+    \item \textbf{MobileApp} i \textbf{WebApp} -- dwa różne frontendy korzystające z tych samych interfejsów API.
+    \item \textbf{IUserAPI}, \textbf{IAuthService}, \textbf{IDatabase} -- interfejsy definiujące punkty komunikacji pomiędzy komponentami.
+    \item \textbf{Auth Service} -- odpowiada za uwierzytelnianie, komunikuje się z API server przez interfejs IAuthService.
+    \item \textbf{API server} -- centralny komponent obsługujący logikę biznesową, komunikuje się z bazą danych (IDatabase) oraz obsługuje żądania REST od aplikacji frontendowych.
+    \item \textbf{Database} -- przechowuje dane, dostępna przez interfejs IDatabase.
+    \item Połączenia REST i Auth są wyraźnie oznaczone, co ułatwia analizę przepływu danych i bezpieczeństwa.
+\end{itemize}
+% -------------------------------------------------------------
+
+\section{Zastosowanie diagramów komponentów w procesie tworzenia oprogramowania}
+
+Diagramy komponentów są szeroko wykorzystywane w praktyce inżynierskiej.
+
+\subsection{Wsparcie pracy zespołowej}
+
+\begin{itemize}
+    \item wspólne zrozumienie architektury,
+    \item jasny podział odpowiedzialności,
+    \item ułatwienie komunikacji między zespołami.
+\end{itemize}
+
+\subsection{Wsparcie architektury mikrousług}
+
+\begin{itemize}
+    \item definiowanie granic mikrousług,
+    \item ograniczenie sprzężenia,
+    \item planowanie komunikacji asynchronicznej.
+\end{itemize}
+
+\subsection{Utrzymanie i rozwój systemu}
+
+\begin{itemize}
+    \item łatwiejsza analiza wpływu zmian,
+    \item wsparcie refaktoryzacji,
+    \item aktualna dokumentacja architektury.
+\end{itemize}
+
+% -------------------------------------------------------------
+
+\section{Relacja diagramu komponentów z innymi diagramami UML}
+
+Diagram komponentów nie funkcjonuje samodzielnie.
+
+\subsection{Diagram klas a diagram komponentów}
+
+\begin{itemize}
+    \item diagram klas opisuje strukturę wewnętrzną,
+    \item diagram komponentów – strukturę modułów,
+    \item komponent zawiera wiele klas.
+\end{itemize}
+
+\subsection{Diagram wdrożenia}
+
+\begin{itemize}
+    \item komponent pokazuje \textit{co},
+    \item wdrożenie pokazuje \textit{gdzie},
+    \item razem tworzą pełny obraz architektury.
+\end{itemize}
+
+\subsection{Diagram sekwencji}
+
+\begin{itemize}
+    \item sekwencja pokazuje dynamikę,
+    \item komponent pokazuje strukturę,
+    \item sekwencja wykorzystuje komponenty jako uczestników.
+\end{itemize}
+
+% -------------------------------------------------------------
+
+\section{Podsumowanie}
+
+Analiza architektury poprzez diagramy komponentów pozwala:
+
+\begin{itemize}
+    \item projektować systemy modularne i skalowalne,
+    \item ograniczać chaos architektoniczny,
+    \item planować rozwój systemu w długim horyzoncie.
+\end{itemize}
+
+Diagram komponentów nie jest jedynie dokumentacją, ale narzędziem decyzyjnym, które:
+\begin{itemize}
+    \item wpływa na podział pracy zespołowej,
+    \item ułatwia kontrolę jakości architektury,
+    \item zmniejsza ryzyko błędów projektowych.
+\end{itemize}
+
+W architekturach mikrousług jego rola jest szczególnie istotna, ponieważ pozwala zapanować nad złożonością systemów rozproszonych i zapewnić ich długoterminową utrzymywalność.
+
+Diagram komponentów UML stanowi jedno z kluczowych narzędzi w projektowaniu architektury rozwiązań IT oraz systemów opartych o mikrousługi. Pozwala on na przejrzyste przedstawienie struktury systemu, zależności pomiędzy modułami oraz przepływu danych.
+
+Prawidłowe wykorzystanie diagramów komponentów wspiera proces projektowy, zwiększa jakość architektury oraz ułatwia dalszy rozwój i utrzymanie systemu. W kontekście nowoczesnych, rozproszonych systemów informatycznych ich rola staje się szczególnie istotna.
+
+
+
+\end{document}

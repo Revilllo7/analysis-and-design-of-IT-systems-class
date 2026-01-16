@@ -1,0 +1,347 @@
+\documentclass[12pt,a4paper]{article}
+
+% ------------------ Pakiety ------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[polish]{babel}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{lmodern}
+\usepackage{setspace}
+\usepackage{titlesec}
+\usepackage{array}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{verbatim}
+\usepackage{tabularx}
+
+% ------------------ Ustawienia ------------------
+\geometry{margin=2.5cm}
+\setstretch{1.3}
+\titleformat{\section}{\large\bfseries}{\thesection.}{1em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection.}{1em}{}
+\definecolor{lightgray}{rgb}{.9,.9,.9}
+\definecolor{darkgray}{rgb}{.4,.4,.4}
+\definecolor{purple}{rgb}{0.65, 0.12, 0.82}
+
+\lstdefinelanguage{JavaScript}{
+  keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
+  keywordstyle=\color{blue}\bfseries,
+  ndkeywords={class, export, boolean, throw, implements, import, this},
+  ndkeywordstyle=\color{darkgray}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  morestring=[b]',
+  morestring=[b]''
+}
+
+\lstset{
+   language=JavaScript,
+   backgroundcolor=\color{lightgray},
+   extendedchars=true,
+   basicstyle=\footnotesize\ttfamily,
+   showstringspaces=false,
+   showspaces=false,
+   numbers=left,
+   numberstyle=\footnotesize,
+   numbersep=9pt,
+   tabsize=2,
+   breaklines=true,
+   showtabs=false,
+   captionpos=b
+}
+
+\DeclareUnicodeCharacter{25CF}{$\bullet$}
+\DeclareUnicodeCharacter{251C}{\mbox{\kern.23em
+  \vrule height2.2exdepth1exwidth.4pt\vrule height2.2ptdepth-1.8ptwidth.23em}}
+\DeclareUnicodeCharacter{2500}{\mbox{\vrule height2.2ptdepth-1.8ptwidth.5em}}
+\DeclareUnicodeCharacter{2514}{\mbox{\kern.23em
+  \vrule height2.2exdepth-1.8ptwidth.4pt\vrule height2.2ptdepth-1.8ptwidth.23em}}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    urlcolor=blue,
+    pdftitle={Tworzenie diagramów UML z wykorzystaniem sztucznej inteligencji (AI)}
+}
+
+% ------------------ Dane ------------------
+
+\title{Uniwersytet Gdański
+Wydział Matematyki, Fizyki i Informatyki
+Instytut Informatyki}
+\author{Oliver Gruba, Maciej Nasiadka}
+
+\begin{document}
+\maketitle
+\begin{table}
+    \centering
+    \begin{tabular}{|>{\raggedright\arraybackslash}p{0.5\linewidth}|>{\raggedright\arraybackslash}p{0.4\linewidth}|}\hline
+         Imię i Nazwisko (nr indeksu)& Oliver Gruba (292583) \\
+         & Maciej Nasiadka (292574)\\\hline
+         Nazwa uczelni& Uniwersytet Gdański\\\hline
+         Kierunek& Informatyka (profil praktyczny)\\\hline
+         Prowadzący& dr inż. Stanisław Witkowski\\\hline
+         Nazwa ćwiczenia& Wymagania funkcjonalne i niefunkcjonalne w projektowaniu systemów rozproszonych.\\\hline
+         Numer sprawozdania& 11\\\hline
+         Data zajęć& 15.01.2026\\\hline
+         Data oddania& 21.01.2026\\\hline
+         Miejsce na ocenę& \\ \hline
+    \end{tabular}
+\end{table}
+\clearpage
+
+% ------------------ Dokument ------------------
+
+\tableofcontents
+
+\clearpage
+
+\section{Wstęp}
+Fundamentem każdej poprawnie zaprojektowanej architektury oprogramowania jest precyzyjna inżynieria wymagań. W erze systemów rozproszonych i mikrousług, rozróżnienie między tym, \textit{co} system robi, a tym, \textit{jak} to robi, determinuje sukces projektu. Niniejsze sprawozdanie systematyzuje wiedzę na temat wymagań funkcjonalnych i niefunkcjonalnych, ze szczególnym uwzględnieniem ich wpływu na decyzje architektoniczne.
+
+W praktyce inżynierskiej to właśnie błędnie zdefiniowane wymagania są najczęstszą przyczyną porażek projektów informatycznych. Statystyki branżowe wskazują, że znaczący odsetek projektów przekracza budżet lub harmonogram właśnie z powodu niejasnych, sprzecznych albo niekompletnych wymagań. Brak precyzji na etapie analizy skutkuje koniecznością kosztownych zmian w późnych fazach cyklu życia systemu.
+
+Wymagania pełnią rolę kontraktu pomiędzy zamawiającym a zespołem wytwórczym. Są punktem odniesienia dla analityków, projektantów, programistów, testerów oraz interesariuszy biznesowych. Im wcześniej zostaną poprawnie sformułowane i zweryfikowane, tym mniejsze ryzyko, że końcowy produkt nie spełni oczekiwań użytkowników.
+
+
+% -------------------------------------------------------------
+
+\section{Definicje i klasyfikacja wymagań}
+
+\subsection{Co to są wymagania funkcjonalne?}
+Wymagania funkcjonalne (ang. \textit{Functional Requirements}) stanowią opis zachowania systemu. Definiują funkcje, procesy i usługi, które system musi dostarczyć, aby zaspokoić potrzeby biznesowe użytkownika. Są one zazwyczaj wyrażane w formie zdań twierdzących ("System powinien...") lub przypadków użycia (Use Cases).
+
+W praktyce wymagania funkcjonalne opisują cały „scenariusz życia” systemu: od momentu wejścia użytkownika do aplikacji, poprzez wykonywanie przez niego konkretnych operacji, aż po zapis i przetwarzanie danych. Każde wymaganie funkcjonalne powinno odpowiadać na realną potrzebę biznesową – funkcja, która nie wnosi wartości, generuje jedynie koszt utrzymania.
+
+Źle sformułowane wymagania funkcjonalne prowadzą do tzw. funkcjonalności pozornych – system coś robi, ale nie to, czego faktycznie potrzebuje użytkownik. Dlatego ważne jest, aby wymagania były:
+\begin{itemize}
+    \item jednoznaczne,
+    \item mierzalne,
+    \item testowalne,
+    \item zrozumiałe dla nietechnicznych interesariuszy.
+\end{itemize}
+
+
+\subsection{Co to są wymagania niefunkcjonalne?}
+Wymagania niefunkcjonalne (ang. \textit{Non-functional Requirements}, NFR), często nazywane atrybutami jakościowymi (ang. \textit{Quality Attributes}), określają ograniczenia i standardy działania systemu. Nie wprowadzają nowych funkcji, lecz narzucają ramy, w jakich funkcje te muszą być realizowane.
+
+W praktyce to właśnie wymagania niefunkcjonalne decydują o tym, czy system będzie używalny w realnych warunkach. Użytkownik może zaakceptować brak pewnych funkcji, ale rzadko zaakceptuje system, który:
+\begin{itemize}
+    \item działa wolno,
+    \item często się zawiesza,
+    \item traci dane,
+    \item nie chroni prywatności.
+\end{itemize}
+
+Wymagania niefunkcjonalne są często trudniejsze do uchwycenia, ponieważ interesariusze rzadko formułują je wprost. Zamiast tego mówią: „system ma działać płynnie”, „ma być bezpieczny”, „ma się nie psuć”. Zadaniem analityka jest przełożenie tych ogólnych oczekiwań na mierzalne parametry techniczne.
+
+
+% -------------------------------------------------------------
+
+\section{Analiza porównawcza: funkcjonalne vs niefunkcjonalne}
+
+Rozróżnienie między tymi dwoma typami wymagań nie zawsze jest oczywiste, jednak kluczowe dla procesu deweloperskiego. Poniższa tabela przedstawia wielowymiarowe porównanie.
+
+\begin{table}[H]
+    \centering
+    \caption{Szczegółowa analiza różnic}
+    \vspace{0.3cm}
+    \begin{tabularx}{\textwidth}{|>{\bfseries}l|X|X|}
+        \hline
+        Kryterium & Wymagania funkcjonalne & Wymagania niefunkcjonalne \\ \hline
+        Pytanie kluczowe & \textbf{Co} system ma robić? & \textbf{Jak} system ma działać? \\ \hline
+        Natura & Binarne (Działa / Nie działa). Funkcja jest albo wdrożona, albo nie. & Ciągła (Skala). System może być "mało wydajny" lub "bardzo wydajny". \\ \hline
+        Metoda weryfikacji & Testy jednostkowe, integracyjne, scenariusze biznesowe (User Stories). & Benchmarki, testy obciążeniowe, audyty bezpieczeństwa, testy penetracyjne. \\ \hline
+        Odbiorca & Użytkownik końcowy (End User). & Architekt systemu, DevOps, Administrator. \\ \hline
+        Koszt zmiany & Relatywnie niski (zmiana w kodzie jednej klasy/funkcji). & \textbf{Bardzo wysoki} (często wymaga zmiany architektury, np. wymiany bazy danych). \\ \hline
+        Źródło & Potrzeby biznesowe klienta. & Ograniczenia techniczne, prawne (RODO), standardy branżowe. \\ \hline
+    \end{tabularx}
+\end{table}
+
+% -------------------------------------------------------------
+
+\section{Zastosowania i wpływ na architekturę IT}
+
+Zrozumienie wymagań niefunkcjonalnych jest kluczowym zadaniem architekta systemów, ponieważ to one, a nie funkcje, dyktują kształt architektury (tzw. \textit{Architectural Drivers}). Funkcje można zazwyczaj zaimplementować na wiele sposobów, jednak sposób ich realizacji jest silnie ograniczony przez wymagania jakościowe.
+
+Przykładowo, system bankowy i system blogowy mogą posiadać podobne funkcje (logowanie, zarządzanie kontem), lecz ich architektury będą zupełnie inne ze względu na odmienne wymagania dotyczące bezpieczeństwa, niezawodności i dostępności.
+
+Architektura systemu jest więc kompromisem pomiędzy:
+\begin{itemize}
+    \item potrzebami biznesowymi,
+    \item ograniczeniami technologicznymi,
+    \item kosztami utrzymania,
+    \item ryzykiem operacyjnym.
+\end{itemize}
+
+Błędem jest projektowanie architektury wyłącznie na podstawie wymagań funkcjonalnych – prowadzi to do rozwiązań, które działają poprawnie w środowisku testowym, ale zawodzą w rzeczywistej eksploatacji.
+
+
+% -------------------------------------------------------------
+
+\section{Przykłady wymagań}
+
+\subsection{Przykłady wymagań funkcjonalnych}
+\begin{itemize}
+    \item \textbf{WF-01 Koszyk:} System musi automatycznie przeliczać wartość koszyka po dodaniu produktu, uwzględniając rabaty.
+    \item \textbf{WF-02 Raportowanie:} Administrator ma możliwość eksportu listy użytkowników do pliku CSV.
+    \item \textbf{WF-03 API:} System udostępnia endpoint REST API `/api/orders` zwracający historię zamówień w formacie JSON.
+\end{itemize}
+
+\subsection{Przykłady wymagań niefunkcjonalnych}
+\begin{itemize}
+    \item \textbf{WNF-01 Wydajność (Latency):} Czas generowania strony głównej nie może przekroczyć 200ms dla 95\% zapytań (95th percentile).
+    \item \textbf{WNF-02 Skalowalność:} System musi obsługiwać 10 000 jednoczesnych użytkowników bez błędów typu 5xx.
+    \item \textbf{WNF-03 Dostępność (Availability):} Przerwa w działaniu serwisu nie może być dłuższa niż 4 godziny rocznie (SLA 99.95\%).
+    \item \textbf{WNF-04 Bezpieczeństwo:} Wszystkie hasła muszą być haszowane algorytmem Argon2 lub bcrypt z solą.
+\end{itemize}
+
+% -------------------------------------------------------------
+
+\section{Zalety precyzyjnego definiowania wymagań}
+
+\subsection{Zalety wymagań funkcjonalnych}
+\begin{itemize}
+    \item Pozwalają na jasne zdefiniowanie \textbf{zakresu prac} (Scope of Work), chroniąc projekt przed niekontrolowanym rozrostem (scope creep).
+    \item Są podstawą do tworzenia scenariuszy testowych UAT, które decydują o odbiorze projektu przez klienta.
+\end{itemize}
+
+\subsection{Zalety wymagań niefunkcjonalnych}
+\begin{itemize}
+    \item Zapewniają \textbf{doświadczenie użytkownika (UX)}. Nawet najbardziej funkcjonalny system zostanie odrzucony, jeśli będzie działał wolno.
+    \item Redukują \textbf{dług techniczny}. Wczesne uwzględnienie wymagań np. modyfikowalności kodu zapobiega konieczności przepisywania systemu po roku.
+    \item Gwarantują zgodność z prawem (np. wymogi dotyczące retencji danych).
+\end{itemize}
+
+% -------------------------------------------------------------
+
+\section{Pozyskiwanie wymagań (elicitation)}
+Proces pozyskiwania wymagań polega na identyfikacji rzeczywistych potrzeb interesariuszy systemu. Jest to proces iteracyjny – wymagania są stopniowo doprecyzowywane wraz ze wzrostem wiedzy o problemie i ograniczeniach technicznych.
+
+Jednym z największych zagrożeń jest tzw. „efekt pierwszej wersji” – interesariusze często opisują rozwiązanie, a nie problem. Rolą analityka jest dotarcie do rzeczywistej potrzeby biznesowej, a nie jedynie spisanie pierwszej zaproponowanej koncepcji.
+
+Proces elicitation powinien uwzględniać różne perspektywy:
+\begin{itemize}
+    \item użytkownika końcowego,
+    \item właściciela produktu,
+    \item zespołu technicznego,
+    \item działu prawnego i bezpieczeństwa.
+\end{itemize}
+
+
+% -------------------------------------------------------------
+
+\section{Dokumentowanie wymagań} Dobrze opisane wymagania powinny być jednoznaczne, testowalne i zrozumiałe.
+
+\subsection{Format opisu} 
+    \begin{itemize} 
+        \item identyfikator wymagania,
+        \item opis w języku naturalnym,
+        \item kryteria akceptacji,
+        \item priorytet biznesowy.
+    \end{itemize}
+
+\subsection{Narzędzia} 
+    \begin{itemize} 
+        \item dokumenty SRS,
+        
+        \item backlog produktowy,
+        
+        \item narzędzia typu Jira, Confluence, Trello. 
+    \end{itemize}
+
+% -------------------------------------------------------------
+
+\section{Priorytetyzacja wymagań} Nie wszystkie wymagania mają taką samą wagę biznesową.
+
+\subsection{Metody priorytetyzacji}
+    \begin{itemize}
+        \item MoSCoW (Must, Should, Could, Won’t),
+        
+        \item analiza wartości biznesowej, 
+        
+        \item analiza ryzyka. 
+    \end{itemize}
+
+% -------------------------------------------------------------
+
+\section{Walidacja i weryfikacja wymagań}
+
+\subsection{Walidacja}
+Walidacja odpowiada na pytanie: „Czy budujemy właściwy system?”. Polega na sprawdzeniu, czy wymagania rzeczywiście odzwierciedlają potrzeby użytkownika i cel biznesowy projektu. Najczęściej realizowana jest poprzez:
+\begin{itemize}
+    \item przeglądy z interesariuszami,
+    \item makiety i prototypy,
+    \item scenariusze użycia.
+\end{itemize}
+
+\subsection{Weryfikacja}
+Weryfikacja odpowiada na pytanie: „Czy wymagania są poprawnie zapisane?”. Sprawdza się:
+\begin{itemize}
+    \item spójność pomiędzy wymaganiami,
+    \item brak sprzeczności,
+    \item możliwość testowania,
+    \item wykonalność techniczną.
+\end{itemize}
+
+Brak walidacji prowadzi do tworzenia systemów, które są poprawne technicznie, ale bezużyteczne biznesowo. Brak weryfikacji skutkuje chaosem implementacyjnym i błędami projektowymi.
+
+
+% -------------------------------------------------------------
+
+\section{Typowe błędy w definiowaniu wymagań} \begin{itemize} \item zbyt ogólne opisy ("system ma być szybki"), \item brak kryteriów akceptacji, \item mieszanie wymagań funkcjonalnych z niefunkcjonalnymi, \item ignorowanie interesariuszy technicznych. \end{itemize}
+
+% -------------------------------------------------------------
+
+\section{Opis wymagań dla systemu "FoodDelivery" (case study)}
+
+\subsection{Kontekst}
+Projekt dotyczy systemu zamawiania jedzenia online. System składa się z aplikacji mobilnej, panelu restauratora oraz backendu w architekturze mikrousług.
+
+\subsubsection{Wymagania funkcjonalne (co robi system?)}
+\begin{itemize}
+    \item \textbf{[WF-ORDER]} Użytkownik może filtrować restauracje po typie kuchni (włoska, azjatycka) oraz ocenie (gwiazdki).
+    \item \textbf{[WF-PAY]} System integruje się z bramką płatności BLIK i przetwarza callback o statusie transakcji.
+    \item \textbf{[WF-NOTIFY]} System wysyła powiadomienie Push do klienta, gdy kurier znajdzie się w promieniu 500m od celu.
+\end{itemize}
+
+\subsubsection{Wymagania niefunkcjonalne (jakość i ograniczenia)}
+\begin{itemize}
+    \item \textbf{[WNF-PERF]} System musi obsłużyć nagły skok ruchu w porze lunchowej (12:00-14:00) zwiększając zasoby obliczeniowe w chmurze w czasie poniżej 2 minut (Autoscaling).
+    \item \textbf{[WNF-SEC]} Komunikacja między mikrousługami musi być szyfrowana (mTLS).
+    \item \textbf{[WNF-RELIABILITY]} W przypadku awarii serwisu płatności, użytkownik nie traci zawartości koszyka, a system ponawia próbę płatności (Circuit Breaker pattern).
+\end{itemize}
+
+% -------------------------------------------------------------
+
+\section{Wnioski}
+Poprawne zdefiniowanie wymagań funkcjonalnych i niefunkcjonalnych jest kluczem do sukcesu każdego projektu informatycznego. 
+
+\begin{itemize}
+    \item \textbf{Wymagania funkcjonalne} budują wartość biznesową dla klienta.
+    \item \textbf{Wymagania niefunkcjonalne} decydują o stabilności, bezpieczeństwie i skalowalności rozwiązania.
+\end{itemize}
+
+Największym błędem projektowym jest traktowanie wymagań niefunkcjonalnych jako dodatku, który można doprecyzować „później”. W praktyce to one powinny być jednym z pierwszych elementów analizy, ponieważ narzucają kierunek całemu projektowi.
+
+Dobrze przygotowany dokument wymagań:
+\begin{itemize}
+    \item zmniejsza ryzyko nieporozumień,
+    \item ułatwia estymację kosztów i czasu,
+    \item stanowi podstawę testów i odbioru systemu,
+    \item ogranicza chaotyczne zmiany w trakcie realizacji.
+\end{itemize}
+
+W projektowaniu architektury mikrousługowej wymagania funkcjonalne pomagają identyfikować granice usług, natomiast wymagania niefunkcjonalne determinują sposób komunikacji, strategie skalowania oraz dobór infrastruktury. Ignorowanie ich na wczesnym etapie niemal zawsze prowadzi do kosztownych refaktoryzacji lub całkowitej przebudowy systemu.
+
+
+\end{document}
+

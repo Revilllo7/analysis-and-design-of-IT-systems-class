@@ -70,7 +70,7 @@
     colorlinks=true,
     linkcolor=black,
     urlcolor=blue,
-    pdftitle={Dokumentacja techniczna - EduAI}
+    pdftitle={Dokumentacja techniczna - Kairo}
 }
 
 % ------------------ Dane ------------------
@@ -92,7 +92,7 @@ Instytut Informatyki}
          Prowadzący& dr inż. Stanisław Witkowski\\\hline
          Temat& Dokumentacja techniczna szczegółowych warunków dla wykonania wybranego systemu informatycznego.\\\hline
          System& Kairo habit tracker \\ & (aplikacja do śledzenia nawyków)\\\hline
-         Numer sprawozdania& 11\\\hline
+         Numer sprawozdania& 12\\\hline
          Data zajęć& 22.01.2026\\\hline
          Data oddania& 28.01.2026\\\hline
          Miejsce na ocenę& \\ \hline
@@ -107,4 +107,1139 @@ Instytut Informatyki}
 
 \section{Podział systemów informatycznych}
 
+W literaturze wyróżnia się między innymi następujące kryteria podziału systemów informatycznych:
+\begin{itemize}
+    \item \textbf{Ze względu na architekturę:} scentralizowane, klient--serwer, mikroserwisy, systemy rozproszone.
+    \item \textbf{Ze względu na przeznaczenie:} transakcyjne (CRUD), analityczne (BI/Analytics), wspierające decyzje (DSS), systemy komunikacyjne.
+    \item \textbf{Ze względu na kanał dostępu:} webowe, mobilne (native/cross--platform), desktopowe.
+    \item \textbf{Ze względu na tryb pracy:} wsadowe, interaktywne (real--time), asynchroniczne (kolejki/cron).
+\end{itemize}
+
+\textbf{Kairo} klasyfikuje się jako:
+\begin{itemize}
+    \item \textbf{System mobilny klient--serwer} (aplikacja mobilna React Native/Expo $\leftrightarrow$ REST API Laravel).
+    \item \textbf{System transakcyjno--analityczny} (rejestracja/logowanie, CRUD nawyków, agregacje postępu, osiągnięcia).
+    \item \textbf{System rozproszony} z elementami asynchronicznymi (powiadomienia generowane po stronie backendu, zadania cykliczne).
+    \item \textbf{Warstwowy} (Prezentacja, Logika, Dane, Infrastruktura/DevOps).
+\end{itemize}
+
 % ------------------
+
+\section{Cel systemu informatycznego}
+
+\textbf{Kairo} to aplikacja wspierająca budowanie i utrzymywanie dobrych nawyków. System pozwala:
+\begin{itemize}
+    \item definiować nawyki (katalog wstępnie zdefiniowanych oraz własne),
+    \item planować wykonania (dni tygodnia, godziny, okresy aktywności),
+    \item otrzymywać \textbf{powiadomienia backendowe} przypominające o zaplanowanych aktywnościach,
+    \item oznaczać wykonania i śledzić serię (\textit{streak}),
+    \item rywalizować i motywować się społecznie (zaproszenia do znajomych, lista znajomych),
+    \item zdobywać osiągnięcia i przeglądać postęp.
+\end{itemize}
+
+
+\subsection{Cele biznesowe (wg kryteriów SMART)}
+
+\begin{itemize}
+    \item \textbf{Rejestracje:} osiągnąć \textit{1000} zarejestrowanych użytkowników w ciągu \textit{3 miesięcy} od wdrożenia MVP (mierzalne w statystykach backendu).
+    \item \textbf{Aktywność dzienna (DAU):} uzyskać 30\% aktywnych użytkowników dziennie po \textit{6 miesiącach} (mierzone na podstawie logowań i wywołań API).
+    \item \textbf{Retencja miesięczna:} utrzymać 40\% użytkowników powracających w kolejnym miesiącu (analiza cohort w Analytics).
+    \item \textbf{Konwersja na subskrypcję:} osiągnąć 5\% konwersji do planu premium w ciągu 6 miesięcy (dane z tabeli \texttt{subscriptions}).
+    \item \textbf{Skuteczność powiadomień:} 70\% zaplanowanych przypomnień skutkuje akcją użytkownika w ciągu 2 godzin (eventy wykonania nawyku po wysłaniu powiadomienia).
+\end{itemize}
+
+\subsection{Cele techniczne}
+
+\begin{itemize}
+    \item \textbf{Dostępność API:}  99,9\% miesięcznie (monitoring, healthcheck, redundancja).
+    \item \textbf{Wydajność:} czas odpowiedzi p95  300 ms dla kluczowych endpointów (habits, profile, achievements).
+    \item \textbf{Bezpieczeństwo:} uwierzytelnianie \textbf{Sanctum} z tokenami i weryfikacją e--mail; hasła hashowane, komunikacja \textit{HTTPS}.
+    \item \textbf{Skalowalność:} poziome skalowanie aplikacji (kontenery), niezależna skala bazy MySQL/MariaDB.
+    \item \textbf{Obsługa powiadomień:} backendowy harmonogram i wysyłka (kolejki/cron, Laravel Notifications, ewentualnie FCM/APNs).
+    \item \textbf{Jakość:} testy Feature, CI/CD, statyczna analiza (PHPStan, ESLint), logowanie i obserwowalność.
+\end{itemize}
+
+\subsection{Grupa docelowa}
+
+\begin{itemize}
+    \item Osoby chcące wdrażać i utrzymywać codzienne nawyki (studenci, młodzi profesjonaliści, osoby w procesie rozwojowym).
+    \item Użytkownicy mobilni (Android/iOS) preferujący prostą, czytelną aplikację z przypomnieniami i przejrzystą analityką.
+    \item Użytkownicy ceniący motywację społeczną (lista znajomych, zaproszenia) i elementy grywalizacji (osiągnięcia, streak).
+\end{itemize}
+
+% ------------------
+
+\section{Wymagania funkcjonalne i niefunkcjonalne systemu}
+
+Analiza wymagań została przeprowadzona w oparciu o wywiady z potencjalnymi użytkownikami oraz analizę konkurencyjnych rozwiązań rynkowych.
+
+\subsection{Wymagania funkcjonalne}
+Wymagania funkcjonalne opisują zachowanie systemu w konkretnych scenariuszach użycia.
+
+\begin{itemize}
+    \item \textbf{Uwierzytelnianie i konto:} rejestracja, logowanie, wylogowanie (dla sesji bieżącej i wszystkich), weryfikacja adresu e--mail, reset hasła.
+    \item \textbf{Profil użytkownika:} podgląd profilu, edycja nazwy wyświetlanej, zarządzanie avatarem (upload/usuwanie).
+    \item \textbf{Nawyki (katalog i własne):} lista wbudowanych nawyków, tworzenie/edycja/usuwanie własnych (\texttt{habits/custom}), powiązanie z użytkownikiem (\texttt{user\_habits}).
+    \item \textbf{Planowanie i przypomnienia:} dni tygodnia, godzina, daty start/koniec; \textbf{powiadomienia generowane przez backend} zgodnie z konfiguracją nawyku.
+    \item \textbf{Wykonania nawyku:} oznaczanie \textit{complete}/\textit{uncomplete}, śledzenie \textit{streak}, historia wykonań.
+    \item \textbf{Osiągnięcia:} przypisanie do użytkownika, prezentacja stanu odblokowania.
+    \item \textbf{Relacje społeczne:} zaproszenia do znajomych (wysłane/otrzymane, akceptacja/odrzucenie), lista znajomych, usuwanie z listy.
+    \item \textbf{Subskrypcje:} podgląd stanu subskrypcji (integracja ze Stripe).
+    \item \textbf{Analityka i postęp:} agregacja statystyk (np. liczba wykonań, najlepszy streak), przegląd w aplikacji mobilnej.
+\end{itemize}
+
+\subsection{Wymagania niefunkcjonalne}
+\begin{itemize}
+    \item \textbf{Bezpieczeństwo:} tokeny dostępu (Sanctum), kontrola dostępu, weryfikacja e--mail, szyfrowanie haseł, komunikacja HTTPS.
+    \item \textbf{Wydajność i skalowalność:} krótki czas odpowiedzi, możliwość skalowania poziomego, indeksy w bazie dla kluczowych kolumn (\texttt{user\_id}, \texttt{habit\_id}, \texttt{created\_at}).
+    \item \textbf{Niezawodność:} odporność na błędy, monitorowanie, logowanie zdarzeń, automatyczne odtwarzanie w razie awarii.
+    \item \textbf{Użyteczność:} prosta i spójna nawigacja, czytelne komunikaty błędów, dostępność na Android/iOS.
+    \item \textbf{Utrzymywalność:} podział na warstwy, czytelne API, testy automatyczne, CI/CD.
+\end{itemize}
+
+\section{Propozycja wyboru narzędzi i platform do realizacji systemu}
+
+\subsection{Warstwa Prezentacji (Frontend)}
+
+\begin{itemize}
+    \item \textbf{Technologia:} React Native (Expo) z \texttt{expo-router}, stylowanie z \texttt{Tamagui}.
+    \item \textbf{Zarządzanie stanem:} konteksty \texttt{AuthContext}, \texttt{HabitsContext}; hooki (np. lokalne powiadomienia, znajomi, osiągnięcia).
+    \item \textbf{Komunikacja z API:} własny wrapper \texttt{apiFetch} z nagłówkiem \texttt{Authorization: Bearer <token>}.
+    \item \textbf{Przechowywanie:} \texttt{SecureStore}/\texttt{AsyncStorage} dla tokenów i drobnych danych lokalnych.
+\end{itemize}
+
+\subsection{Warstwa Logiki (Backend)}
+
+\begin{itemize}
+    \item \textbf{Technologia:} Laravel (PHP) z \texttt{Sanctum} do tokenów API i \texttt{Notifications} do wysyłki powiadomień.
+    \item \textbf{API REST:} moduły: \texttt{auth}, \texttt{email}, \texttt{profile}, \texttt{habits/custom}, \texttt{habits/user},
+    
+    \texttt{friend-requests}, \texttt{friends}, \texttt{achievements}, \texttt{subscription}.
+    \item \textbf{Powiadomienia:} \textbf{implementowane po stronie backendu} (cron/kolejki; kanały mail/push). Backend zgodnie z konfiguracją nawyków generuje przypomnienia.
+    \item \textbf{Walidacja i zasady:} reguły domenowe (np. \texttt{DaysOfWeek}), zasoby API (Resources) i kontrolery per moduł.
+\end{itemize}
+
+\subsection{Warstwa Danych}
+
+\begin{itemize}
+    \item \textbf{Baza danych:} \textbf{MySQL (MariaDB)} -- główne tabele: \texttt{users}, \texttt{user\_infos}, \texttt{habits}, \texttt{user\_habits}, \texttt{user\_habit\_completions}, \texttt{achievements}, \texttt{user\_achievements},
+    
+    \texttt{friend\_requests}, \texttt{friends}, \texttt{subscriptions}, \texttt{personal\_access\_tokens}.
+    \item \textbf{Indeksy:} kluczowe kolumny \texttt{user\_id}, \texttt{habit\_id}, \texttt{created\_at}; relacje \textit{FK} z kasowaniem kaskadowym.
+    \item \textbf{Migracje:} pełna definicja schematu w katalogu \texttt{database/migrations}.
+\end{itemize}
+
+\subsection{Infrastruktura i DevOps}
+
+\begin{itemize}
+    \item \textbf{Konteneryzacja:} \texttt{Dockerfile}, \texttt{docker-compose.yml}; rozdzielenie usług (backend, baza, cache, reverse proxy).
+    \item \textbf{CI/CD:} GitHub Actions (workflow \texttt{deploy-vps.yml}); automatyzacja testów i wdrożeń.
+    \item \textbf{Konfiguracja:} środowiska \texttt{.env}, logowanie i monitoring; automatyczne zadania (cron/kolejki) dla powiadomień.
+\end{itemize}
+
+
+\begin{lstlisting}[language=SQL, caption={Przykladowa konfiguracja modelu danych uzytkownika}]
+-- users + user_infos (MariaDB)
+CREATE TABLE users (
+    id CHAR(26) PRIMARY KEY,      -- ULID
+    email VARCHAR(255) UNIQUE NOT NULL,
+    email_verified_at DATETIME NULL,
+    password VARCHAR(255) NOT NULL,
+    remember_token VARCHAR(100) NULL,
+    created_at TIMESTAMP NULL,
+    updated_at TIMESTAMP NULL
+);
+
+CREATE TABLE user_infos (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id CHAR(26) NOT NULL,
+    name VARCHAR(255) NULL,
+    avatar_url VARCHAR(512) NULL,
+    coins INT DEFAULT 0,
+    created_at TIMESTAMP NULL,
+    updated_at TIMESTAMP NULL,
+    CONSTRAINT fk_user_infos_user
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+\end{lstlisting}
+
+% ------------------
+
+\section{Wybór min. 7 diagramów - dla opisu założeń zadania}
+
+\begin{enumerate} \item \textbf{Diagram Przypadków Użycia (Use Case Diagram) ref: \ref{fig:use case}:}
+
+\textit{Cel:} Przedstawienie zakresu funkcjonalnego systemu z perspektywy aktorów zewnętrznych. Diagram identyfikuje główne interakcje użytkowników z aplikacją Kairo oraz pozwala jednoznacznie określić, które funkcjonalności są dostępne dla użytkownika niezarejestrowanego, a które wymagają uwierzytelnienia.
+
+\item \textbf{Diagram Klas (Class Diagram) ref: \ref{fig:class}:}
+
+\textit{Cel:} Opis struktury logicznej systemu poprzez zdefiniowanie klas domenowych, ich atrybutów, metod oraz relacji pomiędzy nimi. Diagram stanowi podstawę do implementacji modelu danych oraz warstwy logiki biznesowej backendu.
+
+
+\item \textbf{Diagram Sekwencji (Sequence Diagram) ref: \ref{fig:sequence1}:}
+
+\textit{Cel:} Zobrazowanie dynamicznego przebiegu komunikacji pomiędzy aktorami, aplikacją mobilną i backendem w czasie realizacji wybranych scenariuszy (np. rejestracja, dodanie nawyku, wysłanie powiadomienia). Diagram pozwala przeanalizować kolejność wywołań API oraz przepływ danych.
+
+
+\item \textbf{Diagram Aktywności (Activity Diagram) ref: \ref{fig:activity}:}
+
+\textit{Cel:} Przedstawienie przepływu czynności (workflow) w kluczowych procesach systemowych, takich jak codzienne zarządzanie nawykami czy proces rejestracji użytkownika. Diagram uwzględnia decyzje, rozgałęzienia oraz możliwe ścieżki alternatywne.
+
+
+\item \textbf{Diagram BPMN (Business Process Model and Notation) ref: \ref{fig:bpmn}:}
+
+\textit{Cel:} Opis projektu pod względem przepływu zadań i budowy projektu dla biznesu. Pokazujący proces biznesowy od początku do końca
+
+
+\item \textbf{Diagram Komponentów (Component Diagram) ref: \ref{fig:component}:}
+
+\textit{Cel:} Zaprezentowanie architektury logicznej systemu na poziomie komponentów (Frontend, API, moduły backendowe, baza danych, usługi powiadomień). Diagram ilustruje zależności pomiędzy komponentami oraz sposób ich integracji.
+
+
+\item \textbf{Diagram Wdrożenia (Deployment Diagram) ref: \ref{fig:deployment}:}
+
+\textit{Cel:} Przedstawienie fizycznego rozmieszczenia elementów systemu w środowisku uruchomieniowym. Diagram pokazuje, na jakich węzłach (serwer, kontenery, urządzenie mobilne) działają poszczególne komponenty oraz jak odbywa się komunikacja sieciowa.
+
+\end{enumerate}
+
+Powyższy zestaw diagramów zapewnia kompletność dokumentacji technicznej, pokrywając widok 4+1 architektury oprogramowania.
+
+% ------------------
+
+\section{Diagramy UML wraz z opisem ich zastosowania w projekcie}
+
+W tej sekcji przedstawiono szczegółowe projekty diagramów wraz z analizą.
+
+\subsection*{Weryfikacja zgodności z implementacją}
+Na podstawie aktualnego kodu (Frontend i Backend) potwierdzono zgodność następujących elementów i wskazano różnice wymagające korekty diagramów:
+\begin{itemize}
+    \item \textbf{Zgodne:} \textit{User}, \textit{Habit}, \textit{UserHabit}, \textit{UserHabitCompletion}, \textit{Achievement}, zaproszenia do znajomych (\textit{FriendRequest}), moduły profilu, uwierzytelniania, osiągnięć i nawyków.
+    \item \textbf{Różnice:} w implementacji relacje znajomości są przechowywane w tabeli \texttt{friends} (pivot), brak odrębnej klasy \textit{Friendship}; zamiast klasy \textit{Notification} używany jest mechanizm powiadomień Laravel (kanały mail/push), a konfiguracja przypomnień wynika z pól na \textit{UserHabit} (\texttt{notification\_time}, \texttt{days\_of\_week}). Klasa \textit{UserSettings} nie występuje -- ustawienia profilu są w \texttt{user\_infos}.
+    \item \textbf{Sekwencje/Activity/BPMN:} przepływy auth/profile/habits pokrywają się z trasami API; przepływ powiadomień należy powiązać z harmonogramem backendu zamiast wyłącznie lokalnych notyfikacji.
+\end{itemize}
+
+% ---------------- DIAGRAM 1 ----------------
+\subsection{Diagram Przypadków Użycia (Use Case)}
+Diagram ten ilustruje główne funkcjonalności systemu dostępne dla poszczególnych aktorów. Ujmuje interakcje między użytkownikami i systemem, definiując zakres aplikacji z perspektywy użytkownika końcowego.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{resources/kairo_use_case.png}
+    \caption{Diagram przypadków użycia Aplikacji Kairo Habit}
+    \label{fig:use case}
+\end{figure}
+
+\textbf{Opis zastosowania:}
+
+\textit{Aktorzy systemu:}
+\begin{itemize}
+    \item \textbf{Użytkownik Niezarejestrowany} -- osoba bez konta, która może jedynie się zarejestrować lub zalogować
+    \item \textbf{Użytkownik Zarejestrowany} -- osoba z aktywnym kontem mająca dostęp do pełnej funkcjonalności aplikacji
+    \item \textbf{System} -- backend aplikacji obsługujący automatyczne procesy (powiadomienia, obliczanie statystyk, harmonogramowanie przypomnień)
+    \item \textbf{Przyjaciel} -- inny użytkownik w sieci społecznej danego użytkownika
+\end{itemize}
+
+\textit{Główne przypadki użycia (UC):}
+\begin{enumerate}
+    \item \textbf{UC1: Rejestracja nowego konta} -- Użytkownik niezarejestrowany tworzy konto podając email i hasło. System waliduje unikalność emaila (sprawdzenie w bazie danych), haszuje hasło oraz tworzy rekord użytkownika.
+    
+    \item \textbf{UC2: Logowanie} -- Zarejestrowany użytkownik loguje się przez podanie emaila i hasła. Backend waliduje poświadczenia, generuje token sesji (JWT) i zwraca token do aplikacji mobilnej.
+    
+    \item \textbf{UC3: Dodanie nowego nawyku} -- Zalogowany użytkownik definiuje nowy nawyk (nazwa, opis, częstotliwość wykonania, opcjonalne przypomnienie). System zapisuje nawyk w bazie danych i aktywuje harmonogram przypomnień.
+    
+    \item \textbf{UC4: Oznaczenie nawyku jako ukończony} -- Użytkownik zaznacza wykonanie nawyku w danym dniu. System rejestruje wykonanie w tabeli \texttt{habit\_executions}, aktualizuje licznik serii (streak) i statystyki.
+    
+    \item \textbf{UC5: Przeglądanie postępu} -- Użytkownik przegląda swoje statystyki, wykresy i osiągnięcia. Backend agreguje dane z tabeli \texttt{habit\_executions}, oblicza procent ukończenia, liczę serii i generuje dane dla visualizacji.
+    
+    \item \textbf{UC6: Dodanie przyjaciela} -- Zalogowany użytkownik wysyła zaproszenie do innego użytkownika. System tworzy wpis w tabeli \texttt{friendships} ze statusem "pending" i wysyła powiadomienie.
+    
+    \item \textbf{UC7: Wysłanie motywacyjnego ping'a} -- Użytkownik wysyła powiadomienie motywacyjne do przyjaciela. Backend rejestruje powiadomienie w tabeli \texttt{notifications} i wysyła push notification.
+    
+    \item \textbf{UC8: Zarządzanie ustawieniami} -- Użytkownik edytuje profil (nazwę wyświetlaną), ustawienia powiadomień, motyw aplikacji i strefę czasową. System aktualizuje wpisy w tabelach \texttt{users} i \texttt{user\_settings}.
+\end{enumerate}
+
+Relacje między use case'ami:
+\begin{itemize}
+    \item UC2 (Logowanie) jest \textit{extend} dla UC1 -- możliwość logowania pojawia się po rejestracji
+    \item UC3-UC7 są \textit{include} dla UC2 -- wszystkie te funkcje wymagają zalogowania
+    \item UC5 (Przeglądanie postępu) zależy od UC4 -- statystyki wymagają wcześniejszych wykonań
+\end{itemize}
+                        
+% ---------------- DIAGRAM 2 ----------------
+\subsection{Diagram Klas (Class Diagram)}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{resources/kairo_class.png}
+    \caption{Diagram klas użycia Aplikacji Kairo Habit}
+    \label{fig:class}
+\end{figure}
+
+\textbf{Opis zastosowania:}
+
+Diagram klas definiuje strukturę danych i logikę biznesową aplikacji. Reprezentuje osiem kluczowych klas, ich atrybuty, metody oraz relacje pomiędzy nimi.
+
+\textit{Klasy podstawowe:}
+
+\textbf{1. Klasa User (Użytkownik)}
+\begin{lstlisting}[language=JavaScript, caption={Struktura klasy User}]
+class User {
+  // Atrybuty
+  userId: UUID // Unikalny identyfikator
+  email: String // Email (unikatowy)
+  passwordHash: String // Zahaszowane haslo
+  displayName: String // Nazwa wyswietlana
+  createdAt: DateTime // Data zalozenia konta
+  timezone: String // Strefa czasowa uzytkownika
+  
+  // Metody
+  register(email, password): Boolean
+  login(email, password): JWT
+  updateProfile(displayName, timezone): void
+  logout(): void
+}
+\end{lstlisting}
+\textit{Relacje:} User posiada wiele Habits (1:*), jest uczestnikiem Friendships (relacja *:*), posiada Settings (1:1).
+
+\textbf{2. Klasa Habit (Nawyk)}
+\begin{lstlisting}[language=JavaScript, caption={Struktura klasy Habit}]
+class Habit {
+  habitId: UUID
+  userId: UUID (FK) // Klucz obcy do User
+  title: String // Nazwa nawyku (np. "Czytanie")
+  description: String
+  frequency: Enum // DAILY, WEEKLY, CUSTOM
+  color: String // Kolor wykresu (hex)
+  icon: String // Ikona nawyku
+  createdAt: DateTime
+  
+  // Metody
+  markCompleted(date): void
+  edit(title, description): void
+  delete(): void
+  getStreak(): Integer // Zwraca licze dni z rzedu
+  getProgress(): Float // Procent ukonczenia
+}
+\end{lstlisting}
+\textit{Relacje:} Habit należy do User (N:1), zawiera wiele HabitExecutions (1:*), posiada wiele Reminders (1:*), przydzielone Achievements (1:*).
+
+\textbf{3. Klasa HabitExecution (Log wykonania)}
+\begin{lstlisting}[language=JavaScript, caption={Struktura klasy HabitExecution}]
+class HabitExecution {
+  executionId: UUID
+  habitId: UUID (FK)
+  date: Date // Data wykonania
+  status: Enum // COMPLETED, SKIPPED, MISSED
+  timestamp: DateTime
+  
+  markAsCompleted(): void
+  markAsSkipped(): void
+}
+\end{lstlisting}
+\textit{Relacje:} Reprezentuje kompozycję z Habit -- wiele wykonań na nawyk.
+
+\textbf{4. Klasa Reminder (Przypomnienie)}
+\begin{lstlisting}[language=JavaScript, caption={Struktura klasy Reminder}]
+class Reminder {
+  reminderId: UUID
+  habitId: UUID (FK)
+  time: Time // Godzina przypomnienia
+  repeatRule: String // DAILY, WEEKDAYS, CUSTOM
+  enabled: Boolean
+  timezone: String
+  
+  activate(): void
+  deactivate(): void
+  schedule(): void
+}
+\end{lstlisting}
+\textit{Relacje:} Przypomnienie należy do Habit (N:1).
+
+\textbf{5. Klasa Notification (Powiadomienie)}
+\begin{lstlisting}[language=JavaScript, caption={Struktura klasy Notification}]
+class Notification {
+  notificationId: UUID
+  recipientId: UUID (FK)
+  type: Enum // REMINDER, FRIEND_PING, ACHIEVEMENT
+  payload: JSON // Dane powiadomienia
+  sentAt: DateTime
+  readAt: DateTime (nullable)
+  status: Enum // PENDING, SENT, READ
+  
+  send(): void
+  markAsRead(): void
+}
+\end{lstlisting}
+\textit{Relacje:} Powiadomienie jest adresowane do User (N:1).
+
+\textbf{6. Klasa Friendship (Przyjaźń)}
+\begin{lstlisting}[language=JavaScript, caption={Struktura klasy Friendship}]
+class Friendship {
+  friendshipId: UUID
+  userId1: UUID (FK)
+  userId2: UUID (FK)
+  status: Enum // PENDING, ACCEPTED, REJECTED
+  createdAt: DateTime
+  
+  invite(): void
+  accept(): void
+  reject(): void
+  remove(): void
+}
+\end{lstlisting}
+\textit{Relacje:} Reprezentuje relację many-to-many między Users.
+
+\textbf{7. Klasa Achievement (Osiągnięcie)}
+\begin{lstlisting}[language=JavaScript, caption={Struktura klasy Achievement}]
+class Achievement {
+  achievementId: UUID
+  habitId: UUID (FK)
+  userId: UUID (FK)
+  name: String // "7-dniowa seria", "30-dniowy streaker"
+  description: String
+  unlockedAt: DateTime
+  icon: String
+  
+  unlock(): void
+}
+\end{lstlisting}
+\textit{Relacje:} Osiągnięcie przypisane do User i Habit (N:1 dla każdego).
+
+\textbf{8. Klasa UserSettings (Ustawienia)}\begin{lstlisting}[language=JavaScript, caption={Struktura klasy UserSettings}]
+class UserSettings {
+  settingsId: UUID
+  userId: UUID (FK)
+  theme: Enum // LIGHT, DARK
+  notificationsEnabled: Boolean
+  language: String // "pl", "en"
+  timezone: String
+  
+  updateSettings(theme, notifications): void
+  getSettings(): UserSettings
+}
+\end{lstlisting}
+\textit{Relacje:} One-to-one z User.
+
+\textit{Podsumowanie relacji:}
+\begin{itemize}
+    \item User 1:* Habit -- użytkownik ma wiele nawyków
+    \item Habit 1:* HabitExecution -- nawyk zawiera logów wykonań (kompozycja)
+    \item Habit 1:* Reminder -- nawyk może mieć wiele przypomnień
+    \item Habit 1:* Achievement -- osiągnięcia przypisane do nawyków
+    \item User *:* User -- przyjażnie między użytkownikami (przez Friendship)
+    \item User 1:1 UserSettings -- każdy użytkownik ma ustawienia
+    \item User 1:* Notification -- użytkownik otrzymuje wiele powiadomień
+\end{itemize}
+
+% ---------------- DIAGRAM 3 ----------------
+\subsection{Diagram Sekwencji (Sequence Diagram)}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{resources/kairo_sequence_1.png}
+    \label{fig:sequence1}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{resources/kairo_sequence_2.png}
+    \caption{Diagram sekwencji aplikacji Kairo Habit}
+    \label{fig:sequence2}
+\end{figure}
+
+\textbf{Opis przebiegu:}
+
+Diagram sekwencji pokazuje przepływ komunikacji pomiędzy aktorami a systemem dla trzech kluczowych scenariuszy.
+
+\textbf{Scenariusz 1: Rejestracja i Logowanie}
+\begin{enumerate}
+    \item \textbf{User} wypełnia formularz rejestracji (email, hasło)
+    \item \textbf{Mobile App} wysyła POST request: \texttt{POST /api/v1/users/register} z payloadsem: 
+    \begin{lstlisting}[language=JavaScript, caption={Request rejestracji}]
+{\"email\": \"user@example.com\", \"password\": \"secure123\"}
+    \end{lstlisting}
+    \item \textbf{API Backend} otrzymuje request, haszuje hasło (np. bcrypt)
+    \item \textbf{Backend} wysyła zapytanie do \textbf{Database}: INSERT do tabeli \texttt{users}
+    \begin{lstlisting}[language=JavaScript, caption={SQL INSERT}]
+INSERT INTO users (userId, email, passwordHash, displayName, createdAt)
+VALUES (UUID(), 'user@example.com', hash('secure123'), 'user@example', NOW())
+    \end{lstlisting}
+    \item \textbf{Database} zwraca potwierdzenie (201 Created) lub błąd (409 Conflict jeśli email istnieje)
+    \item \textbf{Backend} zwraca response z user ID
+    \item \textbf{Mobile App} wyświetla komunikat sukcesu i przenosi do logowania
+    \item Podobny przepływ dla UC: Logowania -- Backend generuje JWT token
+\end{enumerate}
+
+\textbf{Scenariusz 2: Dodanie Nawyku z Przypomnieniem}
+\begin{enumerate}
+    \item \textbf{User} (zalogowany) wypełnia formularz dodawania nawyku
+    \item \textbf{Mobile App} wysyła POST: \texttt{POST /api/v1/habits} z authenticacją (JWT header)
+    \begin{lstlisting}[language=JavaScript, caption={Request dodania nawyku}]
+Headers: {Authorization: \"Bearer <JWT_TOKEN>\"}
+Body: {
+  \"title\": \"Czytanie\",
+  \"description\": \"30 minut codziennie\",
+  \"frequency\": \"DAILY\",
+  \"reminderTime\": \"19:00\",
+  \"timezone\": \"Europe/Warsaw\"
+}
+    \end{lstlisting}
+    \item \textbf{Backend} waliduje token JWT (sprawdzenie ważności)
+    \item \textbf{Backend} executes INSERT do \texttt{habits} tabeli
+    \item \textbf{Backend} rejestruje \textbf{Reminder} w tabeli \texttt{reminders} z czasem \texttt{19:00}
+    \item \textbf{Notification Service} (lub Job Scheduler) otrzymuje event: "Habit created with reminder"
+    \item \textbf{Notification Service} harmonizuje przypomnienie w systemie (cron job lub message queue)
+    \item \textbf{Backend} zwraca 201 Created z nowym habitId
+    \item \textbf{Mobile App} wyświetla nawyk na liście
+\end{enumerate}
+
+\textbf{Scenariusz 3: Wysłanie Ping'a do Przyjaciela}
+\begin{enumerate}
+    \item \textbf{User A} wybiera przyjaciela z listy
+    \item \textbf{Mobile App} wysyła POST: \texttt{POST /api/v1/friends/\{friendId\}/ping}
+    \begin{lstlisting}[language=JavaScript, caption={Request wyslania ping}]
+Body: {\"message\": \"Keep going! You can do it!\"}
+    \end{lstlisting}
+    \item \textbf{Backend} waliduje autentyczność (token JWT) i istnienie przyjaźni
+    \item \textbf{Backend} tworzy rekord w tabeli \texttt{notifications}:
+    \begin{lstlisting}[language=JavaScript, caption={SQL INSERT notification}]
+INSERT INTO notifications (notificationId, recipientId, type, payload, sentAt, status)
+VALUES (UUID(), <friendId>, 'FRIEND_PING', {...message...}, NOW(), 'PENDING')
+    \end{lstlisting}
+    \item \textbf{Push Notification Service} (Firebase Cloud Messaging / APNs) wysyła powiadomienie push na urządzenie User B
+    \item \textbf{User B's Device} otrzymuje notification i wyświetla alert
+    \item \textbf{Backend} aktualizuje status powiadomienia na 'SENT' lub 'DELIVERED'
+    \item \textbf{User A's App} wyświetla potwierdzenie: "Ping sent!"
+\end{enumerate}
+
+\textbf{Scenariusz 4: Przeglądanie Postępu}
+\begin{enumerate}
+    \item \textbf{User} przechodzi do sekcji Analytics/Progress
+    \item \textbf{Mobile App} wysyła GET: \texttt{GET /api/v1/progress?month=2026-01}
+    \item \textbf{Backend} przetwarza query:
+    \begin{lstlisting}[language=JavaScript, caption={SQL agregacja statystyk}]
+SELECT h.habitId, h.title, COUNT(CASE WHEN he.status='COMPLETED') as completed,
+       COUNT(*) as total
+FROM habits h
+LEFT JOIN habit_executions he ON h.habitId = he.habitId
+       AND DATE(he.date) BETWEEN '2026-01-01' AND '2026-01-31'
+WHERE h.userId = <userId>
+GROUP BY h.habitId
+    \end{lstlisting}
+    \item \textbf{Backend} oblicza dodatkowe metryki: streak (dni z rzędu), procent ukończenia
+    \item \textbf{Backend} zwraca JSON z danymi dla chart'ów:
+    \begin{lstlisting}[language=JavaScript, caption={Response progress}]
+{
+  \"habits\": [
+    {\"habitId\": \"123\", \"title\": \"Czytanie\", \"completed\": 20, \"total\": 31, 
+     \"percentage\": 64.5, \"currentStreak\": 5}
+  ]
+}
+    \end{lstlisting}
+    \item \textbf{Mobile App} renderuje wykresy i wizualizacje postępu
+\end{enumerate}
+
+% ---------------- DIAGRAM 4 ----------------
+\subsection{Diagram Aktywności (Activity Diagram)}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{resources/kairo/kairo_activity.png}
+    \caption{Diagram aktywności Aplikacji Kairo Habit}
+    \label{fig:activity}
+\end{figure}
+
+\textbf{Opis zastosowania:}
+
+Diagram aktywności pokazuje sekwencje czynności (workflow) dla głównych procesów użytkownika, uwzględniając decyzje i rozgałęzienia.
+
+\textbf{Proces 1: Rejestracja i Konfiguracja Profilu}
+\begin{enumerate}
+    \item \textbf{START} -- Użytkownik otwiera aplikację
+    \item \textit{Czynność:} Sprawdź czy użytkownik zalogowany?
+    \item \textit{Decyzja:} [TAK] $\rightarrow$ Przejdź do dashboardu | [NIE] $\rightarrow$ Wyświetl ekran logowania
+    \item \textit{Czynność:} Kliknij "Rejestracja"
+    \item \textit{Czynność:} Wypełnij formularz (email, hasło, nazwa wyświetlana)
+    \item \textit{Czynność:} Wyślij dane do backendu (POST /api/v1/users/register)
+    \item \textit{Decyzja:} [Email dostępny] $\rightarrow$ Utwórz konto | [Email zajęty] $\rightarrow$ Pokaż błąd, wróć do kroku 3
+    \item \textit{Czynność:} Zaloguj się automatycznie z wygenerowanym tokenem JWT
+    \item \textit{Czynność:} Wyświetl questionnaire profilu (timezone, preferencje)
+    \item \textit{Czynność:} Zapisz ustawienia w \texttt{user\_settings} tabeli
+    \item \textbf{END} -- Przejdź do dashboardu
+\end{enumerate}
+
+\textbf{Proces 2: Zarządzanie Nawykami (Daily Workflow)}
+\begin{enumerate}
+    \item \textbf{START} -- Zalogowany użytkownik otwiera aplikację
+    \item \textit{Czynność:} Wyświetl listę wszystkich nawyków (GET /api/v1/habits)
+    \item \textit{Czynność:} Dla każdego nawyku, pokaż status dzisiaj (completed/pending)
+    \item \textit{Decyzja:} [Użytkownik chce dodać nowy nawyk] $\rightarrow$ Przejdź do "Dodawanie nawyku" | [Chce oznaczyć jako wykonany] $\rightarrow$ Przejdź do "Oznaczanie nawyku"
+    \item \textit{Czynność (Dodawanie):} Otwórz formularz dodawania
+    \item \textit{Czynność:} Wprowadź: tytuł, opis, częstotliwość (DAILY/WEEKLY), opcjonalne przypomnienie
+    \item \textit{Czynność:} POST do /api/v1/habits z danymi
+    \item \textit{Czynność:} Backend INSERT do \texttt{habits}, następnie INSERT do \texttt{reminders} jeśli zadano czas
+    \item \textit{Czynność (Oznaczanie):} Kliknij checkbox na nawyku
+    \item \textit{Czynność:} POST /api/v1/habits/\{habitId\}/complete?date=today
+    \item \textit{Czynność:} Backend INSERT do \texttt{habit\_executions} (status='COMPLETED')
+    \item \textit{Czynność:} Oblicz nową serię (streak) -- SELECT COUNT() gdzie status='COMPLETED' AND consecutive days
+    \item \textit{Decyzja:} [Streak osiągnął milestone: 7, 30, 100?] $\rightarrow$ Odblokuj Achievement | [Nie]
+    \item \textit{Czynność:} Wyświetl wizualny feedback (checkmark, animation)
+    \item \textbf{END} -- Powróć do listy nawyków
+\end{enumerate}
+
+\textbf{Proces 3: Interakcja ze Znajomymi}
+\begin{enumerate}
+    \item \textbf{START} -- Zalogowany użytkownik przechodzi do sekcji "Przyjaciele"
+    \item \textit{Czynność:} GET /api/v1/friends -- pobierz listę zaakceptowanych przyjaciół
+    \item \textit{Czynność:} Wyświetl listę z statusem (ostatnia aktywność, aktualna seria)
+    \item \textit{Decyzja:} [Użytkownik chce dodać nowego przyjaciela] $\rightarrow$ Przejdź do "Zapraszania" | [Chce wysłać ping] $\rightarrow$ Przejdź do "Wysyłania ping'a"
+    \item \textit{Czynność (Zapraszanie):} Wyszukaj użytkownika po emailu
+    \item \textit{Czynność:} Kliknij "Wyślij zaproszenie"
+    \item \textit{Czynność:} POST /api/v1/friendships/invite?targetUserId=XXX
+    \item \textit{Czynność:} Backend INSERT do \texttt{friendships} (status='PENDING'), wysyła NOTIFICATION
+    \item \textit{Decyzja:} [Przyjaciel zaakceptuje] $\rightarrow$ Aktualizuj status na ACCEPTED | [Odrzuci] $\rightarrow$ Usuń zaproszenie
+    \item \textit{Czynność (Ping):} Wybierz przyjaciela z listy
+    \item \textit{Czynność:} POST /api/v1/friends/\{friendId\}/ping z wiadomością motywacyjną
+    \item \textit{Czynność:} Wyślij push notification (Firebase/APNs)
+    \item \textit{Czynność:} Wyświetl potwierdzenie wysłania
+    \item \textbf{END} -- Powróć do listy przyjaciół
+\end{enumerate}
+
+\textbf{Proces 4: Cykliczny Proces Przypomnień (System Job)}
+\begin{enumerate}
+    \item \textbf{START} -- Scheduler odpalony (co godzinę lub w określonym interwale)
+    \item \textit{Czynność:} Pobierz wszystkie aktywne przypomnienia: SELECT * FROM reminders WHERE enabled=true
+    \item \textbf{Dla każdego przypomnienia:}
+    \item \textit{Czynność:} Sprawdź czy bieżący czas odpowiada czasowi przypomnienia (z uwzględnieniem timezone)
+    \item \textit{Decyzja:} [Czas = reminder\_time] $\rightarrow$ Przejdź dalej | [Time $\neq$ reminder\_time] $\rightarrow$ Pomiń to przypomnienie
+    \item \textit{Czynność:} Pobierz powiązany Habit i User
+    \item \textit{Czynność:} Sprawdź czy dzisiejsze wykonanie już zalogowane: SELECT FROM habit\_executions WHERE habitId=X AND date=TODAY
+    \item \textit{Decyzja:} [Już wykonane] $\rightarrow$ Pomiń | [Nie wykonane] $\rightarrow$ Wyślij powiadomienie
+    \item \textit{Czynność:} Wyślij push notification (tytuł: "Czas na: {Habit.title}")
+    \item \textit{Czynność:} INSERT do \texttt{notifications} (type='REMINDER', status='SENT')
+    \item \textbf{END} -- Czekaj na następny interval
+\end{enumerate}
+
+% ---------------- DIAGRAM 5 ----------------
+\subsection{Diagram BPMN}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{resources/kairo_bpmn.png}
+    \caption{Diagram BPMN Aplikacji Kairo Habit}
+    \label{fig:bpmn}
+\end{figure}
+
+\textbf{Opis zastosowania:}
+
+Diagram BPMN (Business Process Model and Notation) obrazuje procesy biznesowe aplikacji z podziałem na role (lanes) i przepływy decyzji (gateways). Diagram zawiera trzy główne pule (pools): użytkownik, system i usługa powiadomień.
+
+\textbf{Proces 1: Rejestracja i Logowanie (User Pool $\leftrightarrow$ System Pool)}
+\begin{itemize}
+    \item \textbf{Start Event:} Użytkownik otwiera aplikację
+    \item \textbf{Task (User):} Wypełnia formularz rejestracji
+    \item \textbf{Task (System):} Waliduje email (SELECT COUNT(*) FROM users WHERE email=X)
+    \item \textbf{Exclusive Gateway (Decyzja):}
+    \begin{enumerate}
+        \item \quad [Email dostępny] $\rightarrow$ Haszuj hasło (bcrypt), INSERT użytkownika
+        \item \quad [Email zajęty] $\rightarrow$ Zwróć błąd 409, powróć do Start
+    \end{enumerate}
+    \item \textbf{Task (System):} Generuj JWT token
+    \item \textbf{Task (System):} INSERT domyślne ustawienia (user\_settings)
+    \item \textbf{Message Event:} Wyślij potwierdzenie emailem (opcjonalnie)
+    \item \textbf{End Event:} Użytkownik zalogowany, przejście do dashboardu
+\end{itemize}
+
+\textbf{Proces 2: Codzienne Wykonanie Nawyku (Daily Habit Execution)}
+\begin{itemize}
+    \item \textbf{Start Event (Timer):} Harmonogram przypomnień -- godzina X dla użytkownika (z uwzględnieniem timezone)
+    \item \textbf{Task (System):} Pobranie listy aktywnych nawyków z przypomnieniami
+    \item \textbf{Task (Notification Service):} Wysłanie push notification na urządzenie użytkownika
+    \item \textbf{Catch Event (Message):} Czeka na akcję użytkownika (max 24h timeout)
+    \item \textbf{Exclusive Gateway (Decyzja):}
+        \begin{enumerate}
+
+        \item \quad [Użytkownik zaznaczył nawyk jako wykonany] Przejdź do "Rejestracji wykonania"
+        
+        \item \quad [Użytkownik nie reaguje /odrzuca] Przejdź do "Logowania pominięcia"
+    \end{enumerate}
+    \item \textbf{Task (System - Rejestracja):} INSERT do habit\_executions (status='COMPLETED'), UPDATE streak counter
+    \item \textbf{Task (System - Logowanie pominięcia):} INSERT do habit\_executions (status='SKIPPED' lub 'MISSED')
+    \item \textbf{Exclusive Gateway (Sprawdzenie osiągnięcia):}
+    \begin{enumerate}
+        \item \quad [Streak=7 OR Streak=30 OR Streak=100] $\rightarrow$ Odblokuj Achievement
+        \item \quad [Brak milestone'u] $\rightarrow$ Pomiń
+    \end{enumerate}
+    \item \textbf{Task (System):} Jeśli dostęp streakow, INSERT do achievements i wyślij notification gratulacyjne
+    \item \textbf{End Event:} Proces nawyku zakończony do następnego dnia
+\end{itemize}
+
+\textbf{Proces 3: Motywacja Społeczna (Friend Ping Flow)}
+\begin{itemize}
+    \item \textbf{Start Event (User A):} Użytkownik A inicjuje ping do przyjaciela B
+    \item \textbf{Task (User A):} Wybiera przyjaciela z listy i wysyła wiadomość
+    \item \textbf{Task (System):} Waliduje przyjaźń (SELECT FROM friendships WHERE userId1=A AND userId2=B AND status='ACCEPTED')
+    \item \textbf{Exclusive Gateway:}
+    \begin{enumerate}
+        \item \quad [Przyjaźń istnieje] $\rightarrow$ Kontynuuj
+        \item \quad [Przyjaźń nie istnieje] $\rightarrow$ Zwróć błąd, koniec
+    \end{enumerate}
+    \item \textbf{Task (System):} INSERT do notifications (type='FRIEND\_PING', recipientId=B)
+    \item \textbf{Throw Event (Message):} Wyślij push notification do User B
+    \item \textbf{Catch Event (User B):} User B otrzymuje powiadomienie na urządzeniu
+    \item \textbf{Exclusive Gateway (Decyzja User B):}
+    \begin{enumerate}
+        \item \quad [Otwiera powiadomienie] $\rightarrow$ UPDATE notifications.readAt, pokaż motywacyjną wiadomość
+        \item \quad [Ignoruje powiadomienie] $\rightarrow$ Oznacz jako received
+    \end{enumerate}
+    \item \textbf{Task (System):} Wyślij feedback do User A: "Wiadomość przeczytana" lub "Wiadomość dostarczona"
+    \item \textbf{End Event (User A):} Ping wysłany i potwierdzony
+\end{itemize}
+
+\textbf{Proces 4: Agregacja Statystyk (Background Job - co godzinę)}
+\begin{itemize}
+    \item \textbf{Start Event (Timer):} Cron job, godzina X
+    \item \textbf{Task (System):} SELECT DISTINCT userId FROM users WHERE isActive=true
+    \item \textbf{Parallel Gateway:} Dla każdego użytkownika równolegle:
+    \begin{itemize}
+        \item \textbf{Task:} Agregacja danych z habit\_executions (procent ukończenia, streak)
+        \item \textbf{Task:} Aktualizacja statystyk w cache (Redis) lub tabeli summary
+        \item \textbf{Task:} Sprawdzenie czy są nowe osiągnięcia do odblokowania
+    \end{itemize}
+    \item \textbf{Synchronize Gateway:} Czeka aż wszystkie użytkownicy będą przetworzeni
+    \item \textbf{End Event:} Statystyki zaktualizowane, gotowe do wyświetlenia
+\end{itemize}
+
+\textit{Elementy BPMN:}
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|l|p{7cm}|}
+    \hline
+    \textbf{Element} & \textbf{Znaczenie} \\ \hline
+    Koło (Event) & Rozpoczęcie, zakończenie, lub przerwanie procesu (Timer, Message) \\ \hline
+    Prostokąt (Task) & Konkretna czynność wykonywana przez użytkownika lub system \\ \hline
+    Diament (Gateway) & Bramka decyzji -- rozgałęzienie oparte na warunku \\ \hline
+    Linia (Flow) & Przepływ kontroli między elementami \\ \hline
+    Swimlane (Lane) & Podział odpowiedzialności (User, System, Notification Service) \\ \hline
+    
+    \end{tabular}
+\end{table}
+
+
+% ---------------- DIAGRAM 6 ----------------
+\subsection{Diagram Komponentów (Component Diagram)}
+Przedstawia modułową budowę aplikacji, pokazując komponenty, interfejsy i ich zależności.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{resources/kairo_components.png}
+    \caption{Diagram komponentów Aplikacji Kairo Habit}
+    \label{fig:component}
+\end{figure}
+
+\textbf{Opis zastosowania:}
+
+Architektura aplikacji Kairo opiera się na siedmiu kluczowych komponentach, które współpracują ze sobą poprzez dobrze zdefiniowane interfejsy.
+
+\textbf{1. Komponent "Authentication \"Authentication Authorization" Authorization"}
+\begin{itemize}
+    \item \textbf{Odpowiedzialność:} Zarządzanie rejestracją, logowaniem, weryfikacją tokenów JWT, kontrol dostępu (role-based)
+    \item \textbf{Wejścia:} Poświadczenia użytkownika (email, hasło), token JWT
+    \item \textbf{Wyjścia:} JWT token, user ID, role (USER, ADMIN)
+    \item \textbf{Interfejs API:}
+    \begin{lstlisting}[language=JavaScript, caption={Auth API endpoints}]
+POST /api/v1/users/register
+POST /api/v1/users/login
+POST /api/v1/users/logout
+GET /api/v1/users/me (verify token)
+    \end{lstlisting}
+    \item \textbf{Zależności:} Database (users, user\_settings), Password Hashing Library
+\end{itemize}
+
+\textbf{2. Komponent "Habit Management"}
+\begin{itemize}
+    \item \textbf{Odpowiedzialność:} CRUD operacje na nawyków, zarządzanie wykonaniami, obliczanie statystyk
+    \item \textbf{Wejścia:} Dane nawyku (tytuł, opis, częstotliwość), user ID, data wykonania
+    \item \textbf{Wyjścia:} Nawyk object, lista nawyków, statystyki (streak, completion%)
+    \item \textbf{Interfejs API:}
+    \begin{lstlisting}[language=JavaScript, caption={Habit API endpoints}]
+GET /api/v1/habits (list all user habits)
+POST /api/v1/habits (create habit)
+GET /api/v1/habits/{habitId}
+PUT /api/v1/habits/{habitId} (update)
+DELETE /api/v1/habits/{habitId}
+POST /api/v1/habits/{habitId}/complete (mark as done)
+    \end{lstlisting}
+    \item \textbf{Zależności:} Database (habits, habit\_executions), Reminder Manager, Notification Component
+\end{itemize}
+
+\textbf{3. Komponent "Reminder \"Reminder Scheduler" Scheduler"}
+\begin{itemize}
+    \item \textbf{Odpowiedzialność:} Zarządzanie harmonogramem przypomnień, triggerowanie notifications o zaplanowanym czasie
+    \item \textbf{Wejścia:} Reminder details (time, frequency, enabled), habit ID, timezone
+    \item \textbf{Wyjścia:} Notification event do Notification Component
+    \item \textbf{Implementacja:} Cron job (node-cron lub APScheduler w Pythonie) lub Message Queue (RabbitMQ, Kafka)
+    \begin{lstlisting}[language=JavaScript, caption={Reminder job pseudocode}]
+setInterval(async () => {
+  const reminders = await db.query(
+    'SELECT * FROM reminders WHERE enabled=true AND time <= NOW()'
+  );
+  for (const reminder of reminders) {
+    notificationComponent.sendReminder(reminder);
+  }
+}, 60000); // co minute
+    \end{lstlisting}
+    \item \textbf{Zależności:} Database (reminders, habits), Notification Component
+\end{itemize}
+
+\textbf{4. Komponent "Notification Service"}
+\begin{itemize}
+    \item \textbf{Odpowiedzialność:} Wysyłanie push notifications, email notifications, przechowywanie logów powiadomień
+    \item \textbf{Wejścia:} Notification payload (type, recipient, message), user device tokens
+    \item \textbf{Wyjścia:} Potwierdzenie wysłania, status notifikacji (SENT, DELIVERED, READ)
+    \item \textbf{Integracja:}
+    \begin{itemize}
+        \item Firebase Cloud Messaging (FCM) dla urządzeń Android
+        \item Apple Push Notification (APNs) dla iOS
+        \item SendGrid/AWS SES dla email notifications
+    \end{itemize}
+    \begin{lstlisting}[language=JavaScript, caption={Notification sending}]
+class NotificationService {
+  async sendPushNotification(userId, message) {
+    const deviceToken = await db.getUserDeviceToken(userId);
+    const payload = {
+      notification: { title: message.title, body: message.body },
+      data: { habitId: message.habitId, type: message.type }
+    };
+    return firebase.messaging().sendToDevice(deviceToken, payload);
+  }
+}
+    \end{lstlisting}
+    \item \textbf{Zależności:} Database (notifications), Firebase/APNs SDK
+\end{itemize}
+
+\textbf{5. Komponent "Social Features" (Friends \& Interactions)}
+\begin{itemize}
+    \item \textbf{Odpowiedzialność:} Zarządzanie przyjaźniami, wysyłanie ping'ów, wyświetlanie aktywności przyjaciół
+    \item \textbf{Wejścia:} User ID, friend ID, ping message, friendship request
+    \item \textbf{Wyjścia:} Friendship status, friend list, activity feed
+    \item \textbf{Interfejs API:}
+    \begin{lstlisting}[language=JavaScript, caption={Social API endpoints}]
+GET /api/v1/friends
+POST /api/v1/friendships/invite?targetUserId=X
+POST /api/v1/friends/{friendId}/ping
+GET /api/v1/friends/{friendId}/activity
+DELETE /api/v1/friendships/{friendshipId}
+    \end{lstlisting}
+    \item \textbf{Zależności:} Database (friendships, friends\_activity), Notification Component
+\end{itemize}
+
+\textbf{6. Komponent "Analytics \& Progress"}
+\begin{itemize}
+    \item \textbf{Odpowiedzialność:} Agregacja danych statystyk, obliczanie metryk, generowanie danych dla chart'ów
+    \item \textbf{Wejścia:} User ID, date range, habit filters
+    \item \textbf{Wyjścia:} Aggregated statistics (completion%, streak, total, data for charts)
+    \item \textbf{Interfejs API:}
+    \begin{lstlisting}[language=JavaScript, caption={Analytics API}]
+GET /api/v1/progress?month=2026-01&habitId=X
+GET /api/v1/statistics/streaks
+GET /api/v1/achievements
+    \end{lstlisting}
+    \item \textbf{Implementacja:} Może korzystać z cache'u (Redis) dla szybkości
+    \begin{lstlisting}[language=JavaScript, caption={Analytics calculation}]
+async getProgress(userId, month) {
+  const cacheKey = `progress:${userId}:${month}`;
+  let data = await redis.get(cacheKey);
+  if (!data) {
+    data = await db.query(`
+      SELECT h.habitId, h.title, 
+             COUNT(CASE WHEN he.status='COMPLETED' THEN 1 END) as completed,
+             COUNT(*) as total
+      FROM habits h
+      LEFT JOIN habit_executions he ON h.habitId = he.habitId
+      WHERE h.userId = ? AND MONTH(he.date) = ?
+      GROUP BY h.habitId
+    `, [userId, month]);
+    await redis.setex(cacheKey, 3600, JSON.stringify(data));
+  }
+  return data;
+}
+    \end{lstlisting}
+    \item \textbf{Zależności:} Database (habit\_executions), Cache (Redis), Habit Management Component
+\end{itemize}
+
+\textbf{7. Komponent "Data Access Layer" (Database)}
+\begin{itemize}
+    \item \textbf{Odpowiedzialność:} Zarządzanie wszystkimi operacjami na bazie danych
+    \item \textbf{Tabele:}
+    \begin{itemize}
+        \item \texttt{users} -- user ID, email, passwordHash, displayName, createdAt, timezone
+        \item \texttt{habits} -- habit ID, user ID, title, description, frequency, color, icon
+        \item \texttt{habit\_executions} -- execution ID, habit ID, date, status, timestamp
+        \item \texttt{reminders} -- reminder ID, habit ID, time, repeatRule, enabled, timezone
+        \item \texttt{friendships} -- friendship ID, userId1, userId2, status, createdAt
+        \item \texttt{notifications} -- notification ID, recipient ID, type, payload, sentAt, readAt, status
+        \item \texttt{achievements} -- achievement ID, habit ID, user ID, name, unlockedAt
+        \item \texttt{user\_settings} -- settings ID, user ID, theme, notificationsEnabled, language, timezone
+    \end{itemize}
+    \item \textbf{Indeksy:} Powinny być na: userId (habits, friendships), habitId (habit\_executions), recipientId (notifications), createdAt (dla sortowania czasowego)
+\end{itemize}
+
+\textit{Przepływ danych między komponentami:}
+\begin{enumerate}
+    \item User App $\rightarrow$ \textbf{Authentication} $\rightarrow$ JWT token
+    \item User App $\rightarrow$ \textbf{Habit Management} (z JWT) $\rightarrow$ CRUD habits
+    \item \textbf{Habit Management} $\rightarrow$ \textbf{Reminder Scheduler} (z habit details)
+    \item \textbf{Reminder Scheduler} $\rightarrow$ \textbf{Notification Service} (reminder event)
+    \item \textbf{Notification Service} $\rightarrow$ Firebase/APNs $\rightarrow$ User Device
+    \item User App $\rightarrow$ \textbf{Social Features} $\rightarrow$ Friends management
+    \item \textbf{Social Features} $\rightarrow$ \textbf{Notification Service} (ping events)
+    \item User App $\rightarrow$ \textbf{Analytics} $\rightarrow$ Progress data
+    \item Wszystkie komponenty $\rightarrow$ \textbf{Data Access Layer} $\rightarrow$ Database
+\end{enumerate}
+
+
+% ---------------- DIAGRAM 7 ----------------
+\subsection{Diagram Wdrożenia (Deployment Diagram)}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{resources/kairo_deployment.png}
+    \caption{Diagram wdrożenia Aplikacji Kairo Habit}
+    \label{fig:deployment}
+\end{figure}
+
+\textbf{Opis zastosowania:}
+
+Diagram wdrożenia pokazuje rozkład komponentów oprogramowania na konkretne węzły fizyczne (serwery, urządzenia), wraz z komunikacją między nimi.
+
+\textit{Węzły wdrożenia:}
+
+\textbf{1. Urządzenie mobilne użytkownika (Mobile Client Layer)}
+\begin{itemize}
+    \item \textbf{Technologia:} React Native (cross-platform iOS/Android)
+    \item \textbf{Komponenty na urządzeniu:}
+    \begin{itemize}
+        \item UI/UX Layer (React Components, Navigation)
+        \item Local Storage (SQLite lub Realm dla cache'u offline)
+        \item API Client (Axios/Fetch API dla REST calls)
+        \item Push Notification Handler
+        \item Device storage dla user preferences
+    \end{itemize}
+    \item \textbf{Komunikacja:} HTTPS (TLS 1.3) $\rightarrow$ API Backend
+    \item \textbf{Dystrybucja:} App Store (iOS), Google Play (Android)
+\end{itemize}
+
+\textbf{2. Serwer Backend (Application Server)}
+\begin{itemize}
+    \item \textbf{Architektura:} Cloud hosting (AWS EC2, Google Cloud, Azure) lub dedicated server
+    \item \textbf{System operacyjny:} Linux (Ubuntu 20.04 LTS)
+    \item \textbf{Runtime:} PHP 8.1+ z web serverem Nginx/Apache
+    \item \textbf{Komponenty na serwerze:}
+    \begin{itemize}
+        \item REST API Server (PHP Framework: Laravel/Symfony)
+        \item Authentication Service (JWT token management)
+        \item Business Logic Layers (Habit, Social, Analytics, Notification services)
+        \item Job Queue (Redis, RabbitMQ dla asynchronicznych zadań)
+        \item Cache Layer (Redis dla szybkiego dostępu do hot data)
+    \end{itemize}
+    \item \textbf{Port:} 80 (HTTP), 443 (HTTPS)
+    \item \textbf{Komunikacja:}
+    \begin{itemize}
+            \item Przychodzące: HTTPS z Mobile App, REST API calls
+            \item Wychodzące: SQL queries do Database Server, Firebase/APNs API (push notifications)
+        \end{itemize}
+    \item \textbf{Skalowanie:} Możliwość wdrażania na wielu instancjach za load balancerem (nginx load balancer lub AWS ALB)
+\end{itemize}
+
+\textbf{3. Serwer bazy danych (Database Server)}
+\begin{itemize}
+    \item \textbf{Technologia:} MySQL 8.0  
+    \item \textbf{Port:} 3306 (MySQL)
+    \item \textbf{Magazyn:} Relacyjna baza danych z następującymi tabelami:
+    \begin{lstlisting}[language=SQL, caption={Glowne tabele bazy danych}]
+CREATE TABLE users (
+  userId VARCHAR(36) PRIMARY KEY,
+  email VARCHAR(255) UNIQUE NOT NULL,
+  passwordHash VARCHAR(255) NOT NULL,
+  displayName VARCHAR(100),
+  createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  timezone VARCHAR(50)
+);
+
+CREATE TABLE habits (
+  habitId VARCHAR(36) PRIMARY KEY,
+  userId VARCHAR(36) NOT NULL,
+  title VARCHAR(255) NOT NULL,
+  description TEXT,
+  frequency ENUM('DAILY', 'WEEKLY', 'CUSTOM'),
+  color VARCHAR(7),
+  icon VARCHAR(50),
+  createdAt TIMESTAMP,
+  FOREIGN KEY (userId) REFERENCES users(userId)
+);
+
+CREATE TABLE habit_executions (
+  executionId VARCHAR(36) PRIMARY KEY,
+  habitId VARCHAR(36) NOT NULL,
+  date DATE NOT NULL,
+  status ENUM('COMPLETED', 'SKIPPED', 'MISSED'),
+  timestamp TIMESTAMP,
+  FOREIGN KEY (habitId) REFERENCES habits(habitId),
+  INDEX idx_habit_date (habitId, date)
+);
+
+CREATE TABLE reminders (
+  reminderId VARCHAR(36) PRIMARY KEY,
+  habitId VARCHAR(36) NOT NULL,
+  time TIME NOT NULL,
+  repeatRule VARCHAR(50),
+  enabled BOOLEAN DEFAULT true,
+  timezone VARCHAR(50),
+  FOREIGN KEY (habitId) REFERENCES habits(habitId)
+);
+
+CREATE TABLE friendships (
+  friendshipId VARCHAR(36) PRIMARY KEY,
+  userId1 VARCHAR(36) NOT NULL,
+  userId2 VARCHAR(36) NOT NULL,
+  status ENUM('PENDING', 'ACCEPTED', 'REJECTED'),
+  createdAt TIMESTAMP,
+  FOREIGN KEY (userId1) REFERENCES users(userId),
+  FOREIGN KEY (userId2) REFERENCES users(userId),
+  UNIQUE KEY unique_friendship (userId1, userId2)
+);
+
+CREATE TABLE notifications (
+  notificationId VARCHAR(36) PRIMARY KEY,
+  recipientId VARCHAR(36) NOT NULL,
+  type ENUM('REMINDER', 'FRIEND_PING', 'ACHIEVEMENT'),
+  payload JSON,
+  sentAt TIMESTAMP,
+  readAt TIMESTAMP,
+  status ENUM('PENDING', 'SENT', 'DELIVERED', 'READ'),
+  FOREIGN KEY (recipientId) REFERENCES users(userId),
+  INDEX idx_recipient_status (recipientId, status)
+);
+
+CREATE TABLE achievements (
+  achievementId VARCHAR(36) PRIMARY KEY,
+  habitId VARCHAR(36) NOT NULL,
+  userId VARCHAR(36) NOT NULL,
+  name VARCHAR(100),
+  description TEXT,
+  unlockedAt TIMESTAMP,
+  FOREIGN KEY (habitId) REFERENCES habits(habitId),
+  FOREIGN KEY (userId) REFERENCES users(userId)
+);
+
+CREATE TABLE user_settings (
+  settingsId VARCHAR(36) PRIMARY KEY,
+  userId VARCHAR(36) UNIQUE NOT NULL,
+  theme ENUM('LIGHT', 'DARK') DEFAULT 'LIGHT',
+  notificationsEnabled BOOLEAN DEFAULT true,
+  language VARCHAR(5) DEFAULT 'pl',
+  timezone VARCHAR(50),
+  FOREIGN KEY (userId) REFERENCES users(userId)
+);
+    \end{lstlisting}
+    \item \textbf{Kopie zapasowe:} Dzienne automatyczne kopie zapasowe (AWS RDS automatyczne kopie lub fizyczne kopie)
+    \item \textbf{Replikacja:} Replikacja Master-Slave dla wysokiej dostępności
+    \item \textbf{Dostęp:} Ograniczony do Serwera aplikacji (whitelista IP)
+\end{itemize}
+
+\textbf{4. Cache Server (In-Memory Data Store)}
+\begin{itemize}
+    \item \textbf{Technologia:} Redis 6.0+
+    \item \textbf{Zastosowanie:}
+    \begin{itemize}
+        \item Session store (JWT tokens)
+        \item Cache dla często przywoływanych danych (progress statistics, user profiles)
+        \item kolejka prac dla asynchronicznych procesów (reminder scheduling, notification sending)
+        \item Strona główna z aktywnością w czasie rzeczywistym
+    \end{itemize}
+    \item \textbf{Port:} 6379
+    \item \textbf{TTL (Time To Live):} Różne - session 24h, cache 1h, queue messages until processed
+\end{itemize}
+
+\textbf{5. Push Notification Service (External)}
+\begin{itemize}
+    \item \textbf{Firebase Cloud Messaging (FCM)} - dla urządzeń Android
+    \begin{itemize}
+        \item Serwery Google'a
+        \item Wysyłanie push notificatios via REST API
+        \item Topic subscription dla mass notifications
+    \end{itemize}
+    \item \textbf{Apple Push Notification Service (APNs)} - dla iOS
+    \begin{itemize}
+        \item Serwery Apple'a
+        \item Certificate-based authentication
+        \item Device token registration
+    \end{itemize}
+    \item \textbf{Komunikacja:} Backend Application Server wysyła HTTPS requests do Firebase/APNs
+\end{itemize}
+
+\textit{Przepływ komunikacji:}
+
+\begin{enumerate}
+    \item \textbf{Użytkownik otwiera aplikacje na urządzeniu mobilnym} $\rightarrow$ Aplikacja inicjalizuje
+    \item \textbf{Aplikacja} Wysyła rządanie HTTPS do \textbf{Backend API Serwera}
+    \begin{lstlisting}[language=JavaScript, caption={Example request}]
+POST https://api.kairo.app/api/v1/habits/complete
+Headers: {Authorization: Bearer <JWT_TOKEN>, Content-Type: application/json}
+Body: {habitId: "abc-123", date: "2026-01-24"}
+    \end{lstlisting}
+    \item \textbf{Backend API serwer} processuje rządanie:
+    \begin{itemize}
+        \item Waliduje JWT (sprawdza Redis cache)
+        \item Wykonuje logikę biznesową
+        \item Pyta \textbf{Database Serwer}
+        \item Może składać wyniki w  \textbf{Redis Cache}
+    \end{itemize}
+    \item \textbf{Database Serwer} zwraca dane do Backendu
+    \item \textbf{Backend} zwraca HTTP 200 do aplikacji mobilnej
+    \item \textit{(Asynchronicznie):} \textbf{Kolejka operacji w Backend} (w Redis) triggeruje asynchroniczne wykonanie zadań:
+    \begin{itemize}
+        \item Wyślij powiadomienie o Achievement'cie jeśli otrzymano dostateczny Streak
+        \item Zaktualizuj zcachowane dane użytkownika
+        \item Zlogguj aktywność użytkownika
+    \end{itemize}
+    \item \textbf{Powiadomienia worker} zarządza kolejkami i wiadomościami \textbf{Firebase/APNs} do pushowania powiadomień
+    \item \textbf{Urządzenie mobilne} otrzymuje powiadomienie poprzez \textbf{Firebase/APNs}
+    \item \textbf{Aplikacja mobilna} Wyświetla powiadomienie użytkownikowi
+\end{enumerate}
+
+% ------------------
+
+\section{Inne wytyczne dla projektowania wybranego systemu}
+
+Oprócz diagramów UML oraz doboru technologii, istotnym elementem procesu projektowego systemu Kairo Habit są dodatkowe wytyczne jakościowe. Wytyczne te nie wynikają bezpośrednio z diagramów, lecz wpływają na użyteczność, bezpieczeństwo oraz niezawodność końcowego rozwiązania.
+
+\subsection{Projektowanie interfejsu użytkownika (UI/UX)}
+
+Projekt interfejsu użytkownika powinien koncentrować się na prostocie obsługi oraz minimalizacji liczby interakcji wymaganych do wykonania podstawowych czynności. System zarządzania nawykami jest używany w krótkich sesjach, dlatego kluczowe funkcje, takie jak oznaczenie wykonania nawyku czy podgląd postępów, powinny być dostępne w sposób szybki i intuicyjny.
+
+Interfejs powinien zachowywać spójność wizualną oraz przewidywalność zachowań elementów na wszystkich ekranach aplikacji. Istotne jest również uwzględnienie dostępności, w tym odpowiedniego kontrastu kolorów, trybu ciemnego oraz czytelnej typografii. Projekt UI/UX powinien wspierać pozytywne doświadczenie użytkownika i motywować go do regularnego korzystania z aplikacji.
+
+\subsection{Bezpieczeństwo danych i zgodność z RODO}
+
+System Kairo Habit przetwarza dane osobowe użytkowników, dlatego projektowanie rozwiązania musi uwzględniać zasady bezpieczeństwa informacji oraz wymagania Rozporządzenia o Ochronie Danych Osobowych (RODO). Należy stosować zasadę minimalizacji danych, przechowując wyłącznie informacje niezbędne do realizacji funkcjonalności systemu.
+
+Projekt powinien zapewniać separację danych wrażliwych od danych operacyjnych, a także umożliwiać użytkownikowi realizację jego praw, takich jak wgląd do danych, ich modyfikacja oraz usunięcie konta. Bezpieczeństwo powinno być uwzględnione już na etapie projektowania systemu (privacy by design), a wszystkie operacje na danych użytkownika powinny być możliwe do audytowania.
+
+\subsection{Strategia testowania}
+
+Zapewnienie wysokiej jakości systemu wymaga zastosowania wielopoziomowej strategii testowania. Testy jednostkowe powinny weryfikować poprawność działania logiki biznesowej, w szczególności mechanizmów związanych z nawykami, przypomnieniami oraz systemem osiągnięć.
+
+Testy integracyjne pozwalają sprawdzić poprawność współpracy pomiędzy aplikacją mobilną, backendem oraz bazą danych. Uzupełnieniem są testy end-to-end, które symulują rzeczywiste scenariusze użytkownika. Dodatkowo system powinien być poddawany testom wydajnościowym oraz regresyjnym, aby zapewnić stabilność działania w miarę rozwoju funkcjonalności.
+
+% ------------------
+
+\section{Wnioski}
+
+Przeprowadzona analiza oraz projekt systemu Kairo Habit pokazują, że zastosowanie notacji UML znacząco wspiera proces projektowania systemów informatycznych. Diagramy UML umożliwiają uporządkowanie wymagań, lepsze zrozumienie struktury systemu oraz wczesną identyfikację potencjalnych problemów projektowych.
+
+Zaproponowana architektura systemu zapewnia spójność pomiędzy wymaganiami funkcjonalnymi i niefunkcjonalnymi a warstwą implementacyjną. Uwzględnienie aspektów takich jak skalowalność, bezpieczeństwo oraz wydajność sprawia, że system jest przygotowany do pracy w środowisku produkcyjnym oraz dalszego rozwoju.
+
+Projekt Kairo Habit stanowi przykład kompleksowego podejścia do tworzenia systemu informatycznego, łączącego analizę wymagań, modelowanie UML, decyzje architektoniczne oraz wytyczne jakościowe. Takie podejście zwiększa szanse na stworzenie rozwiązania stabilnego, użytecznego i łatwego w utrzymaniu.
+
+\end{document}
